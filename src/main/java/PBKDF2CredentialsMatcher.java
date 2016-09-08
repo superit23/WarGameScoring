@@ -13,9 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class PBKDF2CredentialMatcher implements CredentialsMatcher {
+public class PBKDF2CredentialsMatcher implements CredentialsMatcher {
 
-    private static Logger logger = LoggerFactory.getLogger(PBKDF2CredentialMatcher.class);
+    private static Logger logger = LoggerFactory.getLogger(PBKDF2CredentialsMatcher.class);
 
     @Override
     public boolean doCredentialsMatch(AuthenticationToken authenticationToken, AuthenticationInfo authenticationInfo) {
