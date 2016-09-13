@@ -1,4 +1,5 @@
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.SimpleAccount;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +12,7 @@ public class DatabaseFunctions {
 
     private static Logger logger = LoggerFactory.getLogger(DatabaseFunctions.class);
 
-    public static ResultSet retrieve(String query, Object[] params, int magic_constant)
+    public static ResultSet Retrieve(String query, Object[] params, int magic_constant)
     {
         try {
             Connection conn = DriverManager.getConnection(Configuration.connectionString);
@@ -45,12 +46,12 @@ public class DatabaseFunctions {
         }
     }
 
-    public static ResultSet retrieve(String query, Object[] params)
+    public static ResultSet Retrieve(String query, Object[] params)
     {
-        return retrieve(query, params, -1);
+        return Retrieve(query, params, -1);
     }
 
-    public static ResultSet insert(String query, Object[] params)
+    public static ResultSet Insert(String query, Object[] params)
     {
         Connection conn = null;
         try {
@@ -95,7 +96,7 @@ public class DatabaseFunctions {
         }
     }
 
-    public static void execute(String query, Object[] params)
+    public static void Execute(String query, Object[] params)
     {
         Connection conn = null;
         try {
@@ -139,5 +140,10 @@ public class DatabaseFunctions {
             }
 
         }
+    }
+
+    public static SimpleAccount RetrieveUser(String username)
+    {
+        return null;
     }
 }
