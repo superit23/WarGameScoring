@@ -6,6 +6,7 @@ import org.apache.shiro.authc.SimpleAccount;
 public class User extends SimpleAccount {
     private String userName;
     private String password;
+    private String role;
     private int score;
 
     public String getUserName() {
@@ -22,6 +23,14 @@ public class User extends SimpleAccount {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public int getScore() {
