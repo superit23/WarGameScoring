@@ -177,8 +177,16 @@ public class DatabaseFunctions {
 
     }
 
-    public static String RetrieveCoinInitialUser(UUID id){
-        return Retrieve("SELECT initialUser FROM coins WHERE uuid='?'", new Object[]{id.toString()}).toString();
+    public static Coin RetrieveCoin(Coin coin){
+        ResultSet rs = Retrieve("SELECT * FROM coins WHERE uuid='?'", new Object[]{coin.getCoin()});
+        try {
+            coin.setInitialUser(rs.getString("initialUser"));
+            return coin;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public static void DeleteCoin(UUID id){
