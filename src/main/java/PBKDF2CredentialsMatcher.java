@@ -20,13 +20,13 @@ public class PBKDF2CredentialsMatcher implements CredentialsMatcher {
     @Override
     public boolean doCredentialsMatch(AuthenticationToken authenticationToken, AuthenticationInfo authenticationInfo) {
         UsernamePasswordToken token = (UsernamePasswordToken)authenticationToken;
-        SimpleAccount authInfo = (SimpleAccount)authenticationInfo;
+        User authInfo = (User)authenticationInfo;
 
         //boolean uNamesMatch = token.getUsername() == authenticationInfo.getPrincipals().fromRealm("Cerberus").iterator().next().toString();
         boolean uNamesMatch = false;
         String derived = null;
         try {
-            uNamesMatch = CryptoFunctions.slowEquals(token.getUsername().getBytes(), (authenticationInfo.getPrincipals().fromRealm("Wargame").iterator().next().toString().getBytes()));
+            uNamesMatch = CryptoFunctions.slowEquals(token.getUsername().getBytes(), authInfo.getUserName().getBytes());
             byte[] salt = authInfo.getCredentialsSalt().getBytes();
             derived = Base64.encodeToString(CryptoFunctions.pbkdf2(token.getPassword(), salt, Configuration.pbkdf2Iterations, Configuration.pbkdf2NumBytes));
         }
@@ -36,7 +36,7 @@ public class PBKDF2CredentialsMatcher implements CredentialsMatcher {
 
         }
 
-        boolean passesMatch = CryptoFunctions.slowEquals(derived.getBytes(), ((String)authenticationInfo.getCredentials()).getBytes());
-        return passesMatch && uNamesMatch;
+        boolean passesMatch = CryptoFunctions.slowEquals(derived.getBytes(), authInfo.getPassword().getBytes());
+        return passesMatch & uNamesMatch;
     }
 }

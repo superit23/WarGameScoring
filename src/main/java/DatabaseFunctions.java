@@ -99,15 +99,14 @@ public class DatabaseFunctions {
 
     public static User CreateUser(String username, String password, String role, int score) throws InvalidKeySpecException, NoSuchAlgorithmException{
 
-        byte[] salt = CryptoFunctions.generateSalt(8);
-        String derived = Base64.encodeToString(CryptoFunctions.pbkdf2(password.toCharArray(), salt, Configuration.pbkdf2Iterations, Configuration.pbkdf2NumBytes));
+        //byte[] salt = CryptoFunctions.generateSalt(8);
+        //String derived = Base64.encodeToString(CryptoFunctions.pbkdf2(password.toCharArray(), salt, Configuration.pbkdf2Iterations, Configuration.pbkdf2NumBytes));
 
 
         User newUser = new User(username);
         newUser.setPassword(password);
         newUser.setRole(role);
         newUser.setScore(score);
-        newUser.setCredentialsSalt(ByteSource.Util.bytes(salt));
 
         Insert("INSERT INTO users (userName, password, salt, role, score) VALUES(?, ?, ?, ?, ?);", new Object[]{newUser.getUserName(), newUser.getPassword(), newUser.getCredentialsSalt().toBase64(), newUser.getRole(), newUser.getScore()});
         return newUser;

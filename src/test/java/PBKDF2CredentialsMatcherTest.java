@@ -6,6 +6,7 @@ import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -18,10 +19,17 @@ public class PBKDF2CredentialsMatcherTest {
     public void doCredentialsMatch() throws Exception {
         Main.Init();
 
-        UsernamePasswordToken token = new UsernamePasswordToken("testUser", "testPass");
+        User tUser = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", 0);
+        UsernamePasswordToken token = new UsernamePasswordToken(tUser.getUserName(), "tPass");
 
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
+        Assert.assertTrue(subject.isAuthenticated());
+
+        subject.logout();
+        Assert.assertFalse(subject.isAuthenticated());
+
+        DatabaseFunctions.DeleteUser(tUser);
     }
 
 }

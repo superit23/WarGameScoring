@@ -1,5 +1,6 @@
 import org.apache.shiro.authc.SimpleAccount;
 import org.apache.shiro.codec.Base64;
+import org.apache.shiro.util.ByteSource;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -35,6 +36,7 @@ public class User extends SimpleAccount {
             byte[] salt = CryptoFunctions.generateSalt(8);
             String derived = Base64.encodeToString(CryptoFunctions.pbkdf2(password.toCharArray(), salt, Configuration.pbkdf2Iterations, Configuration.pbkdf2NumBytes));
             setCredentials(derived);
+            setCredentialsSalt(ByteSource.Util.bytes(salt));
         }
         catch (InvalidKeySpecException ex)
         {
