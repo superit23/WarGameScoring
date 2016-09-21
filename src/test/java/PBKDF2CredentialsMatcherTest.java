@@ -16,19 +16,7 @@ import static org.junit.Assert.*;
 public class PBKDF2CredentialsMatcherTest {
     @Test
     public void doCredentialsMatch() throws Exception {
-
-        SimpleDBRealm realm = new SimpleDBRealm();
-        realm.setCredentialsMatcher(new PBKDF2CredentialsMatcher());
-        DefaultSecurityManager secMan = new DefaultSecurityManager();
-        secMan.setRealm(realm);
-
-
-        SecurityUtils.setSecurityManager(secMan);
-
-        Configuration.pbkdf2Iterations = 4096;
-        Configuration.pbkdf2NumBytes =32;
-        Configuration.connectionString = "jdbc:mysql://cerberus-bb2.cloudapp.net:3306/Cerberus?user=cerb&password=cis347&useSSL=false";
-        Configuration.saltLength = 4;
+        Main.Init();
 
         UsernamePasswordToken token = new UsernamePasswordToken("testUser", "testPass");
 

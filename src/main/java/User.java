@@ -1,28 +1,50 @@
 import org.apache.shiro.authc.SimpleAccount;
+import org.apache.shiro.codec.Base64;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 /**
  * Created by Alex on 9/13/2016.
  */
 public class User extends SimpleAccount {
-    private String userName;
-    private String password;
     private String role;
     private int score;
 
+    public User(String username)
+    {
+        super(username, "", Configuration.WGS_REALM, null, null);
+    }
+
     public String getUserName() {
-        return userName;
+        return getPrincipals().fromRealm(Configuration.WGS_REALM).iterator().next().toString();
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        getPrincipals().fromRealm(Configuration.WGS_REALM).remove(getUserName());
+        getPrincipals().fromRealm(Configuration.WGS_REALM).add(userName);
     }
 
     public String getPassword() {
-        return password;
+        return getCredentials().toString();
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        //setCredentials(password);
+        try{
+            byte[] salt = CryptoFunctions.generateSalt(8);
+            String derived = Base64.encodeToString(CryptoFunctions.pbkdf2(password.toCharArray(), salt, Configuration.pbkdf2Iterations, Configuration.pbkdf2NumBytes));
+            setCredentials(derived);
+        }
+        catch (InvalidKeySpecException ex)
+        {
+
+        }
+        catch (NoSuchAlgorithmException ex)
+        {
+
+        }
+
     }
 
     public String getRole() {
