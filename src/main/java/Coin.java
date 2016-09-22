@@ -27,4 +27,21 @@ public class Coin {
     public void setInitialUser(String initialUser) {
         this.initialUser = initialUser;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        return ((Coin)obj).getCoin().toString().equals(getCoin().toString());
+    }
+
+    @Override
+    public int hashCode() {
+    {
+        return getCoin().hashCode();
+    }
+    }
+
 }
