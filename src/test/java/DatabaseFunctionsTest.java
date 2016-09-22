@@ -2,6 +2,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -129,5 +131,25 @@ public class DatabaseFunctionsTest {
         DatabaseFunctions.DeleteCoin(coin2.getCoin());
     }
 
+    @Test
+    public void depositCoin() throws Exception
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        Configuration.windowStart = (hour + 1) % 24;
+        Configuration.windowEnd = (hour + 2) % 24;
+
+        Coin tCoin = new Coin();
+        assertFalse(DatabaseFunctions.DepositCoin(tCoin));
+
+        Configuration.windowStart = (hour - 1) % 24;
+        Configuration.windowEnd = (hour + 1) % 24;
+
+        assertTrue(DatabaseFunctions.DepositCoin(tCoin));
+
+
+    }
 
 }

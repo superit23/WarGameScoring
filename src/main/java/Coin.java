@@ -6,6 +6,7 @@ import java.util.UUID;
 public class Coin {
     private UUID coin = UUID.randomUUID();
     private String initialUser;
+    private String submitter;
 
     public UUID getCoin() {
         return coin;
@@ -26,6 +27,14 @@ public class Coin {
     }
     public void setInitialUser(String initialUser) {
         this.initialUser = initialUser;
+    }
+
+    public String getSubmitter() {
+        return submitter;
+    }
+
+    public void setSubmitter(String submitter) {
+        this.submitter = submitter;
     }
 
     @Override

@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Created by Dan on 9/8/2016.
@@ -222,6 +222,20 @@ public class DatabaseFunctions {
         }
     }
 
+    public static boolean DepositCoin(Coin coin)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        if(hour >= Configuration.windowStart && hour <= Configuration.windowEnd)
+        {
+            Main.coinsToCommit.add(coin);
+            return true;
+        }
+
+        return false;
+    }
 
 
 }
