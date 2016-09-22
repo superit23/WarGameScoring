@@ -11,6 +11,16 @@ public class Coin {
         return coin;
     }
 
+    public Coin()
+    {
+
+    }
+
+    public Coin(String uuid)
+    {
+        coin = UUID.fromString(uuid);
+    }
+
     public String getInitialUser() {
         return initialUser;
     }

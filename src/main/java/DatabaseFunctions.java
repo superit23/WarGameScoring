@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -155,16 +156,17 @@ public class DatabaseFunctions {
         Coin newCoin = new Coin();
         newCoin.setInitialUser(initialUser);
 
-        Insert("INSERT INTO coins(uuid, initialUser) VALUES(?,?);", new Object[]{newCoin.getCoin(), newCoin.getInitialUser()});
+        Insert("INSERT INTO coins(uuid, initialUser) VALUES(?,?);", new Object[]{newCoin.getCoin().toString(), newCoin.getInitialUser()});
 
         return newCoin;
     }
 
-    public static Coin RetrieveCoin(Coin coin) {
+    public static Coin RetrieveCoin(String uuid) {
         try {
-            ResultSet rs = Retrieve("SELECT * FROM coins WHERE uuid = ?;", new Object[]{coin.getCoin()});
+            ResultSet rs = Retrieve("SELECT * FROM coins WHERE uuid = ?;", new Object[]{ uuid });
 
             if(rs.next()) {
+                Coin coin = new Coin(uuid);
                 coin.setInitialUser(rs.getString("initialUser"));
                 return coin;
             }
@@ -181,10 +183,45 @@ public class DatabaseFunctions {
 
     }
 
+    public static ArrayList<Coin> RetrieveCoinsForUser(User user) {
+        try {
+            ResultSet rs = Retrieve("SELECT * FROM coins WHERE initialUser = ?;", new Object[]{ user.getUserName() });
+            ArrayList<Coin> coins = new ArrayList<>();
+
+            while(rs.next()) {
+                Coin coin = new Coin(rs.getString("uuid"));
+                coin.setInitialUser(rs.getString("initialUser"));
+                coins.add(coin);
+            }
+
+            return coins;
+
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
     public static void DeleteCoin(UUID id) {
         Insert("DELETE FROM coins WHERE uuid = ?;", new Object[]{id.toString()});
 
     }
+
+    public static void TransferScore(User sender, User receiver, int score)
+    {
+        if(score > 0 && sender.getScore() > 0) {
+            int modScore = score > sender.getScore() ? sender.getScore() : score;
+
+            sender.setScore(sender.getScore() - modScore);
+            receiver.setScore(receiver.getScore() + modScore);
+
+            UpdateUserScore(sender);
+            UpdateUserScore(receiver);
+        }
+    }
+
 
 
 }

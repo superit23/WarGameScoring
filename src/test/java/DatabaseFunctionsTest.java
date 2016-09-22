@@ -38,30 +38,21 @@ public class DatabaseFunctionsTest {
 
     }
 
-    @Test
-    public void updateUserScore() throws Exception {
-
-    }
 
     @Test
-    public void updateUserPassword() throws Exception {
+    public void coinCRUD() throws Exception {
+        Main.Init();
 
+        Coin tCoin1 = DatabaseFunctions.CreateCoin("tUser");
+        Coin tCoin2 = DatabaseFunctions.RetrieveCoin(tCoin1.getCoin().toString());
+
+        Assert.assertEquals(tCoin1.getInitialUser(), tCoin2.getInitialUser());
+
+        DatabaseFunctions.DeleteCoin(tCoin1.getCoin());
+
+        tCoin2 = DatabaseFunctions.RetrieveCoin(tCoin1.getCoin().toString());
+        Assert.assertEquals(tCoin2, null);
     }
 
-
-    @Test
-    public void createCoin() throws Exception {
-
-    }
-
-    @Test
-    public void retrieveCoin() throws Exception {
-
-    }
-
-    @Test
-    public void deleteCoin() throws Exception {
-
-    }
 
 }
