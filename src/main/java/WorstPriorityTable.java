@@ -2,6 +2,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dan on 9/22/2016.
@@ -12,49 +13,46 @@ public class WorstPriorityTable implements IPriorityTable {
         String initUsername = coin.getInitialUser();
 
         User initUser = (User)users.stream().filter(user -> user.getUserName().equals(initUsername)).toArray()[0];
-        User[] submitUsers = (User[])users.stream().filter(user -> user.getRole().equals(Constants.USER_ROLE)).toArray();
+        List<User> submitUsers = users.stream().filter(user -> user.getRole().equals(Constants.USER_ROLE)).collect(Collectors.toList());
 
-        boolean existSubmittingUsers = submitUsers.length > 0;
+        boolean existSubmittingUsers = submitUsers.toArray().length > 0;
 
         if (existSubmittingUsers) {
-            User[] enemyUsers = (User[]) Arrays.stream(submitUsers).filter(user -> !user.getUserName().equals(initUsername) && !user.getTeam().equals((initUser.getTeam()))).toArray();
+            List<User> enemyUsers = submitUsers.stream().filter(user -> !user.getUserName().equals(initUsername) && !user.getTeam().equals((initUser.getTeam()))).collect(Collectors.toList());
 
             // Award enemy users first
-            if (enemyUsers.length > 0) {
-                List<User> userList = Arrays.asList(enemyUsers);
-                Collections.shuffle(userList, Constants.rand);
+            if (enemyUsers.toArray().length > 0) {
+                Collections.shuffle(enemyUsers, Constants.rand);
 
-                return userList.get(0);
+                return enemyUsers.get(0);
             }
         }
 
 
-        User[] teamUsers = (User[])users.stream().filter(user -> user.getRole().equals(Constants.TEAM_ROLE)).toArray();
-        boolean existSubmittingTeams = teamUsers.length > 0;
+        List<User> teamUsers = users.stream().filter(user -> user.getRole().equals(Constants.TEAM_ROLE)).collect(Collectors.toList());
+        boolean existSubmittingTeams = teamUsers.toArray().length > 0;
 
         if(existSubmittingTeams) {
-            User[] nonInitUsers = (User[]) Arrays.stream(submitUsers).filter(user -> !user.getTeam().equals(initUser.getTeam())).toArray();
+            List<User> nonInitUsers = submitUsers.stream().filter(user -> !user.getTeam().equals(initUser.getTeam())).collect(Collectors.toList());
 
             // Award enemy team second
-            if(nonInitUsers.length > 0)
+            if(nonInitUsers.toArray().length > 0)
             {
-                List<User> userList = Arrays.asList(nonInitUsers);
-                Collections.shuffle(userList, Constants.rand);
+                Collections.shuffle(nonInitUsers, Constants.rand);
 
-                return userList.get(0);
+                return nonInitUsers.get(0);
             }
         }
 
 
         if (existSubmittingUsers) {
-            User[] otherUsers = (User[]) Arrays.stream(submitUsers).filter(user -> !user.getUserName().equals(initUsername)).toArray();
+            List<User> otherUsers = submitUsers.stream().filter(user -> !user.getUserName().equals(initUsername)).collect(Collectors.toList());
 
             // Award embezzling team-members first
-            if (otherUsers.length > 0) {
-                List<User> userList = Arrays.asList(otherUsers);
-                Collections.shuffle(userList, Constants.rand);
+            if (otherUsers.toArray().length > 0) {
+                Collections.shuffle(otherUsers, Constants.rand);
 
-                return userList.get(0);
+                return otherUsers.get(0);
             }
         }
 

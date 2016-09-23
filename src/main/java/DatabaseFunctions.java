@@ -11,6 +11,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dan on 9/8/2016.
@@ -98,7 +99,7 @@ public class DatabaseFunctions {
     }
 
 
-    public static User CreateUser(String username, String password, String role, int score) throws InvalidKeySpecException, NoSuchAlgorithmException{
+    public static User CreateUser(String username, String password, String role, String team, int score) throws InvalidKeySpecException, NoSuchAlgorithmException{
 
         //byte[] salt = CryptoFunctions.generateSalt(8);
         //String derived = Base64.encodeToString(CryptoFunctions.pbkdf2(password.toCharArray(), salt, Configuration.pbkdf2Iterations, Configuration.pbkdf2NumBytes));
@@ -108,8 +109,9 @@ public class DatabaseFunctions {
         newUser.setPassword(password);
         newUser.setRole(role);
         newUser.setScore(score);
+        newUser.setTeam(team);
 
-        Insert("INSERT INTO users (userName, password, salt, role, score) VALUES(?, ?, ?, ?, ?);", new Object[]{newUser.getUserName(), newUser.getPassword(), newUser.getCredentialsSalt().toBase64(), newUser.getRole(), newUser.getScore()});
+        Insert("INSERT INTO users (userName, password, salt, role, team, score) VALUES(?, ?, ?, ?, ?, ?);", new Object[]{newUser.getUserName(), newUser.getPassword(), newUser.getCredentialsSalt().toBase64(), newUser.getRole(), newUser.getTeam(), newUser.getScore()});
         return newUser;
 
     }
@@ -123,6 +125,7 @@ public class DatabaseFunctions {
                 user.setCredentials(rs.getString("password"));
                 user.setRole(rs.getString("role"));
                 user.setScore(rs.getInt("score"));
+                user.setTeam(rs.getString("team"));
                 user.setCredentialsSalt(ByteSource.Util.bytes(Base64.decode(rs.getString("salt"))));
                 return user;
             }
@@ -255,7 +258,7 @@ public class DatabaseFunctions {
                 coinsByUUID.keySet()) {
             ArrayList<Coin> coins = coinsByUUID.get(cUUID);
 
-            List<User> users = Arrays.asList((User[])coins.stream().map(coin -> DatabaseFunctions.RetrieveUser(coin.getSubmitter())).toArray());
+            List<User> users = coins.stream().map(coin -> DatabaseFunctions.RetrieveUser(coin.getSubmitter())).collect(Collectors.toList());
 
             Coin coin = coins.get(0);
             DatabaseFunctions.RetrieveUser(coin.getInitialUser());

@@ -19,7 +19,7 @@ public class PBKDF2CredentialsMatcherTest {
     public void doCredentialsMatch() throws Exception {
         Main.Init();
 
-        User tUser = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", 0);
+        User tUser = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
         UsernamePasswordToken token = new UsernamePasswordToken(tUser.getUserName(), "tPass");
 
         Subject subject = SecurityUtils.getSubject();

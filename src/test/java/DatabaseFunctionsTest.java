@@ -15,7 +15,7 @@ public class DatabaseFunctionsTest {
     public void userCRUD() throws Exception {
         Main.Init();
 
-        User tUser1 = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", 0);
+        User tUser1 = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
         User tUser2 = DatabaseFunctions.RetrieveUser(tUser1.getUserName());
 
         Assert.assertEquals(tUser1.getUserName(), tUser2.getUserName());
@@ -23,6 +23,7 @@ public class DatabaseFunctionsTest {
         Assert.assertEquals(tUser1.getPassword(), tUser2.getPassword());
         Assert.assertEquals(tUser1.getRole(), tUser2.getRole());
         Assert.assertEquals(tUser1.getScore(), tUser2.getScore());
+        Assert.assertEquals(tUser1.getTeam(), tUser2.getTeam());
 
         tUser1.setPassword("NEWPASSBOIS");
         DatabaseFunctions.UpdateUserPassword(tUser1);
@@ -42,12 +43,18 @@ public class DatabaseFunctionsTest {
 
     }
 
-
     @Test
     public void coinCRUD() throws Exception {
         Main.Init();
 
-        Coin tCoin1 = DatabaseFunctions.CreateCoin("tUser");
+        User user = DatabaseFunctions.RetrieveUser("tUser");
+
+        if(user ==  null)
+        {
+            user = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 30);
+        }
+
+        Coin tCoin1 = DatabaseFunctions.CreateCoin(user.getUserName());
         Coin tCoin2 = DatabaseFunctions.RetrieveCoin(tCoin1.getCoin().toString());
 
         Assert.assertEquals(tCoin1.getInitialUser(), tCoin2.getInitialUser());
@@ -56,6 +63,8 @@ public class DatabaseFunctionsTest {
 
         tCoin2 = DatabaseFunctions.RetrieveCoin(tCoin1.getCoin().toString());
         Assert.assertEquals(tCoin2, null);
+
+        DatabaseFunctions.DeleteUser(user);
     }
 
     @Test
@@ -66,7 +75,7 @@ public class DatabaseFunctionsTest {
 
         if(user ==  null)
         {
-            user = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", 30);
+            user = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 30);
         }
         else
         {
@@ -79,7 +88,7 @@ public class DatabaseFunctionsTest {
 
         if(user2 ==  null)
         {
-            user2 = DatabaseFunctions.CreateUser("tUser1", "tPass", "tRole", 20);
+            user2 = DatabaseFunctions.CreateUser("tUser1", "tPass", "tRole", "team1", 20);
         }
         else
         {
@@ -116,7 +125,7 @@ public class DatabaseFunctionsTest {
 
         if(user ==  null)
         {
-            user = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", 30);
+            user = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 30);
         }
 
         Coin coin1 = DatabaseFunctions.CreateCoin(user.getUserName());
@@ -149,6 +158,77 @@ public class DatabaseFunctionsTest {
 
         assertTrue(DatabaseFunctions.DepositCoin(tCoin));
 
+
+    }
+
+    @Test
+    public void commitCoins() throws Exception
+    {
+        Main.Init();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        Configuration.windowStart = (hour - 1) % 24;
+        Configuration.windowEnd = (hour + 1) % 25;
+
+        ArrayList<User> users = new ArrayList<>();
+
+        for(int i = 0; i < 4; i++)
+        {
+            String role =  i % 2 == 0 ? Constants.USER_ROLE : Constants.TEAM_ROLE;
+            String team = i < 2 ? "team1" : "team2";
+
+            users.add(DatabaseFunctions.CreateUser("tUser" + i, "tPass", role, team, 0));
+        }
+
+
+        ArrayList<Coin> coins = new ArrayList<>();
+        int usrCount = users.toArray().length;
+
+        for(int i = 0; i < usrCount; i++) {
+            coins.add(DatabaseFunctions.CreateCoin(users.get(i).getUserName()));
+        }
+
+
+        int coinsCount = coins.toArray().length;
+
+        for(int i = 0; i < coinsCount; i++) {
+            Coin coin = coins.get(i);
+
+            for(int j = i; j < usrCount; j++) {
+                Coin nCoin = new Coin(coin.getCoin().toString());
+                nCoin.setInitialUser(coin.getInitialUser());
+                nCoin.setSubmitter(users.get(j).getUserName());
+
+                DatabaseFunctions.DepositCoin(nCoin);
+            }
+
+        }
+
+        DatabaseFunctions.CommitCoins();
+
+        for(int i = 0; i < usrCount; i++) {
+            User cUser = users.get(i);
+            users.remove(i);
+            cUser = DatabaseFunctions.RetrieveUser(cUser.getUserName());
+
+            users.add(i, cUser);
+        }
+
+        assertEquals(users.get(0).getScore(), 0);
+        assertEquals(users.get(1).getScore(), 0);
+        assertEquals(users.get(2).getScore(), 3);
+        assertEquals(users.get(3).getScore(), 1);
+
+        for(int i = 0; i < usrCount; i++) {
+            DatabaseFunctions.DeleteUser(users.get(i));
+        }
+
+        for(int i = 0; i < coinsCount; i++) {
+            DatabaseFunctions.DepositCoin(coins.get(i));
+        }
 
     }
 
