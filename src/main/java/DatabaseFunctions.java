@@ -237,5 +237,37 @@ public class DatabaseFunctions {
         return false;
     }
 
+    public static void CommitCoins()
+    {
+        HashMap<String, ArrayList<Coin>> coinsByUUID = new HashMap<>();
+        for (Coin coin:
+             Main.coinsToCommit) {
+
+            if(!coinsByUUID.containsKey(coin.getCoin().toString()))
+            {
+                coinsByUUID.put(coin.getCoin().toString(), new ArrayList<>());
+            }
+
+            coinsByUUID.get(coin.getCoin().toString()).add(coin);
+        }
+
+        for (String cUUID:
+                coinsByUUID.keySet()) {
+            ArrayList<Coin> coins = coinsByUUID.get(cUUID);
+
+            List<User> users = Arrays.asList((User[])coins.stream().map(coin -> DatabaseFunctions.RetrieveUser(coin.getSubmitter())).toArray());
+
+            Coin coin = coins.get(0);
+            DatabaseFunctions.RetrieveUser(coin.getInitialUser());
+
+            User user = Configuration.priorityTable.prioritize(coin, users);
+            user.setScore(user.getScore() + 1);
+
+            DatabaseFunctions.UpdateUserScore(user);
+        }
+
+
+    }
+
 
 }

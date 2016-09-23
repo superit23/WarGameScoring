@@ -32,5 +32,7 @@ public class Main {
         Configuration.pbkdf2NumBytes = 32;
         Configuration.saltLength = 4;
         Configuration.connectionString = ((SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
+
+        Configuration.priorityTable = new WorstPriorityTable();
     }
 }

@@ -11,6 +11,7 @@ import java.security.spec.InvalidKeySpecException;
 public class User extends SimpleAccount {
     private String role;
     private int score;
+    private String team;
 
     public User(String username)
     {
@@ -24,6 +25,14 @@ public class User extends SimpleAccount {
     public void setUserName(String userName) {
         getPrincipals().fromRealm(Configuration.WGS_REALM).remove(getUserName());
         getPrincipals().fromRealm(Configuration.WGS_REALM).add(userName);
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
     }
 
     public String getPassword() {

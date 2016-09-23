@@ -9,6 +9,9 @@ public class Configuration {
     public static String WGS_REALM = "wgs";
     public static int windowStart = 19;
     public static int windowEnd = 20;
+    public static String commitTime = "21:00:05";
+
+    public static IPriorityTable priorityTable;
 
     public static String connectionString = "";
     public static int pbkdf2Iterations;

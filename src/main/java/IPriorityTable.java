@@ -5,5 +5,5 @@ import java.util.List;
  */
 public interface IPriorityTable {
 
-    User prioritize(List<User> users);
+    User prioritize(Coin coin, List<User> users);
 }
