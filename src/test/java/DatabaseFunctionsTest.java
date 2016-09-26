@@ -226,9 +226,6 @@ public class DatabaseFunctionsTest {
             DatabaseFunctions.DeleteUser(users.get(i));
         }
 
-        for(int i = 0; i < coinsCount; i++) {
-            DatabaseFunctions.DepositCoin(coins.get(i));
-        }
 
     }
 
