@@ -242,6 +242,7 @@ public class DatabaseFunctions {
 
     public static void CommitCoins()
     {
+        logger.info("Starting commit.");
         HashMap<String, ArrayList<Coin>> coinsByUUID = new HashMap<>();
         for (Coin coin:
              Main.coinsToCommit) {
@@ -260,12 +261,16 @@ public class DatabaseFunctions {
 
             List<User> users = coins.stream().map(coin -> DatabaseFunctions.RetrieveUser(coin.getSubmitter())).collect(Collectors.toList());
 
+            logger.debug("Submitting users are: " + users.stream().map(user -> user.getUserName() + "\n").reduce((uname1, uname2) -> uname1 + uname2).get());
+
             Coin coin = coins.get(0);
             DatabaseFunctions.RetrieveUser(coin.getInitialUser());
 
+            logger.info("Running priority table on user collection.");
             User user = Configuration.priorityTable.prioritize(coin, users);
             user.setScore(user.getScore() + 1);
 
+            logger.info("Updating user " + user.getUserName());
             DatabaseFunctions.UpdateUserScore(user);
         }
 

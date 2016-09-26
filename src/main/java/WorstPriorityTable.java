@@ -1,5 +1,3 @@
-import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,6 +6,7 @@ import java.util.stream.Collectors;
  * Created by Dan on 9/22/2016.
  */
 public class WorstPriorityTable implements IPriorityTable {
+
     @Override
     public User prioritize(Coin coin, List<User> users) {
         String initUsername = coin.getInitialUser();
@@ -22,7 +21,7 @@ public class WorstPriorityTable implements IPriorityTable {
 
             // Award enemy users first
             if (enemyUsers.toArray().length > 0) {
-                Collections.shuffle(enemyUsers, Constants.rand);
+                Collections.shuffle(enemyUsers, CryptoFunctions.rand);
 
                 return enemyUsers.get(0);
             }
@@ -38,7 +37,7 @@ public class WorstPriorityTable implements IPriorityTable {
             // Award enemy team second
             if(nonInitUsers.toArray().length > 0)
             {
-                Collections.shuffle(nonInitUsers, Constants.rand);
+                Collections.shuffle(nonInitUsers, CryptoFunctions.rand);
 
                 return nonInitUsers.get(0);
             }
@@ -50,7 +49,7 @@ public class WorstPriorityTable implements IPriorityTable {
 
             // Award embezzling team-members first
             if (otherUsers.toArray().length > 0) {
-                Collections.shuffle(otherUsers, Constants.rand);
+                Collections.shuffle(otherUsers, CryptoFunctions.rand);
 
                 return otherUsers.get(0);
             }

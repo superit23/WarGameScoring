@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 public class PBKDF2CredentialsMatcherTest {
     @Test
     public void doCredentialsMatch() throws Exception {
-        Main.Init();
+        Configuration.Init();
 
         User tUser = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
         UsernamePasswordToken token = new UsernamePasswordToken(tUser.getUserName(), "tPass");

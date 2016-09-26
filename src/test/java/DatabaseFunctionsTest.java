@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class DatabaseFunctionsTest {
     @Test
     public void userCRUD() throws Exception {
-        Main.Init();
+        Configuration.Init();
 
         User tUser1 = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
         User tUser2 = DatabaseFunctions.RetrieveUser(tUser1.getUserName());
@@ -45,7 +45,7 @@ public class DatabaseFunctionsTest {
 
     @Test
     public void coinCRUD() throws Exception {
-        Main.Init();
+        Configuration.Init();
 
         User user = DatabaseFunctions.RetrieveUser("tUser");
 
@@ -69,7 +69,7 @@ public class DatabaseFunctionsTest {
 
     @Test
     public void transferScore() throws Exception {
-        Main.Init();
+        Configuration.Init();
 
         User user = DatabaseFunctions.RetrieveUser("tUser");
 
@@ -119,7 +119,7 @@ public class DatabaseFunctionsTest {
     @Test
     public void retrieveCoinsByUser() throws Exception
     {
-        Main.Init();
+        Configuration.Init();
 
         User user = DatabaseFunctions.RetrieveUser("tUser");
 
@@ -164,7 +164,7 @@ public class DatabaseFunctionsTest {
     @Test
     public void commitCoins() throws Exception
     {
-        Main.Init();
+        Configuration.Init();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
