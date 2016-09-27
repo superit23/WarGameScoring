@@ -136,8 +136,7 @@ public class DatabaseFunctionsTest {
         Assert.assertTrue(coins.contains(coin1));
         Assert.assertTrue(coins.contains(coin2));
 
-        DatabaseFunctions.DeleteCoin(coin1.getCoin());
-        DatabaseFunctions.DeleteCoin(coin2.getCoin());
+        DatabaseFunctions.DeleteUser(user);
     }
 
     @Test
