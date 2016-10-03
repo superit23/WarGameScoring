@@ -5,8 +5,6 @@ import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.Factory;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Dan on 9/8/2016.
@@ -14,8 +12,7 @@ import java.text.SimpleDateFormat;
 public class Configuration {
 
     public static String WGS_REALM = "wgs";
-    public static int windowStart = 19;
-    public static int windowEnd = 20;
+    public static int window = 19;
     public static String commitTime = "21:00:05";
 
     public static IPriorityTable priorityTable;

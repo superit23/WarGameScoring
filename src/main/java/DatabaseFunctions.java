@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -231,7 +233,7 @@ public class DatabaseFunctions {
         cal.setTime(new Date());
 
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        if(hour >= Configuration.windowStart && hour <= Configuration.windowEnd)
+        if(hour == Configuration.window)
         {
             Main.coinsToCommit.add(coin);
             return true;

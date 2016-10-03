@@ -146,14 +146,12 @@ public class DatabaseFunctionsTest {
         cal.setTime(new Date());
 
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        Configuration.windowStart = (hour + 1) % 24;
-        Configuration.windowEnd = (hour + 2) % 24;
+        Configuration.window = (hour + 1) % 24;
 
         Coin tCoin = new Coin();
         assertFalse(DatabaseFunctions.DepositCoin(tCoin));
 
-        Configuration.windowStart = (hour - 1) % 24;
-        Configuration.windowEnd = (hour + 1) % 24;
+        Configuration.window = (hour);
 
         assertTrue(DatabaseFunctions.DepositCoin(tCoin));
 
@@ -169,8 +167,7 @@ public class DatabaseFunctionsTest {
         cal.setTime(new Date());
 
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        Configuration.windowStart = (hour - 1) % 24;
-        Configuration.windowEnd = (hour + 1) % 25;
+        Configuration.window = (hour);
 
         ArrayList<User> users = new ArrayList<>();
 

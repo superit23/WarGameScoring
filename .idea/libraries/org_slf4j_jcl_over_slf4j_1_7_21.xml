@@ -4,8 +4,6 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/jcl-over-slf4j/1.7.21/jcl-over-slf4j-1.7.21.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/jcl-over-slf4j/1.7.21/jcl-over-slf4j-1.7.21.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.21/slf4j-api-1.7.21.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
