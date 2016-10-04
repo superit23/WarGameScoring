@@ -8,9 +8,7 @@ public class Coin {
     private String initialUser;
     private String submitter;
 
-    public UUID getCoin() {
-        return coin;
-    }
+
 
     public Coin()
     {
@@ -22,9 +20,14 @@ public class Coin {
         coin = UUID.fromString(uuid);
     }
 
+    public UUID getCoin() {
+        return coin;
+    }
+
     public String getInitialUser() {
         return initialUser;
     }
+
     public void setInitialUser(String initialUser) {
         this.initialUser = initialUser;
     }
@@ -48,9 +51,9 @@ public class Coin {
 
     @Override
     public int hashCode() {
-    {
+        {
         return getCoin().hashCode();
-    }
+        }
     }
 
 }
