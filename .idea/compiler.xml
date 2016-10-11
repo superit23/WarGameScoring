@@ -22,11 +22,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="WarGameScoring" />
+        <module name="WGS-Client" />
+        <module name="WGS-Server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="WarGameScoring" target="1.8" />
+      <module name="WGS-Client" target="1.8" />
+      <module name="WGS-Server" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

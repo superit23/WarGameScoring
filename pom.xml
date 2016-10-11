@@ -6,6 +6,7 @@
 
     <groupId>bb.rackmesa.wargamescoring</groupId>
     <artifactId>wargamescoring</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <build>
@@ -20,5 +21,9 @@
             </plugin>
         </plugins>
     </build>
+    <modules>
+        <module>WGS-Server</module>
+        <module>WGS-Client</module>
+    </modules>
 
 </project>
