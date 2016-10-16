@@ -26,7 +26,7 @@ public class Client {
                     break;
 
                 case "login":
-                    Commands.login();
+                    sessionVariable = Commands.login();
                     break;
 
                 case "createAccount":
@@ -39,6 +39,9 @@ public class Client {
                     break;
 
                 case "sendCoins":
+                    break;
+
+                case "createCoin":
                     break;
 
                 case "exit":
