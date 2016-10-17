@@ -26,10 +26,12 @@ public class Commands {
 
             case "sendCoins":
                 String sendCoinsHelp = "This method is used to send coins to the bank to increase your score";
+                System.out.println(sendCoinsHelp);
                 break;
 
             case "exit":
                 String exitHelp = "Used to exit the bank program";
+                System.out.println(exitHelp);
                 break;
 
             default:
