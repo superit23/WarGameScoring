@@ -12,20 +12,41 @@ public class Commands {
 
     public static void help(String command){
 
-        if(command.isEmpty()){
-            String basicHelp = "The banking Client supports the following commands.\n" +
-                    "For more information type help and then the command name\n" +
-                    "login \n" +
-                    "getCoins \n" +
-                    "sendCoins \n" +
-                    "createAccount \n" +
-                    "deleteAccount \n" +
-                    "transferCoins\n" +
-                    "changePassword \n" +
-                    "createCoin \n" +
-                    "exit \n";
-            System.out.print(basicHelp);
+        switch (command){
+
+            case "login":
+                String loginHelp = "Type in this command to login and start a session with the server";
+                System.out.println(loginHelp);
+                break;
+
+            case "getCoins":
+                String getCoinsHelp = "Type in this command once you are logged in. You may use this method to  your coins from the server";
+                System.out.println(getCoinsHelp);
+                break;
+
+            case "sendCoins":
+                String sendCoinsHelp = "This method is used to send coins to the bank to increase your score";
+                break;
+
+            case "exit":
+                String exitHelp = "Used to exit the bank program";
+                break;
+
+            default:
+                String basicHelp = "The banking Client supports the following commands.\n" +
+                        "For more information type help and then the command name\n" +
+                        "login \n" +
+                        "getCoins \n" +
+                        "sendCoins \n" +
+                        "createAccount \n" +
+                        "deleteAccount \n" +
+                        "transferCoins\n" +
+                        "changePassword \n" +
+                        "createCoin \n" +
+                        "exit \n";
+                System.out.print(basicHelp);
         }
+
 
     }
 
