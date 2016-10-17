@@ -1,5 +1,7 @@
 package Main;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -10,19 +12,22 @@ public class Client {
         String sessionVariable = "";
         boolean loop = true;
         Scanner scanner = new Scanner(System.in);
-        scanner.useDelimiter(" ");
+
 
         System.out.println("Welcome to the client banking operations type help for assistance. ");
 
         while(loop){
             System.out.print(">");
             String input = scanner.nextLine();
+            ArrayList<String> commandsList = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
 
-
-            switch(input){
+            switch(commandsList.get(0)){
 
                 case "help":
-                    Commands.help("");
+                    if(commandsList.size() > 1)
+                        Commands.help(commandsList.get(1));
+                    else
+                        Commands.help("");
                     break;
 
                 case "login":
