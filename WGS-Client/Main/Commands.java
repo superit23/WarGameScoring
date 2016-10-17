@@ -58,10 +58,13 @@ public class Commands {
         String userName = scanner.nextLine();
 
 
+        System.out.print("Please enter your password: ");
+
 
         for(int i=0; i<3; i++){
-            Console console = System.console();
-            String password = new String(console.readPassword("Please Enter your password: "));
+            //Console console = System.console();
+            //String password = new String(console.readPassword("Please Enter your password: "));
+            String password = scanner.nextLine();
 
             if(false){
                 System.out.println("Correct You are now Logged in");
