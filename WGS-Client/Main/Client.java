@@ -38,8 +38,8 @@ public class Client {
                     break;
 
                 case "getCoins":
-                    if(!sessionVariable.isEmpty())
-                        Commands.sendCoins();
+                    if(sessionVariable.isEmpty())
+                        Commands.getCoins(sessionVariable);
                     else
                         System.out.println("Please Login Before getting Coins.");
                     break;

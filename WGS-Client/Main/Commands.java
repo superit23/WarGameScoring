@@ -1,7 +1,12 @@
 package Main;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
@@ -61,8 +66,21 @@ public class Commands {
         return "sessionVar";
     }
 
-    public static void getCoin(String sessionVar){
+    public static void getCoins(String sessionVar){
+        Scanner scanner = new Scanner(System.in);
+
         //http client command to get coin
+        System.out.print("What would you like to name the file with your coins?:");
+        String fileName = scanner.nextLine();
+        Path file = Paths.get(URI.create("file://" +System.getProperty("user.dir") + fileName));
+        Charset charset = Charset.forName("UTF-8");
+        String coins = "coin";
+
+        try(BufferedWriter writer = Files.newBufferedWriter(file, charset)){
+            writer.write(coins, 0, coins.length());
+        }catch (IOException e){
+                System.out.println("Failed");
+        }
 
 
     }
