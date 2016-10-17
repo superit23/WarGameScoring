@@ -1,4 +1,7 @@
 package Main;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Scanner;
 
 /**
@@ -39,31 +42,52 @@ public class Commands {
 
             String passweord = scanner.nextLine();
 
-            if(true){
+            if(false){
                 System.out.println("Correct You are now Logged in");
                 loggedIn = true;
                 break;
             }
             else{
-                System.out.println("Incorrect Password Please try again:");
+                System.out.print("Incorrect:");
             }
         }
 
 
         if(!loggedIn){
             System.out.println("You have gotten the incorrect Password 3 times Please try again.");
-            return "Wrong";
+            return "";
         }
 
         return "sessionVar";
     }
 
     public static void getCoin(String sessionVar){
+        //http client command to get coin
+
 
     }
 
-    public static void sendCoin(){
+    public static void sendCoins(){
+        Scanner scanner = new Scanner(System.in);
+        File coinFile;
+        System.out.print("Enter in the username you wish to send to:");
+        String username = scanner.nextLine();
 
+
+        for (int i=0; i<3; i++) {
+
+            System.out.print("Please enter in the coin files exact location:");
+            String fileLocation = scanner.nextLine();
+            coinFile = new File(fileLocation);
+
+            if(coinFile.exists()){
+                //send("");
+                break;
+            }
+            else{
+                System.out.println("The file in question was not found. Please try again.");
+            }
+        }
 
     }
 

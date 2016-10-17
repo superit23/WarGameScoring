@@ -7,7 +7,7 @@ import java.util.Scanner;
  */
 public class Client {
     public static void main(String[] args){
-        String sessionVariable;
+        String sessionVariable = "";
         boolean loop = true;
         Scanner scanner = new Scanner(System.in);
         scanner.useDelimiter(" ");
@@ -19,7 +19,7 @@ public class Client {
             String input = scanner.nextLine();
 
 
-            switch(input.toLowerCase()){
+            switch(input){
 
                 case "help":
                     Commands.help("");
@@ -30,15 +30,22 @@ public class Client {
                     break;
 
                 case "createAccount":
+                    System.out.println("createAccounts");
                     break;
 
                 case "deleteAccount":
+                    System.out.println("deleteAccount");
                     break;
 
                 case "getCoins":
+                    if(!sessionVariable.isEmpty())
+                        Commands.sendCoins();
+                    else
+                        System.out.println("Please Login Before getting Coins.");
                     break;
 
                 case "sendCoins":
+                    Commands.sendCoins();
                     break;
 
                 case "createCoin":
@@ -50,6 +57,7 @@ public class Client {
                     break;
 
                 default:
+                    //System.out.println("No command by that name was found. Type Help for help.");
                     break;
 
             }
