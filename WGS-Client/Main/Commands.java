@@ -1,12 +1,8 @@
 package Main;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
@@ -72,14 +68,23 @@ public class Commands {
         //http client command to get coin
         System.out.print("What would you like to name the file with your coins?:");
         String fileName = scanner.nextLine();
-        Path file = Paths.get(URI.create("file://" +System.getProperty("user.dir") + fileName));
-        Charset charset = Charset.forName("UTF-8");
+
         String coins = "coin";
 
-        try(BufferedWriter writer = Files.newBufferedWriter(file, charset)){
-            writer.write(coins, 0, coins.length());
-        }catch (IOException e){
-                System.out.println("Failed");
+        try {
+            File file = new File("/" + fileName + ".txt");
+
+            if(!file.exists()){
+                file.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(coins);
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
