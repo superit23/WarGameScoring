@@ -63,7 +63,7 @@ public class Commands {
         boolean loggedIn = false;
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Please Enter your username:");
+        System.out.print("Please Enter your username: ");
         String userName = scanner.nextLine();
 
 
@@ -81,7 +81,7 @@ public class Commands {
                 break;
             }
             else{
-                System.out.print("Incorrect Username or password please try again:");
+                System.out.print("Incorrect Username or password please try again: ");
             }
         }
 
@@ -111,7 +111,7 @@ public class Commands {
         Scanner scanner = new Scanner(System.in);
 
         //http client command to get coin
-        System.out.print("What would you like to name the file with your coins?:");
+        System.out.print("What would you like to name the file with your coins?: ");
         String fileName = scanner.nextLine();
 
         String coins = "coin";
@@ -159,13 +159,13 @@ public class Commands {
     public static void sendCoins(){
         Scanner scanner = new Scanner(System.in);
         File coinFile;
-        System.out.print("Enter in the username you wish to send to:");
+        System.out.print("Enter in the username you wish to send to: ");
         String username = scanner.nextLine();
 
 
         for (int i=0; i<3; i++) {
 
-            System.out.print("Please enter in the coin files exact location:");
+            System.out.print("Please enter in the coin files exact location: ");
             String fileLocation = scanner.nextLine();
             coinFile = new File(fileLocation);
 
