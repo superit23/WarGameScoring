@@ -14,7 +14,7 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
 
 
-        System.out.println("Welcome to the client banking operations type help for assistance. ");
+        System.out.println("Welcome to the client banking operations. Type help for assistance. ");
 
         while(loop){
             System.out.print(">");
@@ -38,7 +38,7 @@ public class Client {
                     break;
 
                 case "createAccount":
-                    System.out.println("createAccounts");
+                    System.out.println("createAccount");
                     break;
 
                 case "deleteAccount":
@@ -53,7 +53,7 @@ public class Client {
                             Commands.getCoins(sessionVariable);
                     }
                     else{
-                        System.out.println("Please Login Before getting Coins.");
+                        System.out.println("Please Login before getting Coins.");
                     }
                     break;
 

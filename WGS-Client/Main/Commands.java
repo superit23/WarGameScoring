@@ -20,7 +20,7 @@ public class Commands {
                 break;
 
             case "getCoins":
-                String getCoinsHelp = "Type in this command once you are logged in. You may use this method to  your coins from the server\n" +
+                String getCoinsHelp = "Type in this command once you are logged in. You may use this method to get your coins from the server\n" +
                         "You may either type the command by itself and use an interactive mode or type \n" +
                         "in the name of the file you wish to put the coins in.\n" +
                         "Ex. getCoins File";
@@ -28,9 +28,9 @@ public class Commands {
                 break;
 
             case "sendCoins":
-                String sendCoinsHelp = "This method is used to send coins to the bank to increase your score\n" +
-                        "You may either type in the command by itself and use an interactive mode or type \n" +
-                        "or you may type in the coin file after the command to submit coins \n" +
+                String sendCoinsHelp = "This method is used to send coins to the bank to increase your score.\n" +
+                        "You may either type in the command by itself and use an interactive mode \n" +
+                        "or you may type in the coin file after the command to submit coins. \n" +
                         "Ex. sendCoins /home/user/file";
                 System.out.println(sendCoinsHelp);
                 break;
@@ -63,7 +63,7 @@ public class Commands {
         boolean loggedIn = false;
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Please Enter your username:");
+        System.out.print("Please enter your username: ");
         String userName = scanner.nextLine();
 
 
@@ -72,22 +72,22 @@ public class Commands {
 
         for(int i=0; i<3; i++){
             //Console console = System.console();
-            //String password = new String(console.readPassword("Please Enter your password: "));
+            //String password = new String(console.readPassword("Please enter your password: "));
             String password = scanner.nextLine();
 
             if(false){
-                System.out.println("Correct You are now Logged in");
+                System.out.println("Login successful.");
                 loggedIn = true;
                 break;
             }
             else{
-                System.out.print("Incorrect Username or password please try again:");
+                System.out.print("Incorrect:");
             }
         }
 
 
         if(!loggedIn){
-            System.out.println("\nYou have gotten the incorrect Password 3 times Please try again.");
+            System.out.println("You have gotten the password incorrect three times. Please try again.");
             return "";
         }
 
@@ -98,11 +98,11 @@ public class Commands {
         //send Username send Password
 
         if(true){
-            System.out.println("You are now Logged in.");
+            System.out.println("You are now logged in.");
             return "key";
         }
         else{
-            System.out.println("Failed to Login");
+            System.out.println("Failed to login.");
             return "";
         }
     }
@@ -111,7 +111,7 @@ public class Commands {
         Scanner scanner = new Scanner(System.in);
 
         //http client command to get coin
-        System.out.print("What would you like to name the file with your coins?:");
+        System.out.print("What would you like to name the file with your coins?: ");
         String fileName = scanner.nextLine();
 
         String coins = "coin";
@@ -159,13 +159,13 @@ public class Commands {
     public static void sendCoins(){
         Scanner scanner = new Scanner(System.in);
         File coinFile;
-        System.out.print("Enter in the username you wish to send to:");
+        System.out.print("Enter in the username you wish to send to: ");
         String username = scanner.nextLine();
 
 
         for (int i=0; i<3; i++) {
 
-            System.out.print("Please enter in the coin files exact location:");
+            System.out.print("Please enter in the coin files exact location: ");
             String fileLocation = scanner.nextLine();
             coinFile = new File(fileLocation);
 
