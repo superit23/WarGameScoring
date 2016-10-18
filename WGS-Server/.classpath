@@ -29,5 +29,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="/WarGameScoring/out/artifacts/WarGameScoring_jar/WarGameScoring.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

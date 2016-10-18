@@ -14,7 +14,7 @@ public class CoinAPI {
 	@POST
 	@Path("{username}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String createCookie(@PathParam("username") String username)
+	public String createCoin(@PathParam("username") String username)
 	{
 		return "";
 	}
@@ -22,7 +22,7 @@ public class CoinAPI {
 	@GET
 	@Path("{username}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String retrieveCookiesForUser(@PathParam("username") String username)
+	public String retrieveCoinForUser(@PathParam("username") String username)
 	{
 		return "";
 	}
@@ -30,7 +30,7 @@ public class CoinAPI {
 	@DELETE
 	@Path("{uuid}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public void deleteCookie(@PathParam("uuid") String uuid)
+	public void deleteCoin(@PathParam("uuid") String uuid)
 	{
 		
 	}
