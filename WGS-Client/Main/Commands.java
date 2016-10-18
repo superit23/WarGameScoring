@@ -81,13 +81,13 @@ public class Commands {
                 break;
             }
             else{
-                System.out.print("Incorrect:");
+                System.out.print("Incorrect Username or password please try again:");
             }
         }
 
 
         if(!loggedIn){
-            System.out.println("You have gotten the incorrect Password 3 times Please try again.");
+            System.out.println("\nYou have gotten the incorrect Password 3 times Please try again.");
             return "";
         }
 

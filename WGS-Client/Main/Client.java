@@ -68,7 +68,7 @@ public class Client {
                     break;
 
                 case "exit":
-                    System.out.print("Thank you for using the Banking system!");
+                    System.out.print("Thank you for using the banking system!");
                     loop = false;
                     break;
 
