@@ -152,6 +152,11 @@ public class DatabaseFunctions {
         Insert("UPDATE users SET password = ?, salt = ? WHERE userName = ?;", new Object[]{user.getPassword(), user.getCredentialsSalt().toBase64(), user.getUserName()});
     }
 
+    public static void UpdateUser(User user)
+    {
+        Insert("UPDATE users SET password = ?, salt = ?, score = ?, role = ?, team = ? WHERE userName = ?;", new Object[]{user.getPassword(), user.getCredentialsSalt().toBase64(), user.getScore(), user.getRole(), user.getTeam(), user.getUserName()});
+    }
+
 
     public static void DeleteUser(User user)  {
         Insert("DELETE FROM users WHERE userName = ?;", new Object[]{user.getUserName()});
