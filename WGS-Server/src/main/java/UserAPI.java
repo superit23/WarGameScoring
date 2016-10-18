@@ -7,6 +7,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+
 @Path("/user")
 public class UserAPI {
 
@@ -40,7 +41,7 @@ public class UserAPI {
 	@Produces(MediaType.TEXT_PLAIN)
 	public void deleteUser(@PathParam("username") String username)
 	{
-		
+		DatabaseFunctions.DeleteUser(new User(username));
 	}
 	
 }

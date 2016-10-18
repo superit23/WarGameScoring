@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WGS-Server:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/WGS_Server_jar</output-path>
+    <root id="archive" name="WGS-Server.jar">
+      <element id="module-output" name="WGS-Server" />
+      <element id="module-output" name="WarGameScoring" />
+    </root>
+  </artifact>
+</component>
