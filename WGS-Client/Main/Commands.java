@@ -1,8 +1,5 @@
 package Main;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -60,11 +57,14 @@ public class Commands {
         System.out.print("Please Enter your username:");
         String userName = scanner.nextLine();
 
-        System.out.print("Please Enter your pasword:");
+
+        System.out.print("Please enter your password: ");
+
 
         for(int i=0; i<3; i++){
-
-            String passweord = scanner.nextLine();
+            //Console console = System.console();
+            //String password = new String(console.readPassword("Please Enter your password: "));
+            String password = scanner.nextLine();
 
             if(false){
                 System.out.println("Correct You are now Logged in");
