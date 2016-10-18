@@ -12,17 +12,26 @@ public class Commands {
         switch (command){
 
             case "login":
-                String loginHelp = "Type in this command to login and start a session with the server";
+                String loginHelp = "Type in this command to login and start a session with the server.\n" +
+                        "You may either type the command by itself and use an interactive mode or type \n" +
+                        "in the username and password after the command to login. \n" +
+                        "Ex. login User Password";
                 System.out.println(loginHelp);
                 break;
 
             case "getCoins":
-                String getCoinsHelp = "Type in this command once you are logged in. You may use this method to  your coins from the server";
+                String getCoinsHelp = "Type in this command once you are logged in. You may use this method to  your coins from the server\n" +
+                        "You may either type the command by itself and use an interactive mode or type \n" +
+                        "in the name of the file you wish to put the coins in.\n" +
+                        "Ex. getCoins File";
                 System.out.println(getCoinsHelp);
                 break;
 
             case "sendCoins":
-                String sendCoinsHelp = "This method is used to send coins to the bank to increase your score";
+                String sendCoinsHelp = "This method is used to send coins to the bank to increase your score\n" +
+                        "You may either type in the command by itself and use an interactive mode or type \n" +
+                        "or you may type in the coin file after the command to submit coins \n" +
+                        "Ex. sendCoins /home/user/file";
                 System.out.println(sendCoinsHelp);
                 break;
 
