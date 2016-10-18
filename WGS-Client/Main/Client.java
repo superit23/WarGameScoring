@@ -73,7 +73,7 @@ public class Client {
                     break;
 
                 default:
-                    //System.out.println("No command by that name was found. Type Help for help.");
+                    System.out.println("No command by that name was found. Type Help for help.");
                     break;
 
             }

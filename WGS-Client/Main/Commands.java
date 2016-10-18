@@ -88,7 +88,7 @@ public class Commands {
 
 
         if(!loggedIn){
-            System.out.println("You have gotten the password incorrect three times. Please try again.");
+            System.out.println("\nYou have gotten the password incorrect three times. Please try again.");
             return "";
         }
 
