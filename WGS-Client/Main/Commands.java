@@ -81,7 +81,7 @@ public class Commands {
                 break;
             }
             else{
-                System.out.print("Incorrect:");
+                System.out.print("Incorrect username or password please try again: ");
             }
         }
 
