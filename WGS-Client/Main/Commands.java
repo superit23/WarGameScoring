@@ -171,6 +171,7 @@ public class Commands {
             coinFile = new File(fileLocation);
 
             if(coinFile.exists()){
+                System.out.println("Sending Coins");
                 //send("");
                 break;
             }
