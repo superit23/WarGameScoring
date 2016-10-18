@@ -94,6 +94,19 @@ public class Commands {
         return "sessionVar";
     }
 
+    public static String login(String userName, String Password){
+        //send Username send Password
+
+        if(true){
+            System.out.println("You are now Logged in.");
+            return "key";
+        }
+        else{
+            System.out.println("Failed to Login");
+            return "";
+        }
+    }
+
     public static void getCoins(String sessionVar){
         Scanner scanner = new Scanner(System.in);
 
@@ -119,7 +132,28 @@ public class Commands {
             e.printStackTrace();
         }
 
+    }
 
+    public static void getCoins(String sessionVar, String fileName){
+        //send Session Variable
+
+        String coins = "test";
+
+        try {
+            File file = new File("/" + fileName + ".txt");
+
+            if(!file.exists()){
+                file.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(coins);
+            bw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void sendCoins(){
@@ -142,6 +176,18 @@ public class Commands {
             else{
                 System.out.println("The file in question was not found. Please try again.");
             }
+        }
+
+    }
+
+    public static void sendCoins(String user, String fileLocation){
+        File coinFile = new File(fileLocation);
+        if(coinFile.exists()){
+            System.out.println("CoinFile in question has sent.");
+            //send("");
+        }
+        else{
+            System.out.println("The file in question was not found. Please try again.");
         }
 
     }

@@ -31,7 +31,10 @@ public class Client {
                     break;
 
                 case "login":
-                    sessionVariable = Commands.login();
+                    if(commandsList.size() == 3)
+                        sessionVariable = Commands.login(commandsList.get(1), commandsList.get(2));
+                    else
+                        sessionVariable = Commands.login();
                     break;
 
                 case "createAccount":
@@ -43,14 +46,22 @@ public class Client {
                     break;
 
                 case "getCoins":
-                    if(sessionVariable.isEmpty())
-                        Commands.getCoins(sessionVariable);
-                    else
+                    if(!sessionVariable.isEmpty()){
+                        if(commandsList.size() == 2)
+                            Commands.getCoins(sessionVariable, commandsList.get(1));
+                        else
+                            Commands.getCoins(sessionVariable);
+                    }
+                    else{
                         System.out.println("Please Login Before getting Coins.");
+                    }
                     break;
 
                 case "sendCoins":
-                    Commands.sendCoins();
+                    if(commandsList.size() == 3)
+                        Commands.sendCoins(commandsList.get(1), commandsList.get(2));
+                    else
+                        Commands.sendCoins();
                     break;
 
                 case "createCoin":
