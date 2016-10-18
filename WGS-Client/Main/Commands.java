@@ -60,6 +60,7 @@ public class Commands {
 
     public static String login(){
 
+        // This is temp code
         boolean loggedIn = false;
         Scanner scanner = new Scanner(System.in);
 
