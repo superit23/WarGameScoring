@@ -35,6 +35,21 @@ public class Commands {
                 System.out.println(sendCoinsHelp);
                 break;
 
+            case "createAccount":
+                String createAccountHelp = "This method is used to create a new User account.\n" +
+                        "The create account method should be used by users looking to set up a new account.\n" +
+                        "While there is no limit on the number of accounts you may have only one account will\n" +
+                        "scored at the end of the semester. \n" +
+                        "createAccount supports only an interactive mode. Users will be asked to provide a username\n" +
+                        "a password, and then to confirm the password. Providing that the username is not taken and \n" +
+                        "the passwords entered match a new account will be created.";
+                System.out.println(createAccountHelp);
+                break;
+
+            case "clear":
+                String clearHelp = "Used to clear the console of previous output.";
+                break;
+
             case "exit":
                 String exitHelp = "Used to exit the bank program";
                 System.out.println(exitHelp);
@@ -48,9 +63,10 @@ public class Commands {
                         "sendCoins \n" +
                         "createAccount \n" +
                         "deleteAccount \n" +
-                        "transferCoins\n" +
+                        "transferScore\n" +
                         "changePassword \n" +
                         "createCoin \n" +
+                        "clear \n" +
                         "exit \n";
                 System.out.print(basicHelp);
         }
@@ -69,12 +85,12 @@ public class Commands {
 
 
         System.out.print("Please enter your password: ");
+        String password = scanner.nextLine();
 
-
-        for(int i=0; i<3; i++){
+        for(int i=0; i<2; i++){
             //Console console = System.console();
             //String password = new String(console.readPassword("Please enter your password: "));
-            String password = scanner.nextLine();
+
 
             if(false){
                 System.out.println("Login successful.");
@@ -83,6 +99,7 @@ public class Commands {
             }
             else{
                 System.out.print("Incorrect username or password please try again: ");
+                password = scanner.nextLine();
             }
         }
 
@@ -192,6 +209,63 @@ public class Commands {
             System.out.println("The file in question was not found. Please try again.");
         }
 
+    }
+
+    //Simplify code if possible
+    public static void createAccount(){
+        Scanner scanner = new Scanner(System.in);
+        String username;
+        String password;
+        String confirmPassword;
+        boolean usernameTaken;
+        boolean samePassword = false;
+
+        System.out.print("Please enter in a username to create: ");
+        username = scanner.nextLine();
+
+        usernameTaken = false;//Send to Server and test
+
+        for(int i=0; i<2; i++){
+            if(usernameTaken/*If username is taken*/){
+                System.out.print("The username you have used is already in use. please enter in a different name: ");
+                username = scanner.nextLine();
+                usernameTaken = true;//send to Server and test
+            }
+            else
+                break;
+        }
+
+        if(usernameTaken){
+            System.out.println("Three attempts have been made at choosing a username please try again.");
+        }
+        else {
+            System.out.print("Please Enter in a password: ");
+            password = scanner.nextLine();
+            System.out.print("Please confirm your password: ");
+            confirmPassword = scanner.nextLine();
+
+            for(int i=0; i<2; i++){
+                if(!password.equals(confirmPassword)) {
+                    System.out.println("The passwords entered do not match. Please try again.");
+                    System.out.print("Please Enter in a password: ");
+                    password = scanner.nextLine();
+                    System.out.print("Please confirm your password: ");
+                    confirmPassword = scanner.nextLine();
+                }
+                else{
+                    //send username and password to server to create account
+                    samePassword = true;
+                    break;
+                }
+            }
+
+            if(samePassword){
+                System.out.println("A new account has been create with the username of: " + username);
+            }
+            else{
+                System.out.println("Three attempts to create a password have failed. Please try again.");
+            }
+        }
     }
 
 }

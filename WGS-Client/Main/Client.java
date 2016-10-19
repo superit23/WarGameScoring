@@ -38,7 +38,7 @@ public class Client {
                     break;
 
                 case "createAccount":
-                    System.out.println("createAccount");
+                    Commands.createAccount();
                     break;
 
                 case "deleteAccount":
@@ -65,6 +65,10 @@ public class Client {
                     break;
 
                 case "createCoin":
+                    break;
+
+                case "clear":
+                    Commands.clear();
                     break;
 
                 case "exit":
