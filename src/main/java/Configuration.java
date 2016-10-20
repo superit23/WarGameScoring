@@ -12,8 +12,7 @@ import org.apache.shiro.util.Factory;
 public class Configuration {
 
     public static String WGS_REALM = "wgs";
-    public static int window = 19;
-    public static String commitTime = "21:00:05";
+    public static int depositWindow = 19;
 
     public static IPriorityTable priorityTable;
 
@@ -21,6 +20,7 @@ public class Configuration {
     public static int pbkdf2Iterations;
     public static int pbkdf2NumBytes;
     public static int saltLength;
+
 
     public static void Init()
     {
@@ -31,12 +31,63 @@ public class Configuration {
         SecurityManager securityManager = factory.getInstance();
         SecurityUtils.setSecurityManager(securityManager);
 
+        Configuration.connectionString = ((SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
+    }
 
+    public static void EasyConf()
+    {
         Configuration.pbkdf2Iterations = 2048;
         Configuration.pbkdf2NumBytes = 32;
         Configuration.saltLength = 4;
-        Configuration.connectionString = ((SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
 
         Configuration.priorityTable = new WorstPriorityTable();
+    }
+
+    public static int getDepositWindow() {
+        return depositWindow;
+    }
+
+    public static int getPbkdf2Iterations() {
+        return pbkdf2Iterations;
+    }
+
+    public static int getPbkdf2NumBytes() {
+        return pbkdf2NumBytes;
+    }
+
+    public static int getSaltLength() {
+        return saltLength;
+    }
+
+    public static IPriorityTable getPriorityTable() {
+        return priorityTable;
+    }
+
+    public static String getConnectionString() {
+        return connectionString;
+    }
+
+    public static void setConnectionString(String connectionString) {
+        Configuration.connectionString = connectionString;
+    }
+
+    public static void setDepositWindow(int depositWindow) {
+        Configuration.depositWindow = depositWindow;
+    }
+
+    public static void setPbkdf2Iterations(int pbkdf2Iterations) {
+        Configuration.pbkdf2Iterations = pbkdf2Iterations;
+    }
+
+    public static void setPbkdf2NumBytes(int pbkdf2NumBytes) {
+        Configuration.pbkdf2NumBytes = pbkdf2NumBytes;
+    }
+
+    public static void setPriorityTable(IPriorityTable priorityTable) {
+        Configuration.priorityTable = priorityTable;
+    }
+
+    public static void setSaltLength(int saltLength) {
+        Configuration.saltLength = saltLength;
     }
 }

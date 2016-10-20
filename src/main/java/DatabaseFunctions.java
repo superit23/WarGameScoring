@@ -1,7 +1,4 @@
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.codec.Base64;
-import org.apache.shiro.mgt.DefaultSecurityManager;
-import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +6,6 @@ import org.slf4j.LoggerFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -238,7 +233,7 @@ public class DatabaseFunctions {
         cal.setTime(new Date());
 
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        if(hour == Configuration.window)
+        if(hour == Configuration.depositWindow)
         {
             Main.coinsToCommit.add(coin);
             return true;
