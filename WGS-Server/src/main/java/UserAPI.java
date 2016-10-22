@@ -1,6 +1,8 @@
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -25,19 +27,26 @@ public class UserAPI {
     @RequiresRoles("admin")
 	public User retrieveUser(String username)
 	{
+        logger.info(((User)SecurityUtils.getSubject()).getUserName() + " accessed user " + username);
 		return DatabaseFunctions.RetrieveUser(username);
 	}
 	
 	
 	@PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @RequiresRoles("admin")
+    @RequiresAuthentication
 	public void updateUser(User user)
 	{
-        logger.info(((User)SecurityUtils.getSubject()).getUserName() + " updated user " + user.getUserName());
-        if(SecurityUtils.getSubject().equals(user))
+        Subject sub = SecurityUtils.getSubject();
+
+        if(sub.equals(user) || sub.hasRole("admin"))
         {
+            logger.info(((User)SecurityUtils.getSubject()).getUserName() + " updated user " + user.getUserName());
             DatabaseFunctions.UpdateUser(user);
+        }
+        else
+        {
+            logger.info(((User)SecurityUtils.getSubject()).getUserName() + " attempted to update user " + user.getUserName());
         }
 
 	}

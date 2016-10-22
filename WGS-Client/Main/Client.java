@@ -67,9 +67,9 @@ public class Client {
                 case "createCoin":
                     break;
 
-                case "clear":
+/*                case "clear":
                     Commands.clear();
-                    break;
+                    break;*/
 
                 case "exit":
                     System.out.print("Thank you for using the banking system!");
