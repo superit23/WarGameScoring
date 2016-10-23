@@ -36,14 +36,22 @@ public class Commands {
                 break;
 
             case "createAccount":
+                clear();
                 String createAccountHelp = "This method is used to create a new User account.\n" +
                         "The create account method should be used by users looking to set up a new account.\n" +
                         "While there is no limit on the number of accounts you may have only one account will\n" +
                         "scored at the end of the semester. \n" +
-                        "createAccount supports only an interactive mode. Users will be asked to provide a username\n" +
-                        "a password, and then to confirm the password. Providing that the username is not taken and \n" +
-                        "the passwords entered match a new account will be created.";
+                        "In interactive mode users will be asked to provide a username a password,\n" +
+                        " and then to confirm the password. Providing that the username is not taken and \n" +
+                        "the passwords entered match a new account will be created.\n" +
+                        "A quick mode is available for createAccount. The quick mode will only request a unique \n" +
+                        "username and a password. To use the quick command enter in the command and then \n" +
+                        "a new username and a password. " +
+                        "Ex. createAccount test password";
                 System.out.println(createAccountHelp);
+                break;
+
+            case "deleteAccount":
                 break;
 
             case "clear":
@@ -265,6 +273,63 @@ public class Commands {
             else{
                 System.out.println("Three attempts to create a password have failed. Please try again.");
             }
+        }
+
+    }
+
+    public static void createAccount(String username, String password){
+        boolean usernameTaken;
+        usernameTaken = true;
+        if(!usernameTaken){
+            System.out.println("Created new account for " + username);
+        }
+        else{
+            System.out.println("The username you have selected was already taken. Please try again.");
+        }
+    }
+
+    public static void deleteAccount(String sessionVar){
+        Scanner scanner = new Scanner(System.in);
+        String username;
+        boolean deleted;
+        deleted = true;
+
+        if(!sessionVar.isEmpty()){
+            System.out.println("Enter in a username to delete: ");
+            username = scanner.nextLine();
+            //send sessionVar and username to server
+            if(deleted){
+                System.out.println("The account " + username + " was deleted.");
+            }
+            else{
+                System.out.println("The account " + username + " either does not exist or you do not have permission to\n" +
+                        "delete it. Please try again.");
+            }
+        }
+
+    }
+
+    public static void deleteAccount(String sessionVar, String userName){
+
+    }
+
+    //Will only work from terminal
+    public static void clear(){
+        String os = System.getProperty("os.name");
+
+        try {
+            if (os.contains("Windows"))
+            {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }
+            else
+            {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
