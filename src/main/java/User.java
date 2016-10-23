@@ -73,4 +73,18 @@ public class User extends SimpleAccount {
     public void setScore(int score) {
         this.score = score;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null)
+            return false;
+
+        User oUser = (User)o;
+
+        if(oUser == null)
+            return false;
+
+        return getUserName() == ((User) o).getUserName() && getTeam() == ((User) o).getTeam();
+    }
 }

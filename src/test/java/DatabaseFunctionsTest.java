@@ -14,6 +14,7 @@ public class DatabaseFunctionsTest {
     @Test
     public void userCRUD() throws Exception {
         Configuration.Init();
+        Configuration.EasyConf();
 
         User tUser1 = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
         User tUser2 = DatabaseFunctions.RetrieveUser(tUser1.getUserName());
@@ -46,6 +47,7 @@ public class DatabaseFunctionsTest {
     @Test
     public void coinCRUD() throws Exception {
         Configuration.Init();
+        Configuration.EasyConf();
 
         User user = DatabaseFunctions.RetrieveUser("tUser");
 
@@ -120,6 +122,7 @@ public class DatabaseFunctionsTest {
     public void retrieveCoinsByUser() throws Exception
     {
         Configuration.Init();
+        Configuration.EasyConf();
 
         User user = DatabaseFunctions.RetrieveUser("tUser");
 
@@ -146,12 +149,12 @@ public class DatabaseFunctionsTest {
         cal.setTime(new Date());
 
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        Configuration.window = (hour + 1) % 24;
+        Configuration.depositWindow = (hour + 1) % 24;
 
         Coin tCoin = new Coin();
         assertFalse(DatabaseFunctions.DepositCoin(tCoin));
 
-        Configuration.window = (hour);
+        Configuration.depositWindow = (hour);
 
         assertTrue(DatabaseFunctions.DepositCoin(tCoin));
 
@@ -162,12 +165,13 @@ public class DatabaseFunctionsTest {
     public void commitCoins() throws Exception
     {
         Configuration.Init();
+        Configuration.EasyConf();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
 
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        Configuration.window = (hour);
+        Configuration.depositWindow = (hour);
 
         ArrayList<User> users = new ArrayList<>();
 

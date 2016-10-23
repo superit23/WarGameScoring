@@ -18,6 +18,7 @@ public class PBKDF2CredentialsMatcherTest {
     @Test
     public void doCredentialsMatch() throws Exception {
         Configuration.Init();
+        Configuration.EasyConf();
 
         User tUser = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
         UsernamePasswordToken token = new UsernamePasswordToken(tUser.getUserName(), "tPass");
