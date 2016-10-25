@@ -41,7 +41,7 @@ public class UserAPI {
 
         if(sub.equals(user) || sub.hasRole("admin"))
         {
-            logger.info(((User)SecurityUtils.getSubject()).getUserName() + " updated user " + user.getUserName());
+            logger.info(((User)SecurityUtils.getSubject() ).getUserName() + " updated user " + user.getUserName());
             DatabaseFunctions.UpdateUser(user);
         }
         else
