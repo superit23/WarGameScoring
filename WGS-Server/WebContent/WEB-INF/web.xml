@@ -2,11 +2,11 @@
     <servlet>
         <servlet-name>WarGameServerREST</servlet-name>
         <servlet-class>
-            com.sun.jersey.spi.container.servlet.ServletContainer
+            org.glassfish.jersey.servlet.ServletContainer
         </servlet-class>
         <init-param>
-            <!--<param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value></param-value>-->
+            <param-name>org.glassfish.jersey.config.property.packages</param-name>
+            <param-value>bb.rackmesa.wargamescoring.wgs-server</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -16,6 +16,10 @@
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
+
+    <listener>
+        <listener-class>StartupConfigListener</listener-class>
+    </listener>
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
     </listener>

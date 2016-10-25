@@ -36,7 +36,7 @@ public class LoginAPI {
 	}
 
 	@POST
-	@Path("/login")
+	@Path("/logout")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void logout(@HeaderParam("username") String username, @HeaderParam("password") String password) {
 		logger.info(((User)SecurityUtils.getSubject()).getUserName() + "has logged out");

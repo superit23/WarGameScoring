@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="war" name="WGS-Server">
+  <artifact type="war" build-on-make="true" name="WGS-Server">
     <output-path>$PROJECT_DIR$/out/artifacts/WGS_Server</output-path>
     <root id="archive" name="WGS-Server.war">
       <element id="directory" name="WEB-INF">

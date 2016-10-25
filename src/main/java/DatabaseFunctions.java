@@ -19,7 +19,7 @@ public class DatabaseFunctions {
 
     public static ResultSet Retrieve(String query, Object[] params, int magic_constant) {
         try {
-            Connection conn = DriverManager.getConnection(Configuration.connectionString);
+            Connection conn = DriverManager.getConnection(Configuration.getConnectionString());
             PreparedStatement stmt = null;
 
             if (magic_constant != -1) {
@@ -54,7 +54,7 @@ public class DatabaseFunctions {
     {
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection(Configuration.connectionString);
+            conn = DriverManager.getConnection(Configuration.getConnectionString());
             conn.setAutoCommit(false);
             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 

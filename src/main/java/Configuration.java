@@ -5,6 +5,8 @@ import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.Factory;
 
+import java.sql.DriverManager;
+
 
 /**
  * Created by Dan on 9/8/2016.
@@ -16,7 +18,7 @@ public class Configuration {
 
     public static IPriorityTable priorityTable;
 
-    public static String connectionString = "";
+//    public static String connectionString = "";
     public static int pbkdf2Iterations;
     public static int pbkdf2NumBytes;
     public static int saltLength;
@@ -31,7 +33,7 @@ public class Configuration {
         SecurityManager securityManager = factory.getInstance();
         SecurityUtils.setSecurityManager(securityManager);
 
-        Configuration.connectionString = ((SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
+//        Configuration.connectionString = ((SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
     }
 
     public static void EasyConf()
@@ -41,6 +43,14 @@ public class Configuration {
         Configuration.saltLength = 4;
 
         Configuration.priorityTable = new WorstPriorityTable();
+
+        try{
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
     public static int getDepositWindow() {
@@ -64,12 +74,13 @@ public class Configuration {
     }
 
     public static String getConnectionString() {
-        return connectionString;
+        //return connectionString;
+        return ((SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
     }
 
-    public static void setConnectionString(String connectionString) {
-        Configuration.connectionString = connectionString;
-    }
+//    public static void setConnectionString(String connectionString) {
+//        Configuration.connectionString = connectionString;
+//    }
 
     public static void setDepositWindow(int depositWindow) {
         Configuration.depositWindow = depositWindow;

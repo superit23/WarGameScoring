@@ -229,4 +229,13 @@ public class DatabaseFunctionsTest {
 
     }
 
+    @Test
+    public void makeUser() throws Exception
+    {
+        Configuration.Init();
+        Configuration.EasyConf();
+
+        User tUser1 = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
+    }
+
 }
