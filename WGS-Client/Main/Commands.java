@@ -72,6 +72,7 @@ public class Commands {
                         "createAccount \n" +
                         "deleteAccount \n" +
                         "transferScore\n" +
+                        "getBalance \n" +
                         "changePassword \n" +
                         "createCoin \n" +
                         "clear \n" +
@@ -310,9 +311,52 @@ public class Commands {
     }
 
     public static void deleteAccount(String sessionVar, String userName){
+        boolean deleted = true;//send sessionVar then send username
+        if(deleted){
+            System.out.println("The userAccount was succefully deleted.");
+        }
+        else{
+            System.out.println("The user account was not deleted. You either do not have permission or have refered to \n" +
+                    "an account that dosen't exist. Please try again.")
+        }
+    }
+
+    public static void transferScore(String sessionVar){
+        String account;
+        boolean success;
+        int amount;
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Please Enter the name of the account that you want to transfer the coins to. ");
+        account = scanner.nextLine();
+
+        System.out.println("Please enter in the amount of coins you wish to transfer.");
+        amount = scanner.nextInt();
+
+        //send sessionVar
+        if(success){
+            System.out.println("You have transfered " + amount + " to " + account);
+        }
+        else{
+            System.out.println("Your attempted transfer has failed. Please try again.");
+        }
 
     }
 
+    public static void transferScore(String sessionVar, String account, int amount){
+        boolean success;
+        //send sessionVar account and amount to server
+        if(success){
+            System.out.println("You have transfered " + amount + " to " + account);
+        }
+        else {
+            System.out.println("Your attempted transfer has failed. Please try again.");
+        }
+
+    }
+
+    public static void getBalance(String sessionVar){
+    }
     //Will only work from terminal
     public static void clear(){
         String os = System.getProperty("os.name");

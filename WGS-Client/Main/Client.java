@@ -37,14 +37,6 @@ public class Client {
                         sessionVariable = Commands.login();
                     break;
 
-                case "createAccount":
-                    Commands.createAccount();
-                    break;
-
-                case "deleteAccount":
-                    System.out.println("deleteAccount");
-                    break;
-
                 case "getCoins":
                     if(!sessionVariable.isEmpty()){
                         if(commandsList.size() == 2)
@@ -64,12 +56,37 @@ public class Client {
                         Commands.sendCoins();
                     break;
 
+                case "createAccount":
+                    if(commandsList.size() == 3)
+                        Commands.createAccount(commandsList.get(1), commandsList.get(2));
+                    else
+                        Commands.createAccount();
+                    break;
+
+                //impliment
+                case "deleteAccount":
+                    System.out.println("deleteAccount");
+                    break;
+
+                //impliment
+                case "transferScore":
+                    break;
+
+                //impliment
+                case "getBalance":
+                    break;
+
+                //impliment
+                case "changePassword":
+                    break;
+
+                //impliment
                 case "createCoin":
                     break;
 
-/*                case "clear":
+                case "clear":
                     Commands.clear();
-                    break;*/
+                    break;
 
                 case "exit":
                     System.out.print("Thank you for using the banking system!");
