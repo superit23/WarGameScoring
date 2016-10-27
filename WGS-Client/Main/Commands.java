@@ -1,4 +1,4 @@
-package Main;
+
 import java.io.*;
 import java.util.Scanner;
 
@@ -317,13 +317,13 @@ public class Commands {
         }
         else{
             System.out.println("The user account was not deleted. You either do not have permission or have refered to \n" +
-                    "an account that dosen't exist. Please try again.")
+                    "an account that dosen't exist. Please try again.");
         }
     }
 
     public static void transferScore(String sessionVar){
         String account;
-        boolean success;
+        boolean success = true;
         int amount;
         Scanner scanner = new Scanner(System.in);
 
@@ -344,7 +344,7 @@ public class Commands {
     }
 
     public static void transferScore(String sessionVar, String account, int amount){
-        boolean success;
+        boolean success = true;
         //send sessionVar account and amount to server
         if(success){
             System.out.println("You have transfered " + amount + " to " + account);
