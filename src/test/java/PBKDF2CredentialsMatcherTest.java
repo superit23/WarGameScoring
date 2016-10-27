@@ -1,15 +1,11 @@
+import bb.rackmesa.wargamescoring.Configuration;
+import bb.rackmesa.wargamescoring.DatabaseFunctions;
+import bb.rackmesa.wargamescoring.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.codec.Base64;
-import org.apache.shiro.mgt.AuthorizingSecurityManager;
-import org.apache.shiro.mgt.DefaultSecurityManager;
-import org.apache.shiro.mgt.RealmSecurityManager;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Dan on 9/13/2016.

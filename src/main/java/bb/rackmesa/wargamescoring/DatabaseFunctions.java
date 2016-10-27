@@ -1,3 +1,5 @@
+package bb.rackmesa.wargamescoring;
+
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
@@ -98,8 +100,8 @@ public class DatabaseFunctions {
 
     public static User CreateUser(String username, String password, String role, String team, int score) throws InvalidKeySpecException, NoSuchAlgorithmException{
 
-        //byte[] salt = CryptoFunctions.generateSalt(8);
-        //String derived = Base64.encodeToString(CryptoFunctions.pbkdf2(password.toCharArray(), salt, Configuration.pbkdf2Iterations, Configuration.pbkdf2NumBytes));
+        //byte[] salt = bb.rackmesa.wargamescoring.CryptoFunctions.generateSalt(8);
+        //String derived = Base64.encodeToString(bb.rackmesa.wargamescoring.CryptoFunctions.pbkdf2(password.toCharArray(), salt, bb.rackmesa.wargamescoring.Configuration.pbkdf2Iterations, bb.rackmesa.wargamescoring.Configuration.pbkdf2NumBytes));
 
 
         User newUser = new User(username);

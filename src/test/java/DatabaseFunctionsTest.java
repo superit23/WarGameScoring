@@ -1,3 +1,4 @@
+import bb.rackmesa.wargamescoring.*;
 import org.junit.Assert;
 import org.junit.Test;
 

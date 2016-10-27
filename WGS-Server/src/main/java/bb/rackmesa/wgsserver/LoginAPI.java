@@ -1,3 +1,5 @@
+package bb.rackmesa.wgsserver;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -10,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import bb.rackmesa.wargamescoring.*;
 
 
 @Path("/auth")

@@ -1,3 +1,5 @@
+package bb.rackmesa.wargamescoring;
+
 import java.util.UUID;
 
 /**

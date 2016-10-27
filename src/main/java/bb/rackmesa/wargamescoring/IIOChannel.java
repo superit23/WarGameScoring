@@ -1,3 +1,5 @@
+package bb.rackmesa.wargamescoring;
+
 /**
  * Created by Dan on 9/8/2016.
  */

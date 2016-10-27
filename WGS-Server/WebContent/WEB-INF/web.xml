@@ -5,8 +5,8 @@
             org.glassfish.jersey.servlet.ServletContainer
         </servlet-class>
         <init-param>
-            <param-name>org.glassfish.jersey.config.property.packages</param-name>
-            <param-value>bb.rackmesa.wargamescoring.wgs-server</param-value>
+            <param-name>jersey.config.server.provider.packages</param-name><!--org.glassfish.jersey.config.property.packages-->
+            <param-value>bb.rackmesa.wgsserver</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -18,7 +18,7 @@
 
 
     <listener>
-        <listener-class>StartupConfigListener</listener-class>
+        <listener-class>bb.rackmesa.wgsserver.StartupConfigListener</listener-class>
     </listener>
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>

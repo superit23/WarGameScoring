@@ -1,3 +1,5 @@
+package bb.rackmesa.wargamescoring;
+
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.SecretKeyFactory;

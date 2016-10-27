@@ -1,3 +1,5 @@
+package bb.rackmesa.wgsserver;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
@@ -8,6 +10,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.UUID;
+import bb.rackmesa.wargamescoring.*;
 
 
 @Path("/coin")
@@ -27,7 +30,6 @@ public class CoinAPI {
 	}
 	
 	@GET
-	@Path("{username}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
     @RequiresAuthentication

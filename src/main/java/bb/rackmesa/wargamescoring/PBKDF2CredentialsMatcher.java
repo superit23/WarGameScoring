@@ -1,11 +1,9 @@
-/**
+package bb.rackmesa.wargamescoring; /**
  * Created by Dan on 9/8/2016.
  */
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAccount;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.codec.Base64;

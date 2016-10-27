@@ -1,3 +1,5 @@
+package bb.rackmesa.wargamescoring;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.config.Ini;
 import org.apache.shiro.config.IniSecurityManagerFactory;
@@ -33,7 +35,7 @@ public class Configuration {
         SecurityManager securityManager = factory.getInstance();
         SecurityUtils.setSecurityManager(securityManager);
 
-//        Configuration.connectionString = ((SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
+//        bb.rackmesa.wargamescoring.Configuration.connectionString = ((bb.rackmesa.wargamescoring.SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
     }
 
     public static void EasyConf()
@@ -79,7 +81,7 @@ public class Configuration {
     }
 
 //    public static void setConnectionString(String connectionString) {
-//        Configuration.connectionString = connectionString;
+//        bb.rackmesa.wargamescoring.Configuration.connectionString = connectionString;
 //    }
 
     public static void setDepositWindow(int depositWindow) {

@@ -1,3 +1,5 @@
+package bb.rackmesa.wgsserver;
+
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -6,6 +8,7 @@ import org.apache.shiro.subject.Subject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import bb.rackmesa.wargamescoring.*;
 
 
 @Path("/user")

@@ -1,3 +1,5 @@
+package bb.rackmesa.wargamescoring;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;

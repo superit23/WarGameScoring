@@ -1,3 +1,5 @@
+package bb.rackmesa.wargamescoring;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;

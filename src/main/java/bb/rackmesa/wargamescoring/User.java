@@ -1,3 +1,5 @@
+package bb.rackmesa.wargamescoring;
+
 import org.apache.shiro.authc.SimpleAccount;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.util.ByteSource;

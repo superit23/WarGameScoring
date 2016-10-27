@@ -1,3 +1,5 @@
+package bb.rackmesa.wargamescoring;
+
 import java.sql.DriverManager;
 import java.util.ArrayList;
 
