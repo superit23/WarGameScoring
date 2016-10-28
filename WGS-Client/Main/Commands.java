@@ -12,6 +12,7 @@ public class Commands {
         switch (command){
 
             case "login":
+                clear();
                 String loginHelp = "Type in this command to login and start a session with the server.\n" +
                         "You may either type the command by itself and use an interactive mode or type \n" +
                         "in the username and password after the command to login. \n" +
@@ -20,6 +21,7 @@ public class Commands {
                 break;
 
             case "getCoins":
+                clear();
                 String getCoinsHelp = "Type in this command once you are logged in. You may use this method to get your coins from the server\n" +
                         "You may either type the command by itself and use an interactive mode or type \n" +
                         "in the name of the file you wish to put the coins in.\n" +
@@ -28,6 +30,7 @@ public class Commands {
                 break;
 
             case "sendCoins":
+                clear();
                 String sendCoinsHelp = "This method is used to send coins to the bank to increase your score.\n" +
                         "You may either type in the command by itself and use an interactive mode \n" +
                         "or you may type in the coin file after the command to submit coins. \n" +
@@ -46,16 +49,55 @@ public class Commands {
                         "the passwords entered match a new account will be created.\n" +
                         "A quick mode is available for createAccount. The quick mode will only request a unique \n" +
                         "username and a password. To use the quick command enter in the command and then \n" +
-                        "a new username and a password. " +
+                        "a new username and a password. \n" +
                         "Ex. createAccount test password";
                 System.out.println(createAccountHelp);
                 break;
 
             case "deleteAccount":
+                clear();
+                String deleteAccountHelp = "This method is used to delete a User account.\n" +
+                        "To delete an account you will need to be logged in and have permission to delete the account\n" +
+                        "When an account is deleted the score of the account will be lost. deleteAccount supports both\n" +
+                        "and interactive mode and a quick mode. In the interactive mode user will be asked to supply\n" +
+                        "the name of the user account. In the quick mode users will enter in the command followed by a\n" +
+                        "username. " +
+                        "Ex. deleteAccount account";
+                System.out.println(deleteAccountHelp);
+                break;
+
+            case "transferScore":
+                clear();
+                String transferScoreHelp = "This method is used to transfer score between two different users. You must\n" +
+                        "be logged in and have proper permissions to transfer score between players. To start the\n" +
+                        "interactive mode type in transferScore. transferScore also supports a quick mode. to use the \n" +
+                        "quick mode type in transferScore followed by the name of the account and the amount you wish \n" +
+                        "to transfer to the other player.\n" +
+                        "Ex. transferScore account 10";
+                System.out.println(transferScoreHelp);
+                break;
+
+            case "getBalance":
+                clear();
+                String getBalanceHelp = "This method is used to get your current balance. You must be logged in to use\n" +
+                        "getBalance. Get balance only uses a quick mode. Just type in getBalance to use the command \n" +
+                        "Ex. getBalance";
+                System.out.println(getBalanceHelp);
+                break;
+
+            case "changePassword":
+                clear();
+                String changePasswordHelp = "This method is used to change your current password. changePassword supports\n" +
+                        "both an interactive mode and a quick mode. To use the interactive mode type in changePassword.\n" +
+                        "To use the quick mode type in changePassword then account name, the current password and a new" +
+                        "password for the account.\n" +
+                        "Ex. changePassword account currentPassword newPassword";
+                System.out.println(changePasswordHelp);
                 break;
 
             case "clear":
                 String clearHelp = "Used to clear the console of previous output.";
+                System.out.println(clearHelp);
                 break;
 
             case "exit":
@@ -293,7 +335,7 @@ public class Commands {
         Scanner scanner = new Scanner(System.in);
         String username;
         boolean deleted;
-        deleted = true;
+        deleted = false;
 
         if(!sessionVar.isEmpty()){
             System.out.println("Enter in a username to delete: ");
@@ -311,12 +353,12 @@ public class Commands {
     }
 
     public static void deleteAccount(String sessionVar, String userName){
-        boolean deleted = true;//send sessionVar then send username
+        boolean deleted = false;//send sessionVar then send username
         if(deleted){
-            System.out.println("The userAccount was succefully deleted.");
+            System.out.println("The users account was successfully deleted.");
         }
         else{
-            System.out.println("The user account was not deleted. You either do not have permission or have refered to \n" +
+            System.out.println("The user account was not deleted. You either do not have permission or have referred to \n" +
                     "an account that dosen't exist. Please try again.");
         }
     }
@@ -324,18 +366,18 @@ public class Commands {
     public static void transferScore(String sessionVar){
         String account;
         boolean success = true;
-        int amount;
+        String amount;
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Please Enter the name of the account that you want to transfer the coins to. ");
         account = scanner.nextLine();
 
         System.out.println("Please enter in the amount of coins you wish to transfer.");
-        amount = scanner.nextInt();
+        amount = scanner.nextLine();
 
         //send sessionVar
         if(success){
-            System.out.println("You have transfered " + amount + " to " + account);
+            System.out.println("You have transferred " + amount + " to " + account);
         }
         else{
             System.out.println("Your attempted transfer has failed. Please try again.");
@@ -343,11 +385,11 @@ public class Commands {
 
     }
 
-    public static void transferScore(String sessionVar, String account, int amount){
+    public static void transferScore(String sessionVar, String account, String amount){
         boolean success = true;
         //send sessionVar account and amount to server
         if(success){
-            System.out.println("You have transfered " + amount + " to " + account);
+            System.out.println("You have transferred " + amount + " to " + account);
         }
         else {
             System.out.println("Your attempted transfer has failed. Please try again.");
@@ -356,7 +398,38 @@ public class Commands {
     }
 
     public static void getBalance(String sessionVar){
+        String balance;
+        balance = "test";//Retrieve from server
+        System.out.println(balance);
     }
+
+    //finish writing
+    public static void changePassword(){
+        String account;
+        String currentPassword;
+        String newPassword;
+        String newPasswordConfirm;
+        Scanner scanner = new Scanner(System.in);
+        //Console console = System.console();
+
+        System.out.println("Please enter in the name of the account that you wish to change the password for.");
+        account = scanner.nextLine();
+
+        //String currentPassword = new String(console.readPassword("Please enter in password for the account."));
+        System.out.println("Please enter in password for the account. ");
+        currentPassword = scanner.nextLine();
+
+
+        System.out.println("");
+
+
+
+
+    }
+    public static void changePassword(String account, String currentPassword, String newPassword){
+
+    }
+
     //Will only work from terminal
     public static void clear(){
         String os = System.getProperty("os.name");

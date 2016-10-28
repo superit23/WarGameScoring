@@ -62,21 +62,41 @@ public class Client {
                         Commands.createAccount();
                     break;
 
-                //impliment
                 case "deleteAccount":
-                    System.out.println("deleteAccount");
+                    if(!sessionVariable.isEmpty()){
+                        if(commandsList.size() == 2)
+                            Commands.deleteAccount(sessionVariable, commandsList.get(1));
+                        else
+                            Commands.deleteAccount(sessionVariable);
+                    }
+                    else
+                        System.out.println("Please login before using deleteAccount.");
                     break;
 
-                //impliment
                 case "transferScore":
+                    if(!sessionVariable.isEmpty()){
+                        if(commandsList.size() ==3)
+                            Commands.transferScore(sessionVariable, commandsList.get(1), commandsList.get(2));
+                        else
+                            Commands.transferScore(sessionVariable);
+                    }
+                    else
+                        System.out.println("Please login before using transferScore.");
                     break;
 
-                //impliment
                 case "getBalance":
+                    if(!sessionVariable.isEmpty())
+                        Commands.getBalance(sessionVariable);
+                    else
+                        System.out.println("Please login before using getBalance");
                     break;
 
                 //impliment
                 case "changePassword":
+                    if(commandsList.size() == 4)
+                        Commands.changePassword(commandsList.get(1), commandsList.get(2), commandsList.get(3));
+                    else
+                        Commands.changePassword();
                     break;
 
                 //impliment
