@@ -141,6 +141,7 @@ public class Commands {
 
     }
 
+    //test with tomcat Server
     public static String login(){
         String username;
         String password;
@@ -181,6 +182,7 @@ public class Commands {
         return sessionVariable;
     }
 
+    //test with tomcat Server
     public static String login(String userName, String Password){
         String sessionVariable = "";
         boolean loggedIn = false;
@@ -196,6 +198,7 @@ public class Commands {
 
     }
 
+    //test with tomcat Server
     public static void getCoins(String sessionVar){
         String fileName = "/";
         String coins = "";
@@ -217,6 +220,7 @@ public class Commands {
 
     }
 
+    //test with tomcat Server
     public static void getCoins(String sessionVar, String fileName){
         String coins = "";
         File file;
@@ -232,6 +236,7 @@ public class Commands {
 
     }
 
+    //test with tomcat Server
     public static void sendCoins(){
         int attempts = 1;
         String serverData = "";
