@@ -1,4 +1,6 @@
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.*;
 import java.util.Scanner;
 
@@ -140,76 +142,74 @@ public class Commands {
     }
 
     public static String login(){
-
-        // This is temp code
+        String username;
+        String password;
+        String sessionVariable = "";
+        int attempt = 1;
         boolean loggedIn = false;
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Please enter your username: ");
-        String userName = scanner.nextLine();
+        username = scanner.nextLine();
 
-
+        //Console console = System.console();
+        //password = new String(console.readPassword("Please enter your password: "));
         System.out.print("Please enter your password: ");
-        String password = scanner.nextLine();
+        password = scanner.nextLine();
 
-        for(int i=0; i<2; i++){
+        //send username and password to server. Store success in loggedIn and sessionVariable in sessionVariable
+
+        while((attempt<3) && !loggedIn) {
+            attempt++;
+            System.out.println("Incorrect username or password please try again");
+            System.out.print("Please enter your username: ");
+            username = scanner.nextLine();
+
             //Console console = System.console();
-            //String password = new String(console.readPassword("Please enter your password: "));
+            //password = new String(console.readPassword("Please enter your password: "));
+            System.out.print("Please enter your password: ");
+            password = scanner.nextLine();
 
-
-            if(false){
-                System.out.println("Login successful.");
-                loggedIn = true;
-                break;
-            }
-            else{
-                System.out.print("Incorrect username or password please try again: ");
-                password = scanner.nextLine();
-            }
+            //send username and password to server. Store success in loggedIn and sessionVariable in sessionVariable
         }
 
+        if(loggedIn)
+            System.out.println("Welcome you are now logged in.");
+        else
+            System.out.println("You have failed to login 3 times. Please try again.");
 
-        if(!loggedIn){
-            System.out.println("\nYou have gotten the password incorrect three times. Please try again.");
-            return "";
-        }
-
-        return "sessionVar";
+        return sessionVariable;
     }
 
     public static String login(String userName, String Password){
-        //send Username send Password
+        String sessionVariable = "";
+        boolean loggedIn = false;
 
-        if(true){
-            System.out.println("You are now logged in.");
-            return "key";
-        }
-        else{
-            System.out.println("Failed to login.");
-            return "";
-        }
+        //send username and password to server. Store success in loggedIn and sessionVariable in sessionVariable
+
+        if(loggedIn)
+            System.out.println("Welcome you are now logged in.");
+        else
+            System.out.println("You have failed to login.");
+
+        return sessionVariable;
+
     }
 
     public static void getCoins(String sessionVar){
+        String fileName = "/";
+        String coins = "";
+        File file;
         Scanner scanner = new Scanner(System.in);
 
-        //http client command to get coin
-        System.out.print("What would you like to name the file with your coins?: ");
-        String fileName = scanner.nextLine();
+        //send sessionVariable to server and save returned string in coins
 
-        String coins = "coin";
+        System.out.print("What would you like to name the file with your coins?: ");
+        fileName = scanner.nextLine();
 
         try {
-            File file = new File("/" + fileName + ".txt");
-
-            if(!file.exists()){
-                file.createNewFile();
-            }
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(coins);
-            bw.close();
+            file = new File("C:/Users/Alex/" + fileName + ".txt");
+            FileUtils.writeStringToFile(file, coins, "UTF-8", true);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -218,52 +218,59 @@ public class Commands {
     }
 
     public static void getCoins(String sessionVar, String fileName){
-        //send Session Variable
-
-        String coins = "test";
+        String coins = "";
+        File file;
+        //send SessionVariable and place stuff in coins string
 
         try {
-            File file = new File("/" + fileName + ".txt");
-
-            if(!file.exists()){
-                file.createNewFile();
-            }
-
-            FileWriter fw = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(coins);
-            bw.close();
+            file = new File("C:/Users/Alex/" + fileName + ".txt");
+            FileUtils.writeStringToFile(file, coins, "UTF-8", true);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
+    //test method.
     public static void sendCoins(){
-        Scanner scanner = new Scanner(System.in);
+        int attempts = 1;
+        String serverData = "";
+        String fileLocation = "";
+        String fileContent = "";
+        String username = "";
         File coinFile;
+        Scanner scanner = new Scanner(System.in);
+
         System.out.print("Enter in the username you wish to send to: ");
-        String username = scanner.nextLine();
+        username = scanner.nextLine();
 
+        System.out.print("Please enter in the coin files exact location: ");
+        fileLocation = scanner.nextLine();
+        coinFile = new File(fileLocation);
 
-        for (int i=0; i<3; i++) {
+        while((attempts<3) && !coinFile.exists()){
+            attempts++;
+            System.out.println("The file in question was not found. Please try again.");
+            fileLocation = scanner.nextLine();
+        }
 
-            System.out.print("Please enter in the coin files exact location: ");
-            String fileLocation = scanner.nextLine();
-            coinFile = new File(fileLocation);
-
-            if(coinFile.exists()){
-                System.out.println("Sending Coins");
-                //send("");
-                break;
+        if (coinFile.exists()) {
+            try {
+                fileContent = FileUtils.readFileToString(coinFile, "UTF-8");
+                //send username and fileContent to server. Return server message to serverData
+                System.out.println(serverData);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            else{
-                System.out.println("The file in question was not found. Please try again.");
-            }
+        }
+        else {
+            System.out.println("File was not found after 3 attempts. Please try again.");
         }
 
     }
 
+    //simplify code
     public static void sendCoins(String user, String fileLocation){
         File coinFile = new File(fileLocation);
         if(coinFile.exists()){
@@ -276,6 +283,7 @@ public class Commands {
 
     }
 
+    //simplify code
     public static void createAccount(){
         Scanner scanner = new Scanner(System.in);
         String username;
@@ -333,6 +341,7 @@ public class Commands {
 
     }
 
+    //simplify code
     public static void createAccount(String username, String password){
         boolean usernameTaken;
         usernameTaken = true;
@@ -344,6 +353,7 @@ public class Commands {
         }
     }
 
+    //simplify code
     public static void deleteAccount(String sessionVar){
         Scanner scanner = new Scanner(System.in);
         String username;
@@ -365,6 +375,7 @@ public class Commands {
 
     }
 
+    //simplify code
     public static void deleteAccount(String sessionVar, String userName){
         boolean deleted = false;//send sessionVar then send username
         if(deleted){
@@ -376,6 +387,7 @@ public class Commands {
         }
     }
 
+    //simplify code
     public static void transferScore(String sessionVar){
         String account;
         boolean success = true;
@@ -398,6 +410,7 @@ public class Commands {
 
     }
 
+    //simplify code
     public static void transferScore(String sessionVar, String account, String amount){
         boolean success = true;
         //send sessionVar account and amount to server
@@ -410,12 +423,14 @@ public class Commands {
 
     }
 
+    //simplify code
     public static void getBalance(String sessionVar){
         String balance;
         balance = "test";//Retrieve from server
         System.out.println(balance);
     }
 
+    //simplify code
     public static void changePassword(){
         String account;
         String currentPassword;
@@ -480,6 +495,7 @@ public class Commands {
 
     }
 
+    //simplify code
     public static void changePassword(String account, String currentPassword, String newPassword){
         boolean updated = false;
         //return success in updated send account, currentPassword and newPassword to server
@@ -491,6 +507,7 @@ public class Commands {
         }
     }
 
+    //simplify code
     public static void createCoin(String sessionVar){
         String initialUser;
         String amount;
@@ -514,6 +531,7 @@ public class Commands {
 
     }
 
+    //simplify code
     public static void createCoin(String sessionVar, String initialUser, String amount){
         boolean updated = false;
         //send sessionVar, initialUser and amount to server save success in updated
@@ -532,13 +550,9 @@ public class Commands {
 
         try {
             if (os.contains("Windows"))
-            {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            }
             else
-            {
                 Runtime.getRuntime().exec("clear");
-            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IOException e) {
