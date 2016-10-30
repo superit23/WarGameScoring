@@ -13,66 +13,68 @@ public class Commands {
 
             case "login":
                 clear();
-                String loginHelp = "Type in this command to login and start a session with the server.\n" +
-                        "You may either type the command by itself and use an interactive mode or type \n" +
-                        "in the username and password after the command to login. \n" +
+                String loginHelp = "This method is used to login to the server. login supports both an interactive\n" +
+                        "mode and a quick mode. To use the interactive mode simply type in login. To use\n" +
+                        "the quick mode type login followed by the username and then the password of the\n" +
+                        "account.\n" +
                         "Ex. login User Password";
                 System.out.println(loginHelp);
                 break;
 
             case "getCoins":
                 clear();
-                String getCoinsHelp = "Type in this command once you are logged in. You may use this method to get your coins from the server\n" +
-                        "You may either type the command by itself and use an interactive mode or type \n" +
-                        "in the name of the file you wish to put the coins in.\n" +
+                String getCoinsHelp = "This method is used to get your coins from the server. You must be logged in to\n" +
+                        "use the getCoins method. getCoins supports both a quick mode and an interactive\n" +
+                        "mode. To use the interactive mode simply type in getCoins. To use the quick\n" +
+                        "mode type in getCoins followed by the name of the file you wish to overwrite\n" +
+                        "the coins to.\n" +
                         "Ex. getCoins File";
                 System.out.println(getCoinsHelp);
                 break;
 
             case "sendCoins":
                 clear();
-                String sendCoinsHelp = "This method is used to send coins to the bank to increase your score.\n" +
-                        "You may either type in the command by itself and use an interactive mode \n" +
-                        "or you may type in the coin file after the command to submit coins. \n" +
-                        "Ex. sendCoins /home/user/file";
+                String sendCoinsHelp = "This method is used to send coins to the bank to increase your score. this \n" +
+                        "method supports both a quick mode and an interactive mode. To use the\n" +
+                        "interactive mode simply type in sendCoins. To use the quick mode type in\n" +
+                        "sendCoins followed by the username and the path to the coin file.\n" +
+                        "Ex. sendCoins username /home/user/file";
                 System.out.println(sendCoinsHelp);
                 break;
 
             case "createAccount":
                 clear();
-                String createAccountHelp = "This method is used to create a new User account.\n" +
-                        "The create account method should be used by users looking to set up a new account.\n" +
-                        "While there is no limit on the number of accounts you may have only one account will\n" +
-                        "scored at the end of the semester. \n" +
-                        "In interactive mode users will be asked to provide a username a password,\n" +
-                        " and then to confirm the password. Providing that the username is not taken and \n" +
-                        "the passwords entered match a new account will be created.\n" +
-                        "A quick mode is available for createAccount. The quick mode will only request a unique \n" +
-                        "username and a password. To use the quick command enter in the command and then \n" +
-                        "a new username and a password. \n" +
+                String createAccountHelp = "This method is used to create a new User account. The create account method\n" +
+                        "should be used by users looking to set up a new account. While there is no\n" +
+                        "limit on the number of accounts you may have, only one account will scored at\n" +
+                        "the end of the semester. createAccount supports both a quick mode and an\n" +
+                        "interactive mode. To use the interactive mode simply type in createAccount. To\n" +
+                        "use the quick mode type in createAccount followed by new username and a\n" +
+                        "password.\n" +
                         "Ex. createAccount test password";
                 System.out.println(createAccountHelp);
                 break;
 
             case "deleteAccount":
                 clear();
-                String deleteAccountHelp = "This method is used to delete a User account.\n" +
-                        "To delete an account you will need to be logged in and have permission to delete the account\n" +
-                        "When an account is deleted the score of the account will be lost. deleteAccount supports both\n" +
-                        "and interactive mode and a quick mode. In the interactive mode user will be asked to supply\n" +
-                        "the name of the user account. In the quick mode users will enter in the command followed by a\n" +
-                        "username. " +
+                String deleteAccountHelp = "This method is used to delete a User account. To delete an account you will\n" +
+                        "need to be logged in and have permission to delete the account. When an account\n" +
+                        "is deleted the score of the account will be lost. deleteAccount supports both\n" +
+                        "and interactive mode and a quick mode. To use the interactive mode simply type\n" +
+                        "in deleteAccount. To use the quick mode type in deleteAccount followed by the\n" +
+                        "username of the account you wish to delete.\n" +
                         "Ex. deleteAccount account";
                 System.out.println(deleteAccountHelp);
                 break;
 
             case "transferScore":
                 clear();
-                String transferScoreHelp = "This method is used to transfer score between two different users. You must\n" +
-                        "be logged in and have proper permissions to transfer score between players. To start the\n" +
-                        "interactive mode type in transferScore. transferScore also supports a quick mode. to use the \n" +
-                        "quick mode type in transferScore followed by the name of the account and the amount you wish \n" +
-                        "to transfer to the other player.\n" +
+                String transferScoreHelp = "This method is used to transfer score between two different users. You must be\n" +
+                        "logged in and have proper permissions to transfer score between players.\n" +
+                        "transferScore supports both a quick mode and an interactive mode. To use the\n" +
+                        "interactive mode simply type in transferScore. To use the quick mode type in\n" +
+                        "transferScore followed by the name of account you wish to transfer to and the\n" +
+                        "amount you wish to transfer. Please use an integer for the amount.\n" +
                         "Ex. transferScore account 10";
                 System.out.println(transferScoreHelp);
                 break;
@@ -80,7 +82,8 @@ public class Commands {
             case "getBalance":
                 clear();
                 String getBalanceHelp = "This method is used to get your current balance. You must be logged in to use\n" +
-                        "getBalance. Get balance only uses a quick mode. Just type in getBalance to use the command \n" +
+                        "getBalance. Get balance only uses a quick mode. Just type in getBalance to use\n" +
+                        "the method.\n" +
                         "Ex. getBalance";
                 System.out.println(getBalanceHelp);
                 break;
@@ -88,11 +91,22 @@ public class Commands {
             case "changePassword":
                 clear();
                 String changePasswordHelp = "This method is used to change your current password. changePassword supports\n" +
-                        "both an interactive mode and a quick mode. To use the interactive mode type in changePassword.\n" +
-                        "To use the quick mode type in changePassword then account name, the current password and a new" +
-                        "password for the account.\n" +
+                        "both an interactive mode and a quick mode. To use the interactive mode type in\n" +
+                        "changePassword. To use the quick mode type in changePassword then account name,\n" +
+                        "the current password and a new password for the account.\n" +
                         "Ex. changePassword account currentPassword newPassword";
                 System.out.println(changePasswordHelp);
+                break;
+
+            case "createCoin":
+                clear();
+                String createCoinHelp = "This method is used to create coins on the server for users to acquire.\n" +
+                        "createCoin supports both an interactive mod and a quick mode. To use the\n" +
+                        "interactive mode type in createCoin. To use the quick mode type in createCoin\n" +
+                        "followed by and initial user and the amount of coins you wish to create. Please\n" +
+                        "enter the amount in an integer form.\n" +
+                        "Ex. createCoin username 5";
+                System.out.println(createCoinHelp);
                 break;
 
             case "clear":
@@ -262,7 +276,6 @@ public class Commands {
 
     }
 
-    //Simplify code if possible
     public static void createAccount(){
         Scanner scanner = new Scanner(System.in);
         String username;
@@ -403,31 +416,114 @@ public class Commands {
         System.out.println(balance);
     }
 
-    //finish writing
     public static void changePassword(){
         String account;
         String currentPassword;
         String newPassword;
         String newPasswordConfirm;
+        String failMessage = "Password change has not been successful. Please try again";
+        boolean passwordsMatch = false;
+        boolean updated = false;
         Scanner scanner = new Scanner(System.in);
         //Console console = System.console();
 
         System.out.println("Please enter in the name of the account that you wish to change the password for.");
         account = scanner.nextLine();
 
-        //String currentPassword = new String(console.readPassword("Please enter in password for the account."));
-        System.out.println("Please enter in password for the account. ");
+        //String currentPassword = new String(console.readPassword("Please enter in password for the account: "));
+        System.out.println("Please enter in password for the account: ");
         currentPassword = scanner.nextLine();
 
+        //String newPassword = new String(console.readPassword("Please type in your new password: "));
+        System.out.print("Please type in your new password: ");
+        newPassword = scanner.nextLine();
 
-        System.out.println("");
+        //String newPasswordConfirm = new String(Please confirm the new password: "));
+        System.out.print("Please confirm the new password: ");
+        newPasswordConfirm = scanner.nextLine();
 
+        if(!newPassword.equals(newPasswordConfirm)){
+            for(int i=0; i<2; i++){
+                System.out.println("The passwords entered do not match. Please try again.");
 
+                //String newPassword = new String(console.readPassword("Please type in your new password: "));
+                System.out.print("Please type in your new password: ");
+                newPassword = scanner.nextLine();
 
+                //String newPasswordConfirm = new String(Please confirm the new password: "));
+                System.out.print("Please confirm the new password: ");
+                newPasswordConfirm = scanner.nextLine();
+
+                if(newPassword.equals(newPasswordConfirm)){
+                    passwordsMatch = true;
+                    break;
+                }
+            }
+        }
+        else{
+            passwordsMatch = true;
+        }
+
+        if(passwordsMatch){
+            //send password and username data
+            if(updated){
+                System.out.println("Your password has been updated for " + account);
+            }
+            else{
+                System.out.println(failMessage);
+            }
+
+        }
+        else{
+            System.out.println(failMessage);
+        }
 
     }
-    public static void changePassword(String account, String currentPassword, String newPassword){
 
+    public static void changePassword(String account, String currentPassword, String newPassword){
+        boolean updated = false;
+        //return success in updated send account, currentPassword and newPassword to server
+        if(updated){
+            System.out.println("The password for " + account + " has been updated.");
+        }
+        else{
+            System.out.println("Password change has not been successful. Please try again.");
+        }
+    }
+
+    public static void createCoin(String sessionVar){
+        String initialUser;
+        String amount;
+        boolean updated = false;
+        Scanner scanner = new Scanner(System.in);
+
+
+        System.out.print("Please type in an initial username for the coins: ");
+        initialUser = scanner.nextLine();
+
+        System.out.print("Please enter the number of coins you wish to create: ");
+        amount = scanner.nextLine();
+
+        //send sessionVar, initialUser and amount to server save success in updated
+        if(updated){
+            System.out.println(amount + " coins have been created for " + initialUser);
+        }
+        else{
+            System.out.println("Coin creation has failed please try again.");
+        }
+
+    }
+
+    public static void createCoin(String sessionVar, String initialUser, String amount){
+        boolean updated = false;
+        //send sessionVar, initialUser and amount to server save success in updated
+
+        if(updated){
+            System.out.println(amount + " coins have been created for " + initialUser);
+        }
+        else{
+            System.out.println("Coin creation has failed please try again.");
+        }
     }
 
     //Will only work from terminal
