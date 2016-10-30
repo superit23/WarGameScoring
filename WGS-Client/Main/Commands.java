@@ -232,7 +232,6 @@ public class Commands {
 
     }
 
-    //test method.
     public static void sendCoins(){
         int attempts = 1;
         String serverData = "";
@@ -251,8 +250,9 @@ public class Commands {
 
         while((attempts<3) && !coinFile.exists()){
             attempts++;
-            System.out.println("The file in question was not found. Please try again.");
+            System.out.print("The file in question was not found. Please try again: ");
             fileLocation = scanner.nextLine();
+            coinFile = new File(fileLocation);
         }
 
         if (coinFile.exists()) {
