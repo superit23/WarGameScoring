@@ -1,10 +1,12 @@
 package bb.rackmesa.wargamescoring;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.UUID;
 
 /**
  * Created by Alex on 9/13/2016.
  */
+@XmlRootElement
 public class Coin {
     private UUID coin = UUID.randomUUID();
     private String initialUser;

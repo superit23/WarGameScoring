@@ -3,6 +3,7 @@ package bb.rackmesa.wgsserver;
 import javax.servlet.ServletContextEvent;
 import bb.rackmesa.wargamescoring.Configuration;
 
+
 /**
  * Created by Dan on 10/25/2016.
  */

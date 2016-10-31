@@ -28,7 +28,8 @@ public class UserAPI {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
     @RequiresRoles("admin")
-	public User retrieveUser(String username)
+	@Path("{username}")
+	public User retrieveUser(@PathParam("username") String username)
 	{
         logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " accessed user " + username);
 		return DatabaseFunctions.RetrieveUser(username);
