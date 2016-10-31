@@ -156,7 +156,12 @@ public class DatabaseFunctions {
 
 
     public static void DeleteUser(User user)  {
-        Insert("DELETE FROM users WHERE userName = ?;", new Object[]{user.getUserName()});
+        DeleteUser(user.getUserName());
+    }
+
+    public static void DeleteUser(String username)
+    {
+        Insert("DELETE FROM users WHERE userName = ?;", new Object[]{username});
     }
 
     public static Coin CreateCoin(String initialUser) {
@@ -191,8 +196,12 @@ public class DatabaseFunctions {
     }
 
     public static ArrayList<Coin> RetrieveCoinsForUser(User user) {
+        return RetrieveCoinsForUser(user.getUserName());
+    }
+
+    public static ArrayList<Coin> RetrieveCoinsForUser(String username) {
         try {
-            ResultSet rs = Retrieve("SELECT * FROM coins WHERE initialUser = ?;", new Object[]{ user.getUserName() });
+            ResultSet rs = Retrieve("SELECT * FROM coins WHERE initialUser = ?;", new Object[]{ username });
             ArrayList<Coin> coins = new ArrayList<>();
 
             while(rs.next()) {
@@ -208,7 +217,6 @@ public class DatabaseFunctions {
             e.printStackTrace();
             return null;
         }
-
     }
 
     public static void DeleteCoin(UUID id) {
@@ -280,6 +288,5 @@ public class DatabaseFunctions {
 
 
     }
-
 
 }

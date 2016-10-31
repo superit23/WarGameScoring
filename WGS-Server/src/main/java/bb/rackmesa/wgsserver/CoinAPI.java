@@ -25,7 +25,8 @@ public class CoinAPI {
 	public Coin createCoin(@PathParam("username") String username)
 	{
         Coin coin = new Coin();
-        logger.info(((User) SecurityUtils.getSubject()).getUserName() + "has created a coin " + coin.getCoin().toString());
+		coin.setInitialUser(username);
+        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + "has created a coin " + coin.getCoin().toString() + " for user " + username);
 		return coin;
 	}
 	
@@ -35,8 +36,9 @@ public class CoinAPI {
     @RequiresAuthentication
 	public ArrayList<Coin> retrieveCoinForUser()
 	{
-        logger.info(((User) SecurityUtils.getSubject()).getUserName() + "has retrieved all coins");
-		return DatabaseFunctions.RetrieveCoinsForUser((User)SecurityUtils.getSubject());
+		String user = SecurityUtils.getSubject().getPrincipals().asList().get(0).toString();
+        logger.info(user + "has retrieved all coins");
+		return DatabaseFunctions.RetrieveCoinsForUser(user);
 	}
 	
 	@DELETE
@@ -44,7 +46,7 @@ public class CoinAPI {
     @RequiresRoles("admin")
 	public void deleteCoin(@PathParam("uuid") String uuid)
 	{
-        logger.info(((User) SecurityUtils.getSubject()).getUserName() + "has deleted a coin " + uuid);
+        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + "has deleted a coin " + uuid);
 		DatabaseFunctions.DeleteCoin(UUID.fromString(uuid));
 	}
 
@@ -57,7 +59,7 @@ public class CoinAPI {
         tCoin.setSubmitter(username);
         DatabaseFunctions.DepositCoin(tCoin);
 
-        logger.info(((User) SecurityUtils.getSubject()).getUserName() + "has deposited a coin " + uuid);
+        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + "has deposited a coin " + uuid + " for user " + username);
     }
 	
 	

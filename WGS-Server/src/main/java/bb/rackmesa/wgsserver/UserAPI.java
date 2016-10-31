@@ -21,7 +21,7 @@ public class UserAPI {
     @RequiresRoles("admin")
 	public User createUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("role") String role, @HeaderParam("team") String team, @HeaderParam("score") int score) throws Exception
 	{
-        logger.info(((User)SecurityUtils.getSubject()).getUserName() + " created user " + username);
+        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " created user " + username);
 		return DatabaseFunctions.CreateUser(username, password, role, team, score);
 	}
 	
@@ -30,7 +30,7 @@ public class UserAPI {
     @RequiresRoles("admin")
 	public User retrieveUser(String username)
 	{
-        logger.info(((User)SecurityUtils.getSubject()).getUserName() + " accessed user " + username);
+        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " accessed user " + username);
 		return DatabaseFunctions.RetrieveUser(username);
 	}
 	
@@ -44,12 +44,12 @@ public class UserAPI {
 
         if(sub.equals(user) || sub.hasRole("admin"))
         {
-            logger.info(((User)SecurityUtils.getSubject() ).getUserName() + " updated user " + user.getUserName());
+            logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " updated user " + user.getUserName());
             DatabaseFunctions.UpdateUser(user);
         }
         else
         {
-            logger.info(((User)SecurityUtils.getSubject()).getUserName() + " attempted to update user " + user.getUserName());
+            logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " attempted to update user " + user.getUserName());
         }
 
 	}
@@ -59,7 +59,7 @@ public class UserAPI {
     @RequiresRoles("admin")
 	public void deleteUser(User user)
 	{
-        logger.info(((User)SecurityUtils.getSubject()).getUserName() + " deleted user " + user.getUserName());
+        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " deleted user " + user.getUserName());
 		DatabaseFunctions.DeleteUser(user);
 	}
 	

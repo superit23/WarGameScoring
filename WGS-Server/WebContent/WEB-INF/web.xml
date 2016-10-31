@@ -6,8 +6,12 @@
         </servlet-class>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name><!--org.glassfish.jersey.config.property.packages-->
-            <param-value>bb.rackmesa.wgsserver</param-value>
+            <param-value>bb.rackmesa.wgsserver;com.fasterxml.jackson.jaxrs</param-value>
         </init-param>
+        <!--<init-param>-->
+            <!--<param-name>jersey.config.server.provider.classnames</param-name>-->
+            <!--<param-value>com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider</param-value>-->
+        <!--</init-param>-->
         <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -27,7 +31,7 @@
     <filter>
         <filter-name>ShiroFilter</filter-name>
         <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
-    </filter>
+    </filter>   
 
     <filter-mapping>
         <filter-name>ShiroFilter</filter-name>

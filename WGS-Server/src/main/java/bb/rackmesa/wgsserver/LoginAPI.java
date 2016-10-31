@@ -12,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import bb.rackmesa.wargamescoring.*;
 
 
 @Path("/auth")
@@ -27,13 +26,15 @@ public class LoginAPI {
 		Subject currSubject = SecurityUtils.getSubject();
 		currSubject.login(new UsernamePasswordToken(username, password));
 
+		String callingUser = SecurityUtils.getSubject().getPrincipals().asList().get(0).toString();
+
 		if(currSubject.isAuthenticated()) {
-			logger.info(((User)SecurityUtils.getSubject()).getUserName() + "logged in");
+			logger.info(callingUser + "logged in");
 			return currSubject.getSession();
 		}
 		else
 		{
-			logger.info(((User)SecurityUtils.getSubject()).getUserName() + "has failed to log in");
+			logger.info(callingUser + "has failed to log in");
 			return null;
 		}
 	}
@@ -42,7 +43,7 @@ public class LoginAPI {
 	@Path("/logout")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void logout(@HeaderParam("username") String username, @HeaderParam("password") String password) {
-		logger.info(((User)SecurityUtils.getSubject()).getUserName() + "has logged out");
+		logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + "has logged out");
 		SecurityUtils.getSubject().logout();
 	}
 
