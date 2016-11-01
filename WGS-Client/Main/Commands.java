@@ -486,6 +486,7 @@ public class Commands {
     }
 
     //test with tomcat Server
+    //change so seesion and account and new pass not old
     public static void changePassword(String account, String currentPassword, String newPassword){
         boolean updated = false;
         //return success in updated send account, currentPassword and newPassword to server

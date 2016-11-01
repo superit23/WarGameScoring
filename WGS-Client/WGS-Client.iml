@@ -24,7 +24,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="WarGameScoring" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="file://$USER_HOME$/Downloads/Commons-io/commons-io-2.5" />
@@ -34,7 +34,7 @@
         <jarDirectory url="file://$USER_HOME$/Downloads/Commons-io/commons-io-2.5" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="jaxrs-ri" level="project" />
-    <orderEntry type="library" name="commons-io-2" level="project" />
+    <orderEntry type="library" name="org.apache.directory.studio:org.apache.commons.io:2.4" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
