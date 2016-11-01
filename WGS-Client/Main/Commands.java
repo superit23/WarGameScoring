@@ -1,4 +1,5 @@
 
+import bb.rackmesa.wargamescoring.User;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
@@ -141,7 +142,7 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
+    //test with tomcat Server Check with whatever the hell dan is doing because user wont pass
     public static String login(){
         String username;
         String password;
@@ -275,7 +276,7 @@ public class Commands {
 
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void sendCoins(String user, String fileLocation){
         File coinFile = new File(fileLocation);
         if(coinFile.exists()){
@@ -288,9 +289,11 @@ public class Commands {
 
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void createAccount(){
         Scanner scanner = new Scanner(System.in);
+        int unameAttempts = 1;
+        int passAttempts =1;
         String username;
         String password;
         String confirmPassword;
@@ -302,14 +305,11 @@ public class Commands {
 
         usernameTaken = false;//Send to Server and test
 
-        for(int i=0; i<2; i++){
-            if(usernameTaken/*If username is taken*/){
-                System.out.print("The username you have used is already in use. please enter in a different name: ");
-                username = scanner.nextLine();
-                usernameTaken = true;//send to Server and test
-            }
-            else
-                break;
+        while(!usernameTaken && unameAttempts<3){
+            unameAttempts++;
+            System.out.print("The username you have used is already in use. please enter in a different name: ");
+            username = scanner.nextLine();
+            usernameTaken = true;//send to Server and test
         }
 
         if(usernameTaken){
@@ -321,22 +321,17 @@ public class Commands {
             System.out.print("Please confirm your password: ");
             confirmPassword = scanner.nextLine();
 
-            for(int i=0; i<2; i++){
-                if(!password.equals(confirmPassword)) {
-                    System.out.println("The passwords entered do not match. Please try again.");
-                    System.out.print("Please Enter in a password: ");
-                    password = scanner.nextLine();
-                    System.out.print("Please confirm your password: ");
-                    confirmPassword = scanner.nextLine();
-                }
-                else{
-                    //send username and password to server to create account
-                    samePassword = true;
-                    break;
-                }
+            while(!(password.equals(confirmPassword)) && (passAttempts<3) ){
+                passAttempts++;
+                System.out.println("The passwords entered do not match. Please try again.");
+                System.out.print("Please Enter in a password: ");
+                password = scanner.nextLine();
+                System.out.print("Please confirm your password: ");
+                confirmPassword = scanner.nextLine();
+
             }
 
-            if(samePassword){
+            if(password.equals(confirmPassword)){
                 System.out.println("A new account has been create with the username of: " + username);
             }
             else{
@@ -346,7 +341,7 @@ public class Commands {
 
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void createAccount(String username, String password){
         boolean usernameTaken;
         usernameTaken = true;
@@ -358,29 +353,28 @@ public class Commands {
         }
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void deleteAccount(String sessionVar){
         Scanner scanner = new Scanner(System.in);
         String username;
         boolean deleted;
         deleted = false;
 
-        if(!sessionVar.isEmpty()){
-            System.out.println("Enter in a username to delete: ");
-            username = scanner.nextLine();
-            //send sessionVar and username to server
-            if(deleted){
-                System.out.println("The account " + username + " was deleted.");
-            }
-            else{
-                System.out.println("The account " + username + " either does not exist or you do not have permission to\n" +
-                        "delete it. Please try again.");
-            }
+        System.out.println("Enter in a username to delete: ");
+        username = scanner.nextLine();
+        //send sessionVar and username to server
+        if(deleted){
+            System.out.println("The account " + username + " was deleted.");
         }
+        else{
+            System.out.println("The account " + username + " either does not exist or you do not have permission to\n" +
+                    "delete it. Please try again.");
+        }
+
 
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void deleteAccount(String sessionVar, String userName){
         boolean deleted = false;//send sessionVar then send username
         if(deleted){
@@ -392,7 +386,7 @@ public class Commands {
         }
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void transferScore(String sessionVar){
         String account;
         boolean success = true;
@@ -415,7 +409,7 @@ public class Commands {
 
     }
 
-    //simplify code
+    //test with tomcat Servers
     public static void transferScore(String sessionVar, String account, String amount){
         boolean success = true;
         //send sessionVar account and amount to server
@@ -428,20 +422,21 @@ public class Commands {
 
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void getBalance(String sessionVar){
         String balance;
         balance = "test";//Retrieve from server
         System.out.println(balance);
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void changePassword(){
         String account;
         String currentPassword;
         String newPassword;
         String newPasswordConfirm;
         String failMessage = "Password change has not been successful. Please try again";
+        int attempts = 1;
         boolean passwordsMatch = false;
         boolean updated = false;
         Scanner scanner = new Scanner(System.in);
@@ -462,29 +457,19 @@ public class Commands {
         System.out.print("Please confirm the new password: ");
         newPasswordConfirm = scanner.nextLine();
 
-        if(!newPassword.equals(newPasswordConfirm)){
-            for(int i=0; i<2; i++){
-                System.out.println("The passwords entered do not match. Please try again.");
+        while(!(newPassword.equals(newPasswordConfirm)) && (attempts < 3)){
+            System.out.println("The passwords entered do not match. Please try again.");
 
-                //String newPassword = new String(console.readPassword("Please type in your new password: "));
-                System.out.print("Please type in your new password: ");
-                newPassword = scanner.nextLine();
+            //String newPassword = new String(console.readPassword("Please type in your new password: "));
+            System.out.print("Please type in your new password: ");
+            newPassword = scanner.nextLine();
 
-                //String newPasswordConfirm = new String(Please confirm the new password: "));
-                System.out.print("Please confirm the new password: ");
-                newPasswordConfirm = scanner.nextLine();
-
-                if(newPassword.equals(newPasswordConfirm)){
-                    passwordsMatch = true;
-                    break;
-                }
-            }
-        }
-        else{
-            passwordsMatch = true;
+            //String newPasswordConfirm = new String(Please confirm the new password: "));
+            System.out.print("Please confirm the new password: ");
+            newPasswordConfirm = scanner.nextLine();
         }
 
-        if(passwordsMatch){
+        if(newPassword.equals(newPasswordConfirm)){
             //send password and username data
             if(updated){
                 System.out.println("Your password has been updated for " + account);
@@ -500,7 +485,7 @@ public class Commands {
 
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void changePassword(String account, String currentPassword, String newPassword){
         boolean updated = false;
         //return success in updated send account, currentPassword and newPassword to server
@@ -512,7 +497,7 @@ public class Commands {
         }
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void createCoin(String sessionVar){
         String initialUser;
         String amount;
@@ -536,7 +521,7 @@ public class Commands {
 
     }
 
-    //simplify code
+    //test with tomcat Server
     public static void createCoin(String sessionVar, String initialUser, String amount){
         boolean updated = false;
         //send sessionVar, initialUser and amount to server save success in updated
