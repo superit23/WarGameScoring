@@ -91,7 +91,6 @@ public class Client {
                         System.out.println("Please login before using getBalance");
                     break;
 
-                //impliment
                 case "changePassword":
                     if(commandsList.size() == 4)
                         Commands.changePassword(commandsList.get(1), commandsList.get(2), commandsList.get(3));
@@ -99,8 +98,11 @@ public class Client {
                         Commands.changePassword();
                     break;
 
-                //impliment
                 case "createCoin":
+                    if(commandsList.size() == 2)
+                        Commands.createCoin(sessionVariable, commandsList.get(1), commandsList.get(2));
+                    else
+                        Commands.createCoin(sessionVariable);
                     break;
 
                 case "clear":
