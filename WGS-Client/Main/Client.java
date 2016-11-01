@@ -98,7 +98,6 @@ public class Client {
                         Commands.changePassword();
                     break;
 
-                //impliment
                 case "createCoin":
                     if(commandsList.size() == 2)
                         Commands.createCoin(sessionVariable, commandsList.get(1), commandsList.get(2));
