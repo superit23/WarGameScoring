@@ -4,22 +4,22 @@
         <servlet-class>
             org.glassfish.jersey.servlet.ServletContainer
         </servlet-class>
+
         <init-param>
             <param-name>jersey.config.server.provider.classnames</param-name>
             <param-value>org.glassfish.jersey.jackson.JacksonFeature,com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider</param-value>
         </init-param>
+
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name><!--org.glassfish.jersey.config.property.packages-->
             <param-value>bb.rackmesa.wgsserver,com.fasterxml.jackson.jaxrs.json</param-value>
         </init-param>
+
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>bb.rackmesa.wgsserver.WGSApp</param-value>
         </init-param>
-        <!--<init-param>-->
-            <!--<param-name>jersey.config.server.provider.classnames</param-name>-->
-            <!--<param-value>com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider</param-value>-->
-        <!--</init-param>-->
+
         <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -27,7 +27,6 @@
         <servlet-name>WarGameServerREST</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-
 
     <listener>
         <listener-class>bb.rackmesa.wgsserver.StartupConfigListener</listener-class>
@@ -39,7 +38,7 @@
     <filter>
         <filter-name>ShiroFilter</filter-name>
         <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
-    </filter>   
+    </filter>
 
     <filter-mapping>
         <filter-name>ShiroFilter</filter-name>

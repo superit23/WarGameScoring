@@ -7,9 +7,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.UUID;
 import bb.rackmesa.wargamescoring.*;
@@ -28,18 +26,17 @@ public class CoinAPI {
 	{
         Coin coin = new Coin();
 		coin.setInitialUser(username);
-        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + "has created a coin " + coin.getCoin().toString() + " for user " + username);
+        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " has created a coin " + coin.getCoin().toString() + " for user " + username);
 		return coin;
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
     @RequiresAuthentication
 	public ArrayList<Coin> retrieveCoinForUser()
 	{
 		String user = SecurityUtils.getSubject().getPrincipals().asList().get(0).toString();
-        logger.info(user + "has retrieved all coins");
+        logger.info(user + " has retrieved all coins");
 		return DatabaseFunctions.RetrieveCoinsForUser(user);
 	}
 	
@@ -48,7 +45,7 @@ public class CoinAPI {
     @RequiresRoles("admin")
 	public void deleteCoin(@PathParam("uuid") String uuid)
 	{
-        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + "has deleted a coin " + uuid);
+        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " has deleted a coin " + uuid);
 		DatabaseFunctions.DeleteCoin(UUID.fromString(uuid));
 	}
 
@@ -61,7 +58,7 @@ public class CoinAPI {
         tCoin.setSubmitter(username);
         DatabaseFunctions.DepositCoin(tCoin);
 
-        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + "has deposited a coin " + uuid + " for user " + username);
+        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " has deposited a coin " + uuid + " for user " + username);
     }
 	
 	

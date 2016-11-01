@@ -11,18 +11,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$USER_HOME$/Downloads/Commons-io/commons-io-2.5" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="file://$USER_HOME$/Downloads/Commons-io/commons-io-2.5/docs" />
-        </JAVADOC>
-        <SOURCES />
-        <jarDirectory url="file://$USER_HOME$/Downloads/Commons-io/commons-io-2.5" recursive="false" />
-      </library>
-    </orderEntry>
     <orderEntry type="library" name="org.apache.directory.studio:org.apache.commons.io:2.4" level="project" />
   </component>
 </module>

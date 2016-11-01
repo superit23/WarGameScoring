@@ -15,15 +15,15 @@ import java.sql.DriverManager;
  */
 public class Configuration {
 
-    public static String WGS_REALM = "wgs";
+    public static final String WGS_REALM = "wgs";
     public static int depositWindow = 19;
 
     public static IPriorityTable priorityTable;
 
 //    public static String connectionString = "";
-    public static int pbkdf2Iterations;
-    public static int pbkdf2NumBytes;
-    public static int saltLength;
+    public static int pbkdf2Iterations = 2048;
+    public static int pbkdf2NumBytes = 32;
+    public static int saltLength = 4;
 
 
     public static void Init()
@@ -40,10 +40,6 @@ public class Configuration {
 
     public static void EasyConf()
     {
-        Configuration.pbkdf2Iterations = 2048;
-        Configuration.pbkdf2NumBytes = 32;
-        Configuration.saltLength = 4;
-
         Configuration.priorityTable = new WorstPriorityTable();
 
         try{

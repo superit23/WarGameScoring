@@ -11,6 +11,7 @@ public class StartupConfigListener implements javax.servlet.ServletContextListen
     @Override
     public void contextInitialized(ServletContextEvent context) {
         Configuration.EasyConf();
+
     }
 
     @Override
