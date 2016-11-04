@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.UUID;
 import bb.rackmesa.wargamescoring.*;
+import org.apache.shiro.subject.Subject;
 
 
 @Path("/coin")
@@ -24,9 +25,12 @@ public class CoinAPI {
     @RequiresRoles("admin")
 	public Coin createCoin(@PathParam("username") String username)
 	{
+        Subject subject = SecurityUtils.getSubject();
+        subject.checkRole("admin");
+
         Coin coin = DatabaseFunctions.CreateCoin(username);
 		coin.setInitialUser(username);
-        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " has created a coin " + coin.getCoin().toString() + " for user " + username);
+        logger.info(subject.getPrincipals().asList().get(0).toString() + " has created a coin " + coin.getCoin().toString() + " for user " + username);
 		return coin;
 	}
 	
@@ -46,7 +50,10 @@ public class CoinAPI {
     @RequiresRoles("admin")
 	public void deleteCoin(@PathParam("uuid") String uuid)
 	{
-        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " has deleted a coin " + uuid);
+        Subject subject = SecurityUtils.getSubject();
+        subject.checkRole("admin");
+
+        logger.info(subject.getPrincipals().asList().get(0).toString() + " has deleted a coin " + uuid);
 		DatabaseFunctions.DeleteCoin(UUID.fromString(uuid));
 	}
 

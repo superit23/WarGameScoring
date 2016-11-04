@@ -21,7 +21,10 @@ public class UserAPI {
     @RequiresRoles("admin")
 	public User createUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("role") String role, @HeaderParam("team") String team, @HeaderParam("score") int score) throws Exception
 	{
-        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " created user " + username);
+        Subject subject = SecurityUtils.getSubject();
+        subject.checkRole("admin");
+
+        logger.info(subject.getPrincipals().asList().get(0).toString() + " created user " + username);
 		return DatabaseFunctions.CreateUser(username, password, role, team, score);
 	}
 	
@@ -31,7 +34,10 @@ public class UserAPI {
 	@Path("{username}")
 	public User retrieveUser(@PathParam("username") String username)
 	{
-        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " accessed user " + username);
+        Subject subject = SecurityUtils.getSubject();
+        subject.checkRole("admin");
+
+        logger.info(subject.getPrincipals().asList().get(0).toString() + " accessed user " + username);
 		return DatabaseFunctions.RetrieveUser(username);
 	}
 	
@@ -60,7 +66,9 @@ public class UserAPI {
     @RequiresRoles("admin")
 	public void deleteUser(User user)
 	{
-        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " deleted user " + user.getUserName());
+        Subject subject = SecurityUtils.getSubject();
+        subject.checkRole("admin");
+        logger.info(subject.getPrincipals().asList().get(0).toString() + " deleted user " + user.getUserName());
 		DatabaseFunctions.DeleteUser(user);
 	}
 	
