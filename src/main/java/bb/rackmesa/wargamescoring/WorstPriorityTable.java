@@ -34,7 +34,7 @@ public class WorstPriorityTable implements IPriorityTable {
         boolean existSubmittingTeams = teamUsers.toArray().length > 0;
 
         if(existSubmittingTeams) {
-            List<User> nonInitUsers = submitUsers.stream().filter(user -> !user.getTeam().equals(initUser.getTeam())).collect(Collectors.toList());
+            List<User> nonInitUsers = teamUsers.stream().filter(user -> !user.getTeam().equals(initUser.getTeam())).collect(Collectors.toList());
 
             // Award enemy team second
             if(nonInitUsers.toArray().length > 0)
@@ -62,4 +62,6 @@ public class WorstPriorityTable implements IPriorityTable {
 
 
     }
+
+
 }

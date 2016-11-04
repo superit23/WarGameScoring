@@ -21,10 +21,10 @@ public class PBKDF2CredentialsMatcher implements CredentialsMatcher {
         User authInfo = (User)authenticationInfo;
 
         //boolean uNamesMatch = token.getUsername() == authenticationInfo.getPrincipals().fromRealm("Cerberus").iterator().next().toString();
-        boolean uNamesMatch = false;
+        boolean usernamesMatch = false;
         String derived = null;
         try {
-            uNamesMatch = CryptoFunctions.slowEquals(token.getUsername().getBytes(), authInfo.getUserName().getBytes());
+            usernamesMatch = CryptoFunctions.slowEquals(token.getUsername().getBytes(), authInfo.getUserName().getBytes());
             byte[] salt = authInfo.getCredentialsSalt().getBytes();
             derived = Base64.encodeToString(CryptoFunctions.pbkdf2(token.getPassword(), salt, Configuration.pbkdf2Iterations, Configuration.pbkdf2NumBytes));
         }
@@ -35,6 +35,6 @@ public class PBKDF2CredentialsMatcher implements CredentialsMatcher {
         }
 
         boolean passesMatch = CryptoFunctions.slowEquals(derived.getBytes(), authInfo.getPassword().getBytes());
-        return passesMatch & uNamesMatch;
+        return passesMatch & usernamesMatch;
     }
 }

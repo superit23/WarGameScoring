@@ -24,7 +24,7 @@ public class CoinAPI {
     @RequiresRoles("admin")
 	public Coin createCoin(@PathParam("username") String username)
 	{
-        Coin coin = new Coin();
+        Coin coin = DatabaseFunctions.CreateCoin(username);
 		coin.setInitialUser(username);
         logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " has created a coin " + coin.getCoin().toString() + " for user " + username);
 		return coin;
@@ -33,6 +33,7 @@ public class CoinAPI {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
     @RequiresAuthentication
+    //@Path("")
 	public ArrayList<Coin> retrieveCoinForUser()
 	{
 		String user = SecurityUtils.getSubject().getPrincipals().asList().get(0).toString();

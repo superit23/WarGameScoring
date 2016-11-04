@@ -43,7 +43,7 @@ public class UserAPI {
 	{
         Subject sub = SecurityUtils.getSubject();
 
-        if(sub.equals(user) || sub.hasRole("admin"))
+        if(sub.getPrincipal().toString().equals(user.getUserName()) || sub.hasRole("admin"))
         {
             logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " updated user " + user.getUserName());
             DatabaseFunctions.UpdateUser(user);

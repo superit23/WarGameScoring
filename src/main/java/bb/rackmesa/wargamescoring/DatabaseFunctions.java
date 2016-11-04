@@ -269,21 +269,28 @@ public class DatabaseFunctions {
 
         for (String cUUID:
                 coinsByUUID.keySet()) {
+
             ArrayList<Coin> coins = coinsByUUID.get(cUUID);
 
-            List<User> users = coins.stream().map(coin -> DatabaseFunctions.RetrieveUser(coin.getSubmitter())).collect(Collectors.toList());
+            if(DatabaseFunctions.RetrieveCoin(cUUID) != null) {
+                List<User> users = coins.stream().map(coin -> DatabaseFunctions.RetrieveUser(coin.getSubmitter())).collect(Collectors.toList());
 
-            logger.debug("Submitting users are: " + users.stream().map(user -> user.getUserName() + "\n").reduce((uname1, uname2) -> uname1 + uname2).get());
+                logger.debug("Submitting users are: " + users.stream().map(user -> user.getUserName() + "\n").reduce((uname1, uname2) -> uname1 + uname2).get());
 
-            Coin coin = coins.get(0);
-            DatabaseFunctions.RetrieveUser(coin.getInitialUser());
+                Coin coin = coins.get(0);
+                DatabaseFunctions.RetrieveUser(coin.getInitialUser());
 
-            logger.info("Running priority table on user collection.");
-            User user = Configuration.priorityTable.prioritize(coin, users);
-            user.setScore(user.getScore() + 1);
+                logger.info("Running priority table on user collection.");
+                User user = Configuration.priorityTable.prioritize(coin, users);
+                user.setScore(user.getScore() + 1);
 
-            logger.info("Updating user " + user.getUserName());
-            DatabaseFunctions.UpdateUserScore(user);
+                logger.info("Updating user " + user.getUserName());
+                DatabaseFunctions.UpdateUserScore(user);
+            }
+            else
+            {
+                logger.warn("Coin " + cUUID + " submitted for " + coins.get(0).getSubmitter() + " not in database!");
+            }
         }
 
 
