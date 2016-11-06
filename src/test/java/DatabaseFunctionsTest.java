@@ -17,7 +17,7 @@ public class DatabaseFunctionsTest {
         Configuration.Init();
         Configuration.EasyConf();
 
-        User tUser1 = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
+        User tUser1 = DatabaseFunctions.CreateUser("tUser10", "tPass", "tRole", "team1", 0);
         User tUser2 = DatabaseFunctions.RetrieveUser(tUser1.getUserName());
 
         Assert.assertEquals(tUser1.getUserName(), tUser2.getUserName());
@@ -237,6 +237,15 @@ public class DatabaseFunctionsTest {
         Configuration.EasyConf();
 
         User tUser1 = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
+    }
+
+    @Test
+    public void makeAdmin() throws Exception
+    {
+        Configuration.Init();
+        Configuration.EasyConf();
+
+        User tUser1 = DatabaseFunctions.CreateUser("admin", "admin", "admin", "team1", 0);
     }
 
 }

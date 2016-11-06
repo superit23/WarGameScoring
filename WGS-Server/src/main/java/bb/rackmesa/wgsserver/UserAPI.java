@@ -2,6 +2,7 @@ package bb.rackmesa.wgsserver;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
@@ -18,7 +19,7 @@ public class UserAPI {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-    @RequiresRoles("admin")
+    //@RequiresRoles("admin")
 	public User createUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("role") String role, @HeaderParam("team") String team, @HeaderParam("score") int score) throws Exception
 	{
         Subject subject = SecurityUtils.getSubject();
@@ -30,7 +31,7 @@ public class UserAPI {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-    @RequiresRoles("admin")
+    //@RequiresRoles("admin")
 	@Path("{username}")
 	public User retrieveUser(@PathParam("username") String username)
 	{
@@ -44,10 +45,14 @@ public class UserAPI {
 	
 	@PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    @RequiresAuthentication
+    //@RequiresAuthentication
 	public void updateUser(User user)
 	{
         Subject sub = SecurityUtils.getSubject();
+        if(!sub.isAuthenticated())
+        {
+            throw new AuthenticationException("Subject is not authenticated.");
+        }
 
         if(sub.getPrincipal().toString().equals(user.getUserName()) || sub.hasRole("admin"))
         {
@@ -63,11 +68,12 @@ public class UserAPI {
 	
 	@DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    @RequiresRoles("admin")
+    //@RequiresRoles("admin")
 	public void deleteUser(User user)
 	{
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");
+
         logger.info(subject.getPrincipals().asList().get(0).toString() + " deleted user " + user.getUserName());
 		DatabaseFunctions.DeleteUser(user);
 	}

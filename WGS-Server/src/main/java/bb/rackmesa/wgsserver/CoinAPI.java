@@ -3,6 +3,7 @@ package bb.rackmesa.wgsserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 
@@ -22,7 +23,7 @@ public class CoinAPI {
 	@POST
 	@Path("{username}")
 	@Produces(MediaType.APPLICATION_JSON)
-    @RequiresRoles("admin")
+    //@RequiresRoles("admin")
 	public Coin createCoin(@PathParam("username") String username)
 	{
         Subject subject = SecurityUtils.getSubject();
@@ -40,14 +41,21 @@ public class CoinAPI {
     //@Path("")
 	public ArrayList<Coin> retrieveCoinForUser()
 	{
-		String user = SecurityUtils.getSubject().getPrincipals().asList().get(0).toString();
+        Subject subject = SecurityUtils.getSubject();
+
+        if(!subject.isAuthenticated())
+        {
+            throw new AuthenticationException("Subject is not authenticated.");
+        }
+
+		String user = subject.getPrincipals().asList().get(0).toString();
         logger.info(user + " has retrieved all coins");
 		return DatabaseFunctions.RetrieveCoinsForUser(user);
 	}
 	
 	@DELETE
 	@Path("{uuid}")
-    @RequiresRoles("admin")
+    //@RequiresRoles("admin")
 	public void deleteCoin(@PathParam("uuid") String uuid)
 	{
         Subject subject = SecurityUtils.getSubject();

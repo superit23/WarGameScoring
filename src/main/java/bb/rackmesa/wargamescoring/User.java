@@ -1,17 +1,20 @@
 package bb.rackmesa.wargamescoring;
 
+import java.util.Collection;
+
 import org.apache.shiro.authc.SimpleAccount;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.util.ByteSource;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.HashSet;
 
 /**
  * Created by Alex on 9/13/2016.
  */
 public class User extends SimpleAccount {
-    private String role;
+    //private String role;
     private int score;
     private String team;
 
@@ -61,11 +64,24 @@ public class User extends SimpleAccount {
     }
 
     public String getRole() {
-        return role;
+        //return role;
+        return getRoles().iterator().next();
     }
 
     public void setRole(String role) {
-        this.role = role;
+        //this.role = role;
+        Collection<String> roles = getRoles();
+
+        if(roles == null)
+        {
+            setRoles(new HashSet<>());
+        }
+        else
+        {
+            getRoles().clear();
+        }
+
+        getRoles().add(role);
     }
 
     public int getScore() {
