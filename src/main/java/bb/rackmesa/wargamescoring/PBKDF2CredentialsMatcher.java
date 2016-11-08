@@ -20,7 +20,6 @@ public class PBKDF2CredentialsMatcher implements CredentialsMatcher {
         UsernamePasswordToken token = (UsernamePasswordToken)authenticationToken;
         User authInfo = (User)authenticationInfo;
 
-        //boolean uNamesMatch = token.getUsername() == authenticationInfo.getPrincipals().fromRealm("Cerberus").iterator().next().toString();
         boolean usernamesMatch = false;
         String derived = null;
         try {
