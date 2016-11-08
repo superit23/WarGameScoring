@@ -41,7 +41,6 @@ public class LoginAPI {
 
 	@POST
 	@Path("/logout")
-	@Produces(MediaType.APPLICATION_JSON)
 	public void logout(@HeaderParam("username") String username, @HeaderParam("password") String password) {
 		Subject currSubject = SecurityUtils.getSubject();
         currSubject.getSession().stop();

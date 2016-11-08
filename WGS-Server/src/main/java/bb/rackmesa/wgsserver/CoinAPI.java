@@ -20,10 +20,8 @@ public class CoinAPI {
     static Logger logger = LogManager.getLogger();
 
 	@POST
-	@Path("{username}")
 	@Produces(MediaType.APPLICATION_JSON)
-    //@RequiresRoles("admin")
-	public Coin createCoin(@PathParam("username") String username)
+	public Coin createCoin(@HeaderParam("username") String username)
 	{
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");
@@ -36,16 +34,11 @@ public class CoinAPI {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-    @RequiresAuthentication
-    //@Path("")
 	public ArrayList<Coin> retrieveCoinForUser()
 	{
         Subject subject = SecurityUtils.getSubject();
 
-        if(!subject.isAuthenticated())
-        {
-            throw new AuthenticationException("Subject is not authenticated.");
-        }
+        RESTHelper.checkAuth(subject);
 
 		String user = subject.getPrincipal().toString();
         logger.info(user + " has retrieved all coins");
@@ -53,9 +46,7 @@ public class CoinAPI {
 	}
 	
 	@DELETE
-	@Path("{uuid}")
-    //@RequiresRoles("admin")
-	public void deleteCoin(@PathParam("uuid") String uuid)
+	public void deleteCoin(@HeaderParam("uuid") String uuid)
 	{
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");
@@ -66,8 +57,8 @@ public class CoinAPI {
 
 
     @POST
-    @Path("/deposit/{username}/{uuid}")
-    public void depositCoin(@PathParam("uuid") String uuid, @PathParam("username") String username)
+    @Path("/deposit")
+    public void depositCoin(@HeaderParam("uuid") String uuid, @HeaderParam("username") String username)
     {
         Coin tCoin = new Coin(uuid);
         tCoin.setSubmitter(username);

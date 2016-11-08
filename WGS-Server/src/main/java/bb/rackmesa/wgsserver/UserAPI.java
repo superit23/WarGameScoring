@@ -10,15 +10,19 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import bb.rackmesa.wargamescoring.*;
 
+import java.io.UnsupportedEncodingException;
+
 
 @Path("/user")
 public class UserAPI {
 
     static Logger logger = org.apache.logging.log4j.LogManager.getLogger();
 
+    private static final String NOT_AUTHORIZED_TO_UPDATE = "Current user is not authorized to change %s. Please contact an administrator.";
+
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-    //@RequiresRoles("admin")
 	public User createUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("role") String role, @HeaderParam("team") String team, @HeaderParam("score") int score) throws Exception
 	{
         Subject subject = SecurityUtils.getSubject();
@@ -31,15 +35,11 @@ public class UserAPI {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-    //@RequiresRoles("admin")
-	//@Path("{username}")
 	public User retrieveUser(@HeaderParam("username") String username)
 	{
         Subject subject = SecurityUtils.getSubject();
 
-        if(!subject.isAuthenticated()) {
-            throw new AuthenticationException("Subject is not authenticated.");
-        }
+        RESTHelper.checkAuth(subject);
 
         if(!subject.getPrincipal().toString().equals(username))
         {
@@ -55,41 +55,40 @@ public class UserAPI {
 	
 	@PUT
     @Consumes(MediaType.TEXT_PLAIN)
-    //@RequiresAuthentication
 	public void updateUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("role") String role, @HeaderParam("team") String team, @HeaderParam("score") int score)
 	{
-        Subject sub = SecurityUtils.getSubject();
-        String subUsername = sub.getPrincipal().toString();
+        Subject subject = SecurityUtils.getSubject();
+        String subUsername = subject.getPrincipal().toString();
 
-        if(!sub.isAuthenticated())
-        {
-            throw new AuthenticationException("Subject is not authenticated.");
-        }
+        RESTHelper.checkAuth(subject);
 
         boolean isUser = subUsername.equals(username);
 
-        if(isUser || sub.hasRole("admin"))
+        if(isUser || subject.hasRole("admin"))
         {
             User user = new User(username);
             User userFromDB = DatabaseFunctions.RetrieveUser(username);
 
-            if(!sub.hasRole("admin")) {
-                if (role != null && userFromDB.getRole().equals(role)) {
+            if(!subject.hasRole("admin")) {
+                if (role != null && !RESTHelper.CompareUncleanStrings(userFromDB.getRole(), role)) {
                     logger.info(subUsername + " failed to update user " + username);
-                    throw new AuthorizationException("Current user is not authorized to change role. Please contact an administrator.");
+                    throw new AuthorizationException(String.format(NOT_AUTHORIZED_TO_UPDATE, "role"));
                 }
-                else if (team != null && userFromDB.getTeam().equals(team)) {
+                else if (team != null && !RESTHelper.CompareUncleanStrings(userFromDB.getTeam(), team)) {
                     logger.info(subUsername + " failed to update user " + username);
-                    throw new AuthorizationException("Current user is not authorized to change team. Please contact an administrator.");
+                    throw new AuthorizationException(String.format(NOT_AUTHORIZED_TO_UPDATE, "team"));
                 }
                 else if (score != 0 && userFromDB.getScore() != score) {
                     logger.info(subUsername + " failed to update user " + username);
-                    throw new AuthorizationException("Current user is not authorized to change score. Please contact an administrator.");
+                    throw new AuthorizationException(String.format(NOT_AUTHORIZED_TO_UPDATE, "score"));
+                }
+                else
+                {
+                    user.setTeam(userFromDB.getTeam());
+                    user.setScore(userFromDB.getScore());
+                    user.setRole(userFromDB.getRole());
                 }
 
-                user.setTeam(userFromDB.getTeam());
-                user.setScore(userFromDB.getScore());
-                user.setRole(userFromDB.getRole());
             }
             else
             {
@@ -122,5 +121,7 @@ public class UserAPI {
 		DatabaseFunctions.DeleteUser(username);
         logger.info(subject.getPrincipal().toString() + " deleted user " + username);
 	}
+
+
 	
 }
