@@ -18,6 +18,11 @@ public class User extends SimpleAccount {
     private int score;
     private String team;
 
+    public User()
+    {
+
+    }
+
     public User(String username)
     {
         super(username, "", Configuration.WGS_REALM, null, null);

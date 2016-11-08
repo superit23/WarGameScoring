@@ -248,4 +248,15 @@ public class DatabaseFunctionsTest {
         User tUser1 = DatabaseFunctions.CreateUser("admin", "admin", "admin", "team1", 0);
     }
 
+    @Test
+    public void fixAdmin() throws Exception {
+        Configuration.Init();
+        Configuration.EasyConf();
+
+        User user = new User("admin");
+        user.setPassword("admin");
+        user.setRole("admin");
+
+        DatabaseFunctions.UpdateUser(user);
+    }
 }

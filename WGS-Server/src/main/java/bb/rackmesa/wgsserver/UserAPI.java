@@ -3,8 +3,7 @@ package bb.rackmesa.wgsserver;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.subject.Subject;
 
 import javax.ws.rs.*;
@@ -25,57 +24,103 @@ public class UserAPI {
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");
 
-        logger.info(subject.getPrincipals().asList().get(0).toString() + " created user " + username);
-		return DatabaseFunctions.CreateUser(username, password, role, team, score);
+        User user = DatabaseFunctions.CreateUser(username, password, role, team, score);
+        logger.info(subject.getPrincipal().toString() + " created user " + username);
+		return user;
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
     //@RequiresRoles("admin")
-	@Path("{username}")
-	public User retrieveUser(@PathParam("username") String username)
+	//@Path("{username}")
+	public User retrieveUser(@HeaderParam("username") String username)
 	{
         Subject subject = SecurityUtils.getSubject();
-        subject.checkRole("admin");
 
-        logger.info(subject.getPrincipals().asList().get(0).toString() + " accessed user " + username);
-		return DatabaseFunctions.RetrieveUser(username);
+        if(!subject.isAuthenticated()) {
+            throw new AuthenticationException("Subject is not authenticated.");
+        }
+
+        if(!subject.getPrincipal().toString().equals(username))
+        {
+            subject.checkRole("admin");
+        }
+
+
+        User user = DatabaseFunctions.RetrieveUser(username);
+        logger.info(subject.getPrincipal().toString() + " accessed user " + username);
+		return user;
 	}
 	
 	
 	@PUT
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     //@RequiresAuthentication
-	public void updateUser(User user)
+	public void updateUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("role") String role, @HeaderParam("team") String team, @HeaderParam("score") int score)
 	{
         Subject sub = SecurityUtils.getSubject();
+        String subUsername = sub.getPrincipal().toString();
+
         if(!sub.isAuthenticated())
         {
             throw new AuthenticationException("Subject is not authenticated.");
         }
 
-        if(sub.getPrincipal().toString().equals(user.getUserName()) || sub.hasRole("admin"))
+        boolean isUser = subUsername.equals(username);
+
+        if(isUser || sub.hasRole("admin"))
         {
-            logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " updated user " + user.getUserName());
+            User user = new User(username);
+            User userFromDB = DatabaseFunctions.RetrieveUser(username);
+
+            if(!sub.hasRole("admin")) {
+                if (role != null && userFromDB.getRole().equals(role)) {
+                    logger.info(subUsername + " failed to update user " + username);
+                    throw new AuthorizationException("Current user is not authorized to change role. Please contact an administrator.");
+                }
+                else if (team != null && userFromDB.getTeam().equals(team)) {
+                    logger.info(subUsername + " failed to update user " + username);
+                    throw new AuthorizationException("Current user is not authorized to change team. Please contact an administrator.");
+                }
+                else if (score != 0 && userFromDB.getScore() != score) {
+                    logger.info(subUsername + " failed to update user " + username);
+                    throw new AuthorizationException("Current user is not authorized to change score. Please contact an administrator.");
+                }
+
+                user.setTeam(userFromDB.getTeam());
+                user.setScore(userFromDB.getScore());
+                user.setRole(userFromDB.getRole());
+            }
+            else
+            {
+                user.setRole(role);
+                user.setTeam(team);
+                user.setScore(score);
+            }
+
+            user.setPassword(password);
+
+
             DatabaseFunctions.UpdateUser(user);
+            logger.info(subUsername + " updated user " + username);
         }
         else
         {
-            logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " attempted to update user " + user.getUserName());
+            logger.info(subUsername + " failed to update user " + username);
         }
 
 	}
 	
 	@DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     //@RequiresRoles("admin")
-	public void deleteUser(User user)
+	public void deleteUser(@HeaderParam("username") String username)
 	{
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");
 
-        logger.info(subject.getPrincipals().asList().get(0).toString() + " deleted user " + user.getUserName());
-		DatabaseFunctions.DeleteUser(user);
+		DatabaseFunctions.DeleteUser(username);
+        logger.info(subject.getPrincipal().toString() + " deleted user " + username);
 	}
 	
 }

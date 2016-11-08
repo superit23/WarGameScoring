@@ -26,7 +26,7 @@ public class LoginAPI {
 		Subject currSubject = SecurityUtils.getSubject();
 		currSubject.login(new UsernamePasswordToken(username, password));
 
-		String callingUser = currSubject.getPrincipals().asList().get(0).toString();
+		String callingUser = currSubject.getPrincipal().toString();
 
 		if(currSubject.isAuthenticated()) {
 			logger.info(callingUser + " logged in");
@@ -44,9 +44,9 @@ public class LoginAPI {
 	@Produces(MediaType.APPLICATION_JSON)
 	public void logout(@HeaderParam("username") String username, @HeaderParam("password") String password) {
 		Subject currSubject = SecurityUtils.getSubject();
-		logger.info(currSubject.getPrincipals().asList().get(0).toString() + " has logged out");
         currSubject.getSession().stop();
 		currSubject.logout();
+        logger.info(currSubject.getPrincipal().toString() + " has logged out");
 	}
 
 }

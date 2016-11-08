@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -31,7 +30,7 @@ public class CoinAPI {
 
         Coin coin = DatabaseFunctions.CreateCoin(username);
 		coin.setInitialUser(username);
-        logger.info(subject.getPrincipals().asList().get(0).toString() + " has created a coin " + coin.getCoin().toString() + " for user " + username);
+        logger.info(subject.getPrincipal().toString() + " has created a coin " + coin.getCoin().toString() + " for user " + username);
 		return coin;
 	}
 	
@@ -48,7 +47,7 @@ public class CoinAPI {
             throw new AuthenticationException("Subject is not authenticated.");
         }
 
-		String user = subject.getPrincipals().asList().get(0).toString();
+		String user = subject.getPrincipal().toString();
         logger.info(user + " has retrieved all coins");
 		return DatabaseFunctions.RetrieveCoinsForUser(user);
 	}
@@ -61,7 +60,7 @@ public class CoinAPI {
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");
 
-        logger.info(subject.getPrincipals().asList().get(0).toString() + " has deleted a coin " + uuid);
+        logger.info(subject.getPrincipal().toString() + " has deleted a coin " + uuid);
 		DatabaseFunctions.DeleteCoin(UUID.fromString(uuid));
 	}
 
@@ -74,7 +73,7 @@ public class CoinAPI {
         tCoin.setSubmitter(username);
         DatabaseFunctions.DepositCoin(tCoin);
 
-        logger.info(SecurityUtils.getSubject().getPrincipals().asList().get(0).toString() + " has deposited a coin " + uuid + " for user " + username);
+        logger.info(SecurityUtils.getSubject().getPrincipal().toString() + " has deposited a coin " + uuid + " for user " + username);
     }
 	
 	
