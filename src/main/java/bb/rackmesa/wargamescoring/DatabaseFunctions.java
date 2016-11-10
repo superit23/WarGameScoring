@@ -61,11 +61,11 @@ public class DatabaseFunctions {
             conn.setAutoCommit(false);
             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
-            for(int i = 0; i < params.length; i++)
-            {
-                stmt.setObject(i + 1, params[i]);
+            if(params != null) {
+                for (int i = 0; i < params.length; i++) {
+                    stmt.setObject(i + 1, params[i]);
+                }
             }
-
 
             int affectedRows = stmt.executeUpdate();
             conn.commit();
@@ -295,6 +295,28 @@ public class DatabaseFunctions {
         }
 
 
+    }
+
+    public static void CreateUsersTable()
+    {
+        Insert("CREATE TABLE `users` (\n" +
+                "  `userName` varchar(20) NOT NULL,\n" +
+                "  `password` varchar(64) DEFAULT NULL,\n" +
+                "  `salt` varchar(12) DEFAULT NULL,\n" +
+                "  `role` varchar(30) DEFAULT NULL,\n" +
+                "  `team` varchar(20) DEFAULT NULL,\n" +
+                "  `score` smallint(5) unsigned DEFAULT NULL,\n" +
+                "  PRIMARY KEY (`userName`)", null);
+    }
+
+    public static void CreateCoinsTable()
+    {
+        Insert(" CREATE TABLE `coins` (\n" +
+                "  `uuid` varchar(36) NOT NULL,\n" +
+                "  `initialUser` varchar(20) DEFAULT NULL,\n" +
+                "  PRIMARY KEY (`uuid`),\n" +
+                "  KEY `initialUser` (`initialUser`),\n" +
+                "  CONSTRAINT `coins_ibfk_1` FOREIGN KEY (`initialUser`) REFERENCES `users` (`userName`) ON DELETE CASCADE ON UPDATE CASCADE", null);
     }
 
 
