@@ -20,7 +20,6 @@ public class Configuration {
 
     public static IPriorityTable priorityTable;
 
-//    public static String connectionString = "";
     public static int pbkdf2Iterations = 2048;
     public static int pbkdf2NumBytes = 32;
     public static int saltLength = 4;
@@ -35,12 +34,13 @@ public class Configuration {
         SecurityManager securityManager = factory.getInstance();
         SecurityUtils.setSecurityManager(securityManager);
 
-//        bb.rackmesa.wargamescoring.Configuration.connectionString = ((bb.rackmesa.wargamescoring.SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
     }
 
     public static void EasyConf()
     {
-        Configuration.priorityTable = new WorstPriorityTable();
+        if(priorityTable == null) {
+            priorityTable = new WorstPriorityTable();
+        }
 
         try{
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
@@ -72,13 +72,8 @@ public class Configuration {
     }
 
     public static String getConnectionString() {
-        //return connectionString;
         return ((SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
     }
-
-//    public static void setConnectionString(String connectionString) {
-//        bb.rackmesa.wargamescoring.Configuration.connectionString = connectionString;
-//    }
 
     public static void setDepositWindow(int depositWindow) {
         Configuration.depositWindow = depositWindow;

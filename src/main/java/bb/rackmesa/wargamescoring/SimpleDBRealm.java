@@ -35,8 +35,6 @@ public class SimpleDBRealm extends JdbcRealm {
         SimpleAccount accnt = DatabaseFunctions.RetrieveUser((String)cToken.getPrincipal());
 
         return accnt;
-
-        //return super.doGetAuthenticationInfo(token);
     }
 
     @Override
