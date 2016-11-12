@@ -11,11 +11,12 @@ public class Main {
     public static ArrayList<Coin> coinsToCommit = new ArrayList<>();
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         if(args[1] == "install")
         {
             DatabaseFunctions.CreateUsersTable();
             DatabaseFunctions.CreateCoinsTable();
+            Configuration.getConfig().userAdapter.CreateUser("admin", "admin", "admin", "admin", 0);
         }
     }
 
