@@ -3,8 +3,6 @@ package bb.rackmesa.wgsserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -19,17 +17,26 @@ public class CoinAPI {
 
     static Logger logger = LogManager.getLogger();
 
+    static Configuration configuration = Configuration.getConfig();
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Coin createCoin(@HeaderParam("username") String username)
+	public Coin createCoin(@HeaderParam("username") String username) throws IllegalArgumentException
 	{
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");
 
-        Coin coin = DatabaseFunctions.CreateCoin(username);
-		coin.setInitialUser(username);
-        logger.info(subject.getPrincipal().toString() + " has created a coin " + coin.getCoin().toString() + " for user " + username);
-		return coin;
+        if(username != null) {
+            Coin coin = configuration.coinAdapter.CreateCoin(username);
+            coin.setInitialUser(username);
+            logger.info(subject.getPrincipal().toString() + " has created a coin " + coin.getCoin().toString() + " for user " + username);
+            return coin;
+        }
+        else
+        {
+            String[] args = {"'username' cannot be null. Please include the HeaderParam."};
+            throw new IllegalArgumentException("'username' cannot be null. Please include the HeaderParam.");
+        }
 	}
 	
 	@GET
@@ -42,7 +49,7 @@ public class CoinAPI {
 
 		String user = subject.getPrincipal().toString();
         logger.info(user + " has retrieved all coins");
-		return DatabaseFunctions.RetrieveCoinsForUser(user);
+		return configuration.coinAdapter.RetrieveCoinsForUser(user);
 	}
 	
 	@DELETE
@@ -52,7 +59,7 @@ public class CoinAPI {
         subject.checkRole("admin");
 
         logger.info(subject.getPrincipal().toString() + " has deleted a coin " + uuid);
-		DatabaseFunctions.DeleteCoin(UUID.fromString(uuid));
+        configuration.coinAdapter.DeleteCoin(UUID.fromString(uuid));
 	}
 
 
@@ -62,7 +69,7 @@ public class CoinAPI {
     {
         Coin tCoin = new Coin(uuid);
         tCoin.setSubmitter(username);
-        DatabaseFunctions.DepositCoin(tCoin);
+        SupportingLogic.DepositCoin(tCoin);
 
         logger.info(SecurityUtils.getSubject().getPrincipal().toString() + " has deposited a coin " + uuid + " for user " + username);
     }

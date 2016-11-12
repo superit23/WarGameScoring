@@ -32,7 +32,7 @@ public class SimpleDBRealm extends JdbcRealm {
     protected org.apache.shiro.authc.AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken cToken = (UsernamePasswordToken)token;
 
-        SimpleAccount accnt = DatabaseFunctions.RetrieveUser((String)cToken.getPrincipal());
+        SimpleAccount accnt = Configuration.getConfig().userAdapter.RetrieveUser((String)cToken.getPrincipal());
 
         return accnt;
     }
@@ -40,7 +40,7 @@ public class SimpleDBRealm extends JdbcRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = principals.fromRealm(Configuration.WGS_REALM).iterator().next().toString();
-        return DatabaseFunctions.RetrieveUser(username);
+        return Configuration.getConfig().userAdapter.RetrieveUser(username);
 
     }
 

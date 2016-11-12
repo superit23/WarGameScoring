@@ -2,7 +2,7 @@ package bb.rackmesa.wgsserver;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
@@ -33,8 +33,21 @@ public class LoginAPI {
         catch (UnknownAccountException ex)
         {
             logger.error(ex);
-            throw new AuthenticationException("Invalid username or password.");
+
+			IncorrectCredentialsException cleanedEx = new IncorrectCredentialsException("Invalid username or password.");
+			cleanedEx.setStackTrace(new StackTraceElement[0]);
+
+            throw cleanedEx;
         }
+        catch (IncorrectCredentialsException ex)
+		{
+			logger.error(ex);
+
+			IncorrectCredentialsException cleanedEx = new IncorrectCredentialsException("Invalid username or password.");
+			cleanedEx.setStackTrace(new StackTraceElement[0]);
+
+			throw cleanedEx;
+		}
 
 		String callingUser = currSubject.getPrincipal().toString();
 

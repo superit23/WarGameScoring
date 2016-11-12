@@ -1,5 +1,6 @@
 package bb.rackmesa.wargamescoring;
 
+import java.sql.Driver;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.config.Ini;
 import org.apache.shiro.config.IniSecurityManagerFactory;
@@ -8,6 +9,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.Factory;
 
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 /**
@@ -16,14 +18,30 @@ import java.sql.DriverManager;
 public class Configuration {
 
     public static final String WGS_REALM = "wgs";
-    public static int depositWindow = 19;
+    public int depositWindow = 19;
 
-    public static IPriorityTable priorityTable;
+    public IPriorityTable priorityTable = new WorstPriorityTable();
+    public IUserDataAdapter userAdapter = new SQLUserDataAdapter();
+    public ICoinDataAdapter coinAdapter = new SQLCoinDataAdapter();
 
-    public static int pbkdf2Iterations = 2048;
-    public static int pbkdf2NumBytes = 32;
-    public static int saltLength = 4;
+    public int pbkdf2Iterations = 2048;
+    public int pbkdf2NumBytes = 32;
+    public int saltLength = 4;
 
+    public Driver jdbcDriver;
+
+    public static ConfigurableSecurityManager securityManager;
+
+    public Configuration()
+    {
+        try{
+            jdbcDriver = new com.mysql.cj.jdbc.Driver();
+        }
+        catch (SQLException ex)
+        {
+            jdbcDriver = null;
+        }
+    }
 
     public static void Init()
     {
@@ -36,38 +54,37 @@ public class Configuration {
 
     }
 
-    public static void EasyConf()
+    public static void RegisterDrivers() throws SQLException
     {
-        if(priorityTable == null) {
-            priorityTable = new WorstPriorityTable();
-        }
+        Driver driver = getConfig().jdbcDriver;
 
-        try{
-            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-        }
-        catch (Exception ex)
-        {
-
+        if(driver != null) {
+            DriverManager.registerDriver(driver);
         }
     }
 
-    public static int getDepositWindow() {
+    public static Configuration getConfig()
+    {
+        return securityManager.getConfiguration();
+    }
+
+    public int getDepositWindow() {
         return depositWindow;
     }
 
-    public static int getPbkdf2Iterations() {
+    public int getPbkdf2Iterations() {
         return pbkdf2Iterations;
     }
 
-    public static int getPbkdf2NumBytes() {
+    public int getPbkdf2NumBytes() {
         return pbkdf2NumBytes;
     }
 
-    public static int getSaltLength() {
+    public int getSaltLength() {
         return saltLength;
     }
 
-    public static IPriorityTable getPriorityTable() {
+    public IPriorityTable getPriorityTable() {
         return priorityTable;
     }
 
@@ -75,23 +92,43 @@ public class Configuration {
         return ((SimpleDBRealm)((DefaultSecurityManager)SecurityUtils.getSecurityManager()).getRealms().iterator().next()).getConnectionString();
     }
 
-    public static void setDepositWindow(int depositWindow) {
-        Configuration.depositWindow = depositWindow;
+    public void setDepositWindow(int depositWindow) {
+        this.depositWindow = depositWindow;
     }
 
-    public static void setPbkdf2Iterations(int pbkdf2Iterations) {
-        Configuration.pbkdf2Iterations = pbkdf2Iterations;
+    public void setPbkdf2Iterations(int pbkdf2Iterations) {
+        this.pbkdf2Iterations = pbkdf2Iterations;
     }
 
-    public static void setPbkdf2NumBytes(int pbkdf2NumBytes) {
-        Configuration.pbkdf2NumBytes = pbkdf2NumBytes;
+    public void setPbkdf2NumBytes(int pbkdf2NumBytes) {
+        this.pbkdf2NumBytes = pbkdf2NumBytes;
     }
 
-    public static void setPriorityTable(IPriorityTable priorityTable) {
-        Configuration.priorityTable = priorityTable;
+    public void setPriorityTable(IPriorityTable priorityTable) {
+        this.priorityTable = priorityTable;
     }
 
-    public static void setSaltLength(int saltLength) {
-        Configuration.saltLength = saltLength;
+    public void setSaltLength(int saltLength) {
+        this.saltLength = saltLength;
+    }
+
+    public ICoinDataAdapter getCoinAdapter() {
+        return coinAdapter;
+    }
+
+    public void setCoinAdapter(ICoinDataAdapter coinAdapter) {
+        this.coinAdapter = coinAdapter;
+    }
+
+    public IUserDataAdapter getUserAdapter() {
+        return userAdapter;
+    }
+
+    public void setUserAdapter(IUserDataAdapter userAdapter) {
+        this.userAdapter = userAdapter;
+    }
+
+    public void setJdbcDriver(Driver jdbcDriver) {
+        this.jdbcDriver = jdbcDriver;
     }
 }

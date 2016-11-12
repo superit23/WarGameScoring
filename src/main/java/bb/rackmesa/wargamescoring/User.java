@@ -53,7 +53,7 @@ public class User extends SimpleAccount {
         //setCredentials(password);
         try{
             byte[] salt = CryptoFunctions.generateSalt(8);
-            String derived = Base64.encodeToString(CryptoFunctions.pbkdf2(password.toCharArray(), salt, Configuration.pbkdf2Iterations, Configuration.pbkdf2NumBytes));
+            String derived = Base64.encodeToString(CryptoFunctions.pbkdf2(password.toCharArray(), salt, Configuration.getConfig().pbkdf2Iterations, Configuration.getConfig().pbkdf2NumBytes));
             setCredentials(derived);
             setCredentialsSalt(ByteSource.Util.bytes(salt));
         }

@@ -1,5 +1,4 @@
 import bb.rackmesa.wargamescoring.Configuration;
-import bb.rackmesa.wargamescoring.DatabaseFunctions;
 import bb.rackmesa.wargamescoring.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -14,9 +13,11 @@ public class PBKDF2CredentialsMatcherTest {
     @Test
     public void doCredentialsMatch() throws Exception {
         Configuration.Init();
-        Configuration.EasyConf();
+        Configuration.RegisterDrivers();
 
-        User tUser = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
+        Configuration configuration = Configuration.getConfig();
+
+        User tUser = configuration.userAdapter.CreateUser("tUser99", "tPass", "tRole", "team1", 0);
         UsernamePasswordToken token = new UsernamePasswordToken(tUser.getUserName(), "tPass");
 
         Subject subject = SecurityUtils.getSubject();
@@ -26,7 +27,7 @@ public class PBKDF2CredentialsMatcherTest {
         subject.logout();
         Assert.assertFalse(subject.isAuthenticated());
 
-        DatabaseFunctions.DeleteUser(tUser);
+        configuration.userAdapter.DeleteUser(tUser);
     }
 
 }

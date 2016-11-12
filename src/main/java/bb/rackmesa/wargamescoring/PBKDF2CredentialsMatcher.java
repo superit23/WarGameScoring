@@ -20,12 +20,14 @@ public class PBKDF2CredentialsMatcher implements CredentialsMatcher {
         UsernamePasswordToken token = (UsernamePasswordToken)authenticationToken;
         User authInfo = (User)authenticationInfo;
 
+        Configuration configuration = Configuration.getConfig();
+
         boolean usernamesMatch = false;
         String derived = null;
         try {
             usernamesMatch = CryptoFunctions.slowEquals(token.getUsername().getBytes(), authInfo.getUserName().getBytes());
             byte[] salt = authInfo.getCredentialsSalt().getBytes();
-            derived = Base64.encodeToString(CryptoFunctions.pbkdf2(token.getPassword(), salt, Configuration.pbkdf2Iterations, Configuration.pbkdf2NumBytes));
+            derived = Base64.encodeToString(CryptoFunctions.pbkdf2(token.getPassword(), salt, configuration.pbkdf2Iterations, configuration.pbkdf2NumBytes));
         }
         catch (Exception ex)
         {

@@ -12,13 +12,17 @@ import static org.junit.Assert.*;
  * Created by Dan on 9/20/2016.
  */
 public class DatabaseFunctionsTest {
+
+
     @Test
     public void userCRUD() throws Exception {
         Configuration.Init();
-        Configuration.EasyConf();
+        Configuration.RegisterDrivers();
 
-        User tUser1 = DatabaseFunctions.CreateUser("tUser10", "tPass", "tRole", "team1", 0);
-        User tUser2 = DatabaseFunctions.RetrieveUser(tUser1.getUserName());
+        Configuration configuration = Configuration.getConfig();
+
+        User tUser1 = configuration.userAdapter.CreateUser("tUser10", "tPass", "tRole", "team1", 0);
+        User tUser2 = configuration.userAdapter.RetrieveUser(tUser1.getUserName());
 
         Assert.assertEquals(tUser1.getUserName(), tUser2.getUserName());
         Assert.assertEquals(tUser1.getCredentialsSalt().toBase64(), tUser2.getCredentialsSalt().toBase64());
@@ -28,19 +32,19 @@ public class DatabaseFunctionsTest {
         Assert.assertEquals(tUser1.getTeam(), tUser2.getTeam());
 
         tUser1.setPassword("NEWPASSBOIS");
-        DatabaseFunctions.UpdateUserPassword(tUser1);
-        tUser2 = DatabaseFunctions.RetrieveUser(tUser1.getUserName());
+        configuration.userAdapter.UpdateUser(tUser1);
+        tUser2 = configuration.userAdapter.RetrieveUser(tUser1.getUserName());
         Assert.assertEquals(tUser1.getPassword(), tUser2.getPassword());
 
 
         tUser1.setScore(10);
-        DatabaseFunctions.UpdateUserScore(tUser1);
-        tUser2 = DatabaseFunctions.RetrieveUser(tUser1.getUserName());
+        configuration.userAdapter.UpdateUser(tUser1);
+        tUser2 = configuration.userAdapter.RetrieveUser(tUser1.getUserName());
         Assert.assertEquals(tUser1.getScore(), tUser2.getScore());
 
-        DatabaseFunctions.DeleteUser(tUser1);
+        configuration.userAdapter.DeleteUser(tUser1);
 
-        tUser2 = DatabaseFunctions.RetrieveUser(tUser1.getUserName());
+        tUser2 = configuration.userAdapter.RetrieveUser(tUser1.getUserName());
         Assert.assertEquals(tUser2, null);
 
     }
@@ -48,74 +52,77 @@ public class DatabaseFunctionsTest {
     @Test
     public void coinCRUD() throws Exception {
         Configuration.Init();
-        Configuration.EasyConf();
+        Configuration.RegisterDrivers();
 
-        User user = DatabaseFunctions.RetrieveUser("tUser");
+        Configuration configuration = Configuration.getConfig();
+
+        User user = configuration.userAdapter.RetrieveUser("tUser");
 
         if(user ==  null)
         {
-            user = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 30);
+            user = configuration.userAdapter.CreateUser("tUser", "tPass", "tRole", "team1", 30);
         }
 
-        Coin tCoin1 = DatabaseFunctions.CreateCoin(user.getUserName());
-        Coin tCoin2 = DatabaseFunctions.RetrieveCoin(tCoin1.getCoin().toString());
+        Coin tCoin1 = configuration.coinAdapter.CreateCoin(user.getUserName());
+        Coin tCoin2 = configuration.coinAdapter.RetrieveCoin(tCoin1.getCoin().toString());
 
         Assert.assertEquals(tCoin1.getInitialUser(), tCoin2.getInitialUser());
 
-        DatabaseFunctions.DeleteCoin(tCoin1.getCoin());
+        configuration.coinAdapter.DeleteCoin(tCoin1.getCoin());
 
-        tCoin2 = DatabaseFunctions.RetrieveCoin(tCoin1.getCoin().toString());
+        tCoin2 = configuration.coinAdapter.RetrieveCoin(tCoin1.getCoin().toString());
         Assert.assertEquals(tCoin2, null);
 
-        DatabaseFunctions.DeleteUser(user);
+        configuration.userAdapter.DeleteUser(user);
     }
 
     @Test
     public void transferScore() throws Exception {
         Configuration.Init();
+        Configuration configuration = Configuration.getConfig();
 
-        User user = DatabaseFunctions.RetrieveUser("tUser");
+        User user = configuration.userAdapter.RetrieveUser("tUser");
 
         if(user ==  null)
         {
-            user = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 30);
+            user = configuration.userAdapter.CreateUser("tUser", "tPass", "tRole", "team1", 30);
         }
         else
         {
             user.setScore(30);
-            DatabaseFunctions.UpdateUserScore(user);
+            configuration.userAdapter.UpdateUser(user);
         }
 
 
-        User user2 = DatabaseFunctions.RetrieveUser("tUser1");
+        User user2 = configuration.userAdapter.RetrieveUser("tUser1");
 
         if(user2 ==  null)
         {
-            user2 = DatabaseFunctions.CreateUser("tUser1", "tPass", "tRole", "team1", 20);
+            user2 = configuration.userAdapter.CreateUser("tUser1", "tPass", "tRole", "team1", 20);
         }
         else
         {
             user2.setScore(20);
-            DatabaseFunctions.UpdateUserScore(user2);
+            configuration.userAdapter.UpdateUser(user2);
         }
 
 
-        DatabaseFunctions.TransferScore(user, user2, 20);
-        user = DatabaseFunctions.RetrieveUser("tUser");
-        user2 = DatabaseFunctions.RetrieveUser("tUser1");
+        SupportingLogic.TransferScore(user, user2, 20);
+        user = configuration.userAdapter.RetrieveUser("tUser");
+        user2 = configuration.userAdapter.RetrieveUser("tUser1");
 
         Assert.assertTrue(user.getScore() == 10);
         Assert.assertTrue(user2.getScore() == 40);
 
-        DatabaseFunctions.TransferScore(user, user2, 20);
-        user = DatabaseFunctions.RetrieveUser("tUser");
-        user2 = DatabaseFunctions.RetrieveUser("tUser1");
+        SupportingLogic.TransferScore(user, user2, 20);
+        user = configuration.userAdapter.RetrieveUser("tUser");
+        user2 = configuration.userAdapter.RetrieveUser("tUser1");
 
         Assert.assertTrue(user.getScore() == 0);
         Assert.assertTrue(user2.getScore() == 50);
 
-        DatabaseFunctions.DeleteUser(user);
-        DatabaseFunctions.DeleteUser(user2);
+        configuration.userAdapter.DeleteUser(user);
+        configuration.userAdapter.DeleteUser(user2);
 
     }
 
@@ -123,24 +130,26 @@ public class DatabaseFunctionsTest {
     public void retrieveCoinsByUser() throws Exception
     {
         Configuration.Init();
-        Configuration.EasyConf();
+        Configuration.RegisterDrivers();
 
-        User user = DatabaseFunctions.RetrieveUser("tUser");
+        Configuration configuration = Configuration.getConfig();
+
+        User user = configuration.userAdapter.RetrieveUser("tUser");
 
         if(user ==  null)
         {
-            user = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 30);
+            user = configuration.userAdapter.CreateUser("tUser", "tPass", "tRole", "team1", 30);
         }
 
-        Coin coin1 = DatabaseFunctions.CreateCoin(user.getUserName());
-        Coin coin2 = DatabaseFunctions.CreateCoin(user.getUserName());
+        Coin coin1 = configuration.coinAdapter.CreateCoin(user.getUserName());
+        Coin coin2 = configuration.coinAdapter.CreateCoin(user.getUserName());
 
-        ArrayList<Coin> coins = DatabaseFunctions.RetrieveCoinsForUser(user);
+        ArrayList<Coin> coins = configuration.coinAdapter.RetrieveCoinsForUser(user);
 
         Assert.assertTrue(coins.contains(coin1));
         Assert.assertTrue(coins.contains(coin2));
 
-        DatabaseFunctions.DeleteUser(user);
+        configuration.userAdapter.DeleteUser(user);
     }
 
     @Test
@@ -149,15 +158,17 @@ public class DatabaseFunctionsTest {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
 
+        Configuration configuration = Configuration.getConfig();
+
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        Configuration.depositWindow = (hour + 1) % 24;
+        configuration.depositWindow = (hour + 1) % 24;
 
         Coin tCoin = new Coin();
-        assertFalse(DatabaseFunctions.DepositCoin(tCoin));
+        assertFalse(SupportingLogic.DepositCoin(tCoin));
 
-        Configuration.depositWindow = (hour);
+        configuration.depositWindow = (hour);
 
-        assertTrue(DatabaseFunctions.DepositCoin(tCoin));
+        assertTrue(SupportingLogic.DepositCoin(tCoin));
 
 
     }
@@ -166,13 +177,15 @@ public class DatabaseFunctionsTest {
     public void commitCoins() throws Exception
     {
         Configuration.Init();
-        Configuration.EasyConf();
+        Configuration.RegisterDrivers();
+
+        Configuration configuration = Configuration.getConfig();
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
 
         int hour = cal.get(Calendar.HOUR_OF_DAY);
-        Configuration.depositWindow = (hour);
+        configuration.depositWindow = (hour);
 
         ArrayList<User> users = new ArrayList<>();
 
@@ -181,7 +194,7 @@ public class DatabaseFunctionsTest {
             String role =  i % 2 == 0 ? Constants.USER_ROLE : Constants.TEAM_ROLE;
             String team = i < 2 ? "team1" : "team2";
 
-            users.add(DatabaseFunctions.CreateUser("tUser" + i, "tPass", role, team, 0));
+            users.add(configuration.userAdapter.CreateUser("tUser" + i, "tPass", role, team, 0));
         }
 
 
@@ -189,7 +202,7 @@ public class DatabaseFunctionsTest {
         int usrCount = users.toArray().length;
 
         for(int i = 0; i < usrCount; i++) {
-            coins.add(DatabaseFunctions.CreateCoin(users.get(i).getUserName()));
+            coins.add(configuration.coinAdapter.CreateCoin(users.get(i).getUserName()));
         }
 
 
@@ -203,17 +216,17 @@ public class DatabaseFunctionsTest {
                 nCoin.setInitialUser(coin.getInitialUser());
                 nCoin.setSubmitter(users.get(j).getUserName());
 
-                DatabaseFunctions.DepositCoin(nCoin);
+                SupportingLogic.DepositCoin(nCoin);
             }
 
         }
 
-        DatabaseFunctions.CommitCoins();
+        SupportingLogic.CommitCoins();
 
         for(int i = 0; i < usrCount; i++) {
             User cUser = users.get(i);
             users.remove(i);
-            cUser = DatabaseFunctions.RetrieveUser(cUser.getUserName());
+            cUser = configuration.userAdapter.RetrieveUser(cUser.getUserName());
 
             users.add(i, cUser);
         }
@@ -224,7 +237,7 @@ public class DatabaseFunctionsTest {
         assertEquals(users.get(3).getScore(), 1);
 
         for(int i = 0; i < usrCount; i++) {
-            DatabaseFunctions.DeleteUser(users.get(i));
+            configuration.userAdapter.DeleteUser(users.get(i));
         }
 
 
@@ -234,29 +247,35 @@ public class DatabaseFunctionsTest {
     public void makeUser() throws Exception
     {
         Configuration.Init();
-        Configuration.EasyConf();
+        Configuration.RegisterDrivers();
 
-        User tUser1 = DatabaseFunctions.CreateUser("tUser", "tPass", "tRole", "team1", 0);
+        Configuration configuration = Configuration.getConfig();
+
+        User tUser1 = configuration.userAdapter.CreateUser("tUser", "tPass", "tRole", "team1", 0);
     }
 
     @Test
     public void makeAdmin() throws Exception
     {
         Configuration.Init();
-        Configuration.EasyConf();
+        Configuration.RegisterDrivers();
 
-        User tUser1 = DatabaseFunctions.CreateUser("admin", "admin", "admin", "team1", 0);
+        Configuration configuration = Configuration.getConfig();
+
+        User tUser1 = configuration.userAdapter.CreateUser("admin", "admin", "admin", "team1", 0);
     }
 
     @Test
     public void fixAdmin() throws Exception {
         Configuration.Init();
-        Configuration.EasyConf();
+        Configuration.RegisterDrivers();
+
+        Configuration configuration = Configuration.getConfig();
 
         User user = new User("admin");
         user.setPassword("admin");
         user.setRole("admin");
 
-        DatabaseFunctions.UpdateUser(user);
+        configuration.userAdapter.UpdateUser(user);
     }
 }

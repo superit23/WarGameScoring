@@ -20,6 +20,7 @@ public class UserAPI {
 
     private static final String NOT_AUTHORIZED_TO_UPDATE = "Current user is not authorized to change %s. Please contact an administrator.";
 
+    static Configuration configuration = Configuration.getConfig();
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -28,7 +29,7 @@ public class UserAPI {
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");
 
-        User user = DatabaseFunctions.CreateUser(username, password, role, team, score);
+        User user = configuration.userAdapter.CreateUser(username, password, role, team, score);
         logger.info(subject.getPrincipal().toString() + " created user " + username);
 		return user;
 	}
@@ -47,7 +48,7 @@ public class UserAPI {
         }
 
 
-        User user = DatabaseFunctions.RetrieveUser(username);
+        User user = configuration.userAdapter.RetrieveUser(username);
         logger.info(subject.getPrincipal().toString() + " accessed user " + username);
 		return user;
 	}
@@ -67,7 +68,7 @@ public class UserAPI {
         if(isUser || subject.hasRole("admin"))
         {
             User user = new User(username);
-            User userFromDB = DatabaseFunctions.RetrieveUser(username);
+            User userFromDB = configuration.userAdapter.RetrieveUser(username);
 
             if(!subject.hasRole("admin")) {
                 if (role != null && !RESTHelper.CompareUncleanStrings(userFromDB.getRole(), role)) {
@@ -100,7 +101,7 @@ public class UserAPI {
             user.setPassword(password);
 
 
-            DatabaseFunctions.UpdateUser(user);
+            configuration.userAdapter.UpdateUser(user);
             logger.info(subUsername + " updated user " + username);
         }
         else
@@ -112,13 +113,12 @@ public class UserAPI {
 	
 	@DELETE
     @Consumes(MediaType.TEXT_PLAIN)
-    //@RequiresRoles("admin")
 	public void deleteUser(@HeaderParam("username") String username)
 	{
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");
 
-		DatabaseFunctions.DeleteUser(username);
+        configuration.userAdapter.DeleteUser(username);
         logger.info(subject.getPrincipal().toString() + " deleted user " + username);
 	}
 

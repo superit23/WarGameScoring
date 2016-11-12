@@ -29,9 +29,6 @@
     </servlet-mapping>
 
     <listener>
-        <listener-class>bb.rackmesa.wgsserver.StartupConfigListener</listener-class>
-    </listener>
-    <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
     </listener>
 
