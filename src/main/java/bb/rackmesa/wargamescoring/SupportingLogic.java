@@ -63,12 +63,14 @@ public class SupportingLogic {
             ArrayList<Coin> coins = coinsByUUID.get(cUUID);
 
             if(configuration.coinAdapter.RetrieveCoin(cUUID) != null) {
-                List<User> users = coins.stream().map(coin -> configuration.userAdapter.RetrieveUser(coin.getSubmitter())).collect(Collectors.toList());
+                List<User> users = coins.stream()
+                        .filter(coin -> coin.getSubmitter() != null)
+                        .map(coin -> configuration.userAdapter.RetrieveUser(coin.getSubmitter()))
+                        .filter(user -> user != null).collect(Collectors.toList());
 
                 logger.debug("Submitting users are: " + users.stream().map(user -> user.getUserName() + "\n").reduce((uname1, uname2) -> uname1 + uname2).get());
 
                 Coin coin = coins.get(0);
-                configuration.userAdapter.RetrieveUser(coin.getInitialUser());
 
                 logger.info("Running priority table on user collection.");
                 User user = configuration.priorityTable.prioritize(coin, users);

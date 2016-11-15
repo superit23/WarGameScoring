@@ -1,17 +1,17 @@
 package bb.rackmesa.wgsserver;
 
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.apache.logging.log4j.Logger;
 
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -64,15 +64,17 @@ public class LoginAPI {
 
 	@POST
 	@Path("/logout")
-	public void logout() {
-		Subject currSubject = SecurityUtils.getSubject();
+    public void logout() {
+        Subject currSubject = SecurityUtils.getSubject();
+
+        RESTHelper.checkAuth(currSubject);
+
         String username = currSubject.getPrincipal().toString();
 
-		if(currSubject.isAuthenticated()) {
-			currSubject.getSession().stop();
-			currSubject.logout();
-			logger.info(username + " has logged out");
-		}
-	}
+        currSubject.getSession().stop();
+        currSubject.logout();
+        logger.info(username + " has logged out");
+
+    }
 
 }

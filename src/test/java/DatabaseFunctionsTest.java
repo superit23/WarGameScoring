@@ -194,7 +194,7 @@ public class DatabaseFunctionsTest {
             String role =  i % 2 == 0 ? Constants.USER_ROLE : Constants.TEAM_ROLE;
             String team = i < 2 ? "team1" : "team2";
 
-            users.add(configuration.userAdapter.CreateUser("tUser" + i, "tPass", role, team, 0));
+            users.add(configuration.userAdapter.CreateUser("tUser10" + i, "tPass", role, team, 0));
         }
 
 
@@ -221,6 +221,25 @@ public class DatabaseFunctionsTest {
 
         }
 
+
+        // Submit coins for invalid users
+        Coin coin = coins.get(0);
+
+        Coin nCoin = new Coin(coin.getCoin().toString());
+        nCoin.setInitialUser(coin.getInitialUser());
+        nCoin.setSubmitter("ThisUserDoesntExist");
+
+        SupportingLogic.DepositCoin(nCoin);
+
+
+        Coin nCoin1 = new Coin(coin.getCoin().toString());
+        nCoin1.setInitialUser(coin.getInitialUser());
+        nCoin1.setSubmitter("null");
+
+        SupportingLogic.DepositCoin(nCoin1);
+
+
+
         SupportingLogic.CommitCoins();
 
         for(int i = 0; i < usrCount; i++) {
@@ -231,14 +250,14 @@ public class DatabaseFunctionsTest {
             users.add(i, cUser);
         }
 
-        assertEquals(users.get(0).getScore(), 0);
-        assertEquals(users.get(1).getScore(), 0);
-        assertEquals(users.get(2).getScore(), 3);
-        assertEquals(users.get(3).getScore(), 1);
-
         for(int i = 0; i < usrCount; i++) {
             configuration.userAdapter.DeleteUser(users.get(i));
         }
+
+        assertEquals(0, users.get(0).getScore());
+        assertEquals(0, users.get(1).getScore());
+        assertEquals(3, users.get(2).getScore());
+        assertEquals(1, users.get(3).getScore());
 
 
     }
