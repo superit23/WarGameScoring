@@ -1,6 +1,5 @@
 package bb.rackmesa.wargamescoring;
 
-import java.sql.DriverManager;
 import java.util.ArrayList;
 
 /**
@@ -12,11 +11,14 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
-        if(args[1] == "install")
-        {
-            DatabaseFunctions.CreateUsersTable();
-            DatabaseFunctions.CreateCoinsTable();
-            Configuration.getConfig().userAdapter.CreateUser("admin", "admin", "admin", "admin", 0);
+        for(int i = 1; i < args.length; i++) {
+            if (args[i] == "install") {
+                DatabaseFunctions.CreateUsersTable();
+                DatabaseFunctions.CreateCoinsTable();
+                Configuration.getConfig().userAdapter.CreateUser("admin", "admin", "admin", "admin", 0);
+
+                break;
+            }
         }
     }
 
