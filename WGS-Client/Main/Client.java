@@ -55,11 +55,11 @@ public class Client {
                         Commands.sendCoins();
                     break;
 
-                case "createAccount":
-                    if(commandsList.size() == 3)
-                        Commands.createAccount(commandsList.get(1), commandsList.get(2));
+                case "createUser":
+                    if(commandsList.size() == 6)
+                        Commands.createUser(commandsList.get(1), commandsList.get(2), commandsList.get(3), commandsList.get(4), Integer.parseInt(commandsList.get(5)));
                     else
-                        Commands.createAccount();
+                        Commands.createUser();
                     break;
 
                 case "deleteAccount":

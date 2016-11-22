@@ -1,6 +1,12 @@
 
 import bb.rackmesa.wargamescoring.User;
 import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.codehaus.jackson.map.ObjectMapper;
+
 
 import java.io.*;
 import java.util.Scanner;
@@ -10,6 +16,9 @@ import java.util.Scanner;
  */
 public class Commands {
 
+    private static String sessionVariable;
+
+    //TODO modify createAccount help to createUser
     public static void help(String command){
 
         switch (command){
@@ -142,14 +151,14 @@ public class Commands {
 
     }
 
-    //test with tomcat Server Check with whatever the hell dan is doing because user wont pass
+    //TODO
     public static String login(){
         String username;
         String password;
-        String sessionVariable = "";
         int attempt = 1;
         boolean loggedIn = false;
         Scanner scanner = new Scanner(System.in);
+
 
         System.out.print("Please enter your username: ");
         username = scanner.nextLine();
@@ -159,7 +168,18 @@ public class Commands {
         System.out.print("Please enter your password: ");
         password = scanner.nextLine();
 
-        //send username and password to server. Store success in loggedIn and sessionVariable in sessionVariable
+
+        try {
+            HttpClient httpClient = HttpClientBuilder.create().build();
+            HttpPost httpPost = new HttpPost("http://localhost:8080/auth/login");
+            httpPost.setHeader("username", username);
+            httpPost.setHeader("password", password);
+            HttpResponse response = httpClient.execute(httpPost);
+            System.out.println(response);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         while((attempt<3) && !loggedIn) {
             attempt++;
@@ -183,10 +203,14 @@ public class Commands {
         return sessionVariable;
     }
 
-    //test with tomcat Server
+    //TODO
     public static String login(String userName, String Password){
-        String sessionVariable = "";
+
+
         boolean loggedIn = false;
+
+        ObjectMapper mapper = new ObjectMapper();
+
 
         //send username and password to server. Store success in loggedIn and sessionVariable in sessionVariable
 
@@ -199,7 +223,12 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
+    //TODO create a logout method
+    public static void logout(){
+
+    }
+
+    //TODO
     public static void getCoins(String sessionVar){
         String fileName = "/";
         String coins = "";
@@ -221,7 +250,7 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
+    //TODO
     public static void getCoins(String sessionVar, String fileName){
         String coins = "";
         File file;
@@ -237,7 +266,7 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
+    //TODO
     public static void sendCoins(){
         int attempts = 1;
         String serverData = "";
@@ -276,7 +305,7 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
+    //TODO
     public static void sendCoins(String user, String fileLocation){
         File coinFile = new File(fileLocation);
         if(coinFile.exists()){
@@ -289,8 +318,8 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
-    public static void createAccount(){
+    //TODO
+    public static void createUser(){
         Scanner scanner = new Scanner(System.in);
         int unameAttempts = 1;
         int passAttempts =1;
@@ -341,8 +370,9 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
-    public static void createAccount(String username, String password){
+    //TODO
+    public static void createUser(String username, String password, String role, String team, int score){
+
         boolean usernameTaken;
         usernameTaken = true;
         if(!usernameTaken){
@@ -353,7 +383,7 @@ public class Commands {
         }
     }
 
-    //test with tomcat Server
+    //TODO
     public static void deleteAccount(String sessionVar){
         Scanner scanner = new Scanner(System.in);
         String username;
@@ -374,7 +404,7 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
+    //TODO
     public static void deleteAccount(String sessionVar, String userName){
         boolean deleted = false;//send sessionVar then send username
         if(deleted){
@@ -386,7 +416,7 @@ public class Commands {
         }
     }
 
-    //test with tomcat Server
+    //TODO
     public static void transferScore(String sessionVar){
         String account;
         boolean success = true;
@@ -409,7 +439,7 @@ public class Commands {
 
     }
 
-    //test with tomcat Servers
+    //TODO
     public static void transferScore(String sessionVar, String account, String amount){
         boolean success = true;
         //send sessionVar account and amount to server
@@ -422,14 +452,14 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
+    //TODO
     public static void getBalance(String sessionVar){
         String balance;
         balance = "test";//Retrieve from server
         System.out.println(balance);
     }
 
-    //test with tomcat Server
+    //TODO
     public static void changePassword(){
         String account;
         String currentPassword;
@@ -485,8 +515,7 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
-    //change so seesion and account and new pass not old
+    //TODO
     public static void changePassword(String account, String currentPassword, String newPassword){
         boolean updated = false;
         //return success in updated send account, currentPassword and newPassword to server
@@ -498,7 +527,7 @@ public class Commands {
         }
     }
 
-    //test with tomcat Server
+    //TODO
     public static void createCoin(String sessionVar){
         String initialUser;
         String amount;
@@ -522,7 +551,7 @@ public class Commands {
 
     }
 
-    //test with tomcat Server
+    //TODO
     public static void createCoin(String sessionVar, String initialUser, String amount){
         boolean updated = false;
         //send sessionVar, initialUser and amount to server save success in updated
@@ -535,7 +564,7 @@ public class Commands {
         }
     }
 
-    //Will only work from terminal
+    //TODO
     public static void clear(){
         String os = System.getProperty("os.name");
 
@@ -549,6 +578,11 @@ public class Commands {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //TODO
+    public static void passwordConfirm(){
+        System.out.println("");
     }
 
 }
