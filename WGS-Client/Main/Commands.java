@@ -151,7 +151,7 @@ public class Commands {
 
     }
 
-    //TODO
+    //TODO verify with login method
     public static String login(){
         String username;
         String password;

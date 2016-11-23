@@ -35,7 +35,6 @@ public class CoinDataAdapter implements ICoinDataAdapter {
         return null;
     }
 
-    //TODO  why does this method exist
     @Override
     public Coin RetrieveCoin(String uuid) {
         return null;
