@@ -20,7 +20,7 @@ public class User extends SimpleAccount {
 
     public User()
     {
-
+        super("", "", Configuration.WGS_REALM);
     }
 
     public User(String username)
