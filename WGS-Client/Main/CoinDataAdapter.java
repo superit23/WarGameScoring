@@ -16,17 +16,19 @@ import java.util.UUID;
  */
 public class CoinDataAdapter implements ICoinDataAdapter {
 
+    private String username = "username";
+    private String Cookie = "Cookie";
     private String sessionCookie;
-    private String url = "http://127.0.0.1/coin";
+    private String serverURL = "http://localhost:8080/WGS-Server/";
     private HttpClient client = HttpClientBuilder.create().build();
 
     //TODO test with server
     @Override
     public Coin CreateCoin(String initialUser) {
         try {
-            HttpPost post = new HttpPost(url);
-            post.setHeader("cookie", sessionCookie);
-            post.setHeader("username", initialUser);
+            HttpPost post = new HttpPost(serverURL + "coin");
+            post.setHeader(Cookie, sessionCookie);
+            post.setHeader(username, initialUser);
             HttpResponse response = client.execute(post);
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,8 +46,8 @@ public class CoinDataAdapter implements ICoinDataAdapter {
     @Override
     public ArrayList<Coin> RetrieveCoinsForUser(User user) {
         try {
-            HttpGet get = new HttpGet(url);
-            get.setHeader("cookie", sessionCookie);
+            HttpGet get = new HttpGet(serverURL + "coin");
+            get.setHeader(Cookie, sessionCookie);
             HttpResponse response = client.execute(get);
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,8 +59,8 @@ public class CoinDataAdapter implements ICoinDataAdapter {
     @Override
     public ArrayList<Coin> RetrieveCoinsForUser(String username) {
         try {
-            HttpGet get = new HttpGet(url);
-            get.setHeader("cookie", sessionCookie);
+            HttpGet get = new HttpGet(serverURL + "coin");
+            get.setHeader(Cookie, sessionCookie);
             HttpResponse response = client.execute(get);
         } catch (IOException e) {
             e.printStackTrace();

@@ -12,7 +12,6 @@ public class Client {
         boolean loop = true;
         Scanner scanner = new Scanner(System.in);
 
-
         System.out.println("Welcome to the client banking operations. Type help for assistance. ");
 
         while(loop){
@@ -31,9 +30,13 @@ public class Client {
 
                 case "login":
                     if(commandsList.size() == 3)
-                        sessionVariable = Commands.login(commandsList.get(1), commandsList.get(2));
+                        Commands.login(commandsList.get(1), commandsList.get(2));
                     else
-                        sessionVariable = Commands.login();
+                        Commands.login();
+                    break;
+
+                case "logout":
+                    Commands.logout();
                     break;
 
                 case "getCoins":
@@ -62,15 +65,11 @@ public class Client {
                         Commands.createUser();
                     break;
 
-                case "deleteAccount":
-                    if(!sessionVariable.isEmpty()){
-                        if(commandsList.size() == 2)
-                            Commands.deleteAccount(sessionVariable, commandsList.get(1));
-                        else
-                            Commands.deleteAccount(sessionVariable);
-                    }
+                case "deleteUser":
+                    if(commandsList.size() == 2)
+                        Commands.deleteUser(commandsList.get(1));
                     else
-                        System.out.println("Please login before using deleteAccount.");
+                        Commands.deleteUser();
                     break;
 
                 case "transferScore":
@@ -85,10 +84,12 @@ public class Client {
                     break;
 
                 case "getBalance":
-                    if(!sessionVariable.isEmpty())
-                        Commands.getBalance(sessionVariable);
-                    else
-                        System.out.println("Please login before using getBalance");
+                    if(commandsList.size() == 2){
+                        Commands.getBalance(commandsList.get(1));
+                    }
+                    else {
+                        Commands.getBalance();
+                    }
                     break;
 
                 case "changePassword":

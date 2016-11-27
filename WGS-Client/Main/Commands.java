@@ -1,14 +1,11 @@
 
 import bb.rackmesa.wargamescoring.User;
 import org.apache.commons.io.FileUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.codehaus.jackson.map.ObjectMapper;
 
 
 import java.io.*;
+import java.net.CookieHandler;
 import java.util.Scanner;
 
 /**
@@ -16,7 +13,8 @@ import java.util.Scanner;
  */
 public class Commands {
 
-    private static String sessionVariable;
+    private static UserDataAdapter userDataAdapter = new UserDataAdapter();
+    private static String serverURL = "http://localhost:8080/WGS-Server/";
 
     //TODO modify createAccount help to createUser
     public static void help(String command){
@@ -151,39 +149,20 @@ public class Commands {
 
     }
 
-    //TODO verify with login method
-    public static String login(){
+    public static void login(){
         String username;
         String password;
         int attempt = 1;
-        boolean loggedIn = false;
+        boolean loggedIn;
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("You will have 3 attempts to enter in your username and password");
 
-        System.out.print("Please enter your username: ");
-        username = scanner.nextLine();
+        do {
+            if(attempt > 1)
+                System.out.println("Incorrect username or password please try again");
 
-        //Console console = System.console();
-        //password = new String(console.readPassword("Please enter your password: "));
-        System.out.print("Please enter your password: ");
-        password = scanner.nextLine();
-
-
-        try {
-            HttpClient httpClient = HttpClientBuilder.create().build();
-            HttpPost httpPost = new HttpPost("http://localhost:8080/auth/login");
-            httpPost.setHeader("username", username);
-            httpPost.setHeader("password", password);
-            HttpResponse response = httpClient.execute(httpPost);
-            System.out.println(response);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        while((attempt<3) && !loggedIn) {
-            attempt++;
-            System.out.println("Incorrect username or password please try again");
+            System.out.println("Attempt " + attempt);
             System.out.print("Please enter your username: ");
             username = scanner.nextLine();
 
@@ -192,40 +171,31 @@ public class Commands {
             System.out.print("Please enter your password: ");
             password = scanner.nextLine();
 
-            //send username and password to server. Store success in loggedIn and sessionVariable in sessionVariable
-        }
+            loggedIn = userDataAdapter.login(username, password);
+            attempt++;
+        }while((attempt<3)&& !loggedIn);
 
         if(loggedIn)
             System.out.println("Welcome you are now logged in.");
         else
             System.out.println("You have failed to login 3 times. Please try again.");
 
-        return sessionVariable;
     }
 
-    //TODO
-    public static String login(String userName, String Password){
 
-
-        boolean loggedIn = false;
-
-        ObjectMapper mapper = new ObjectMapper();
-
-
-        //send username and password to server. Store success in loggedIn and sessionVariable in sessionVariable
+    public static void login(String username, String password){
+        boolean loggedIn;
+        loggedIn = userDataAdapter.login(username, password);
 
         if(loggedIn)
             System.out.println("Welcome you are now logged in.");
         else
             System.out.println("You have failed to login.");
-
-        return sessionVariable;
-
     }
 
-    //TODO create a logout method
     public static void logout(){
-
+        userDataAdapter.logout();
+        System.out.println("You have logged out.");
     }
 
     //TODO
@@ -318,102 +288,52 @@ public class Commands {
 
     }
 
-    //TODO
+    //TODO have a confrim or failure.
     public static void createUser(){
+        User user;
         Scanner scanner = new Scanner(System.in);
-        int unameAttempts = 1;
-        int passAttempts =1;
         String username;
         String password;
-        String confirmPassword;
-        boolean usernameTaken;
-        boolean samePassword = false;
+        String role;
+        String team;
+        int score;
+        boolean created;
 
         System.out.print("Please enter in a username to create: ");
         username = scanner.nextLine();
 
-        usernameTaken = false;//Send to Server and test
+        System.out.print("Please enter in a password: ");
+        password = scanner.nextLine();
 
-        while(!usernameTaken && unameAttempts<3){
-            unameAttempts++;
-            System.out.print("The username you have used is already in use. please enter in a different name: ");
-            username = scanner.nextLine();
-            usernameTaken = true;//send to Server and test
-        }
+        System.out.print("Please enter in a role for the user: ");
+        role = scanner.nextLine();
 
-        if(usernameTaken){
-            System.out.println("Three attempts have been made at choosing a username please try again.");
-        }
-        else {
-            System.out.print("Please Enter in a password: ");
-            password = scanner.nextLine();
-            System.out.print("Please confirm your password: ");
-            confirmPassword = scanner.nextLine();
+        System.out.print("Please enter in a team for the user: ");
+        team = scanner.nextLine();
 
-            while(!(password.equals(confirmPassword)) && (passAttempts<3) ){
-                passAttempts++;
-                System.out.println("The passwords entered do not match. Please try again.");
-                System.out.print("Please Enter in a password: ");
-                password = scanner.nextLine();
-                System.out.print("Please confirm your password: ");
-                confirmPassword = scanner.nextLine();
+        System.out.print("Please enter in a starting score as an integer: ");
+        score = Integer.parseInt(scanner.nextLine());
 
-            }
-
-            if(password.equals(confirmPassword)){
-                System.out.println("A new account has been create with the username of: " + username);
-            }
-            else{
-                System.out.println("Three attempts to create a password have failed. Please try again.");
-            }
-        }
+        userDataAdapter.CreateUser(username, password, role, team, score);
 
     }
 
     //TODO
     public static void createUser(String username, String password, String role, String team, int score){
-
-        boolean usernameTaken;
-        usernameTaken = true;
-        if(!usernameTaken){
-            System.out.println("Created new account for " + username);
-        }
-        else{
-            System.out.println("The username you have selected was already taken. Please try again.");
-        }
+        userDataAdapter.CreateUser(username, password, role, team, score);
     }
 
-    //TODO
-    public static void deleteAccount(String sessionVar){
+    public static void deleteUser(){
         Scanner scanner = new Scanner(System.in);
         String username;
-        boolean deleted;
-        deleted = false;
 
         System.out.println("Enter in a username to delete: ");
         username = scanner.nextLine();
-        //send sessionVar and username to server
-        if(deleted){
-            System.out.println("The account " + username + " was deleted.");
-        }
-        else{
-            System.out.println("The account " + username + " either does not exist or you do not have permission to\n" +
-                    "delete it. Please try again.");
-        }
-
-
+        userDataAdapter.DeleteUser(username);
     }
 
-    //TODO
-    public static void deleteAccount(String sessionVar, String userName){
-        boolean deleted = false;//send sessionVar then send username
-        if(deleted){
-            System.out.println("The users account was successfully deleted.");
-        }
-        else{
-            System.out.println("The user account was not deleted. You either do not have permission or have referred to \n" +
-                    "an account that dosen't exist. Please try again.");
-        }
+    public static void deleteUser(String userName){
+        userDataAdapter.DeleteUser(userName);
     }
 
     //TODO
@@ -452,11 +372,14 @@ public class Commands {
 
     }
 
+    //TODO create interactive method
+    public static void getBalance(){
+
+    }
+
     //TODO
-    public static void getBalance(String sessionVar){
-        String balance;
-        balance = "test";//Retrieve from server
-        System.out.println(balance);
+    public static void getBalance(String username){
+        userDataAdapter.RetrieveUser(username);
     }
 
     //TODO
