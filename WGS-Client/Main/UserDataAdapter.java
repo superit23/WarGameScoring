@@ -9,6 +9,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.io.IOException;
 import java.net.CookieHandler;
@@ -73,7 +76,6 @@ public class UserDataAdapter implements IUserDataAdapter {
     //TODO search user to see if they exist.
     @Override
     public User CreateUser(String username, String password, String role, String team, int score){
-        User user;
         try {
             HttpPost post = new HttpPost(serverURL + userPath);
             post.setHeader(Cookie, sessionCookie);
@@ -83,8 +85,6 @@ public class UserDataAdapter implements IUserDataAdapter {
             post.setHeader("team", team);
             post.setHeader("score", Integer.toString(score));
             HttpResponse response = client.execute(post);
-
-            user = RetrieveUser(username);
 
             if((response.getStatusLine().getStatusCode() == 200)){
                 System.out.println("The user was created.");
@@ -102,7 +102,6 @@ public class UserDataAdapter implements IUserDataAdapter {
     @Override
     public User RetrieveUser(String username) {
         User user = null;
-        ObjectMapper mapper = new ObjectMapper();
         try {
             HttpGet get = new HttpGet(serverURL + userPath);
             get.setHeader(Cookie, sessionCookie);
@@ -111,12 +110,17 @@ public class UserDataAdapter implements IUserDataAdapter {
 
             if(response.getStatusLine().getStatusCode() == 200){
                 String json = IOUtils.toString(response.getEntity().getContent());
-                //user = mapper.readValue(json, User.class);
 
-                System.out.println(json);
+                JSONParser parser = new JSONParser();
+                Object obj = parser.parse(json);
+                JSONObject jsonObject = (JSONObject)obj;
+                user.setUserName(jsonObject.get("userName").toString());
+                user.setScore(Integer.parseInt(jsonObject.get("score").toString()));
+                user.setTeam(jsonObject.get("team").toString());
+                user.setRole(jsonObject.get("role").toString());
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

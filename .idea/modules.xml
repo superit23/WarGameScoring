@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/WGS-Main/WGS-Main.iml" filepath="$PROJECT_DIR$/WGS-Main/WGS-Main.iml" />
       <module fileurl="file://$PROJECT_DIR$/WGS-Server/WGS-Server.iml" filepath="$PROJECT_DIR$/WGS-Server/WGS-Server.iml" />
       <module fileurl="file://$PROJECT_DIR$/WarGameScoring.iml" filepath="$PROJECT_DIR$/WarGameScoring.iml" />
+      <module fileurl="file://$USER_HOME$/Downloads/json Simple/json-simple-tag_release_1_1_1/src/main/main.iml" filepath="$USER_HOME$/Downloads/json Simple/json-simple-tag_release_1_1_1/src/main/main.iml" />
     </modules>
   </component>
 </project>

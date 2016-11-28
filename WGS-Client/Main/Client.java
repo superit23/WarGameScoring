@@ -1,4 +1,6 @@
 
+import bb.rackmesa.wargamescoring.Configuration;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -8,6 +10,15 @@ import java.util.Scanner;
  */
 public class Client {
     public static void main(String[] args){
+
+        try{
+            Configuration.Init();
+            Configuration.RegisterDrivers();
+        }
+        catch(Exception ex){
+
+        }
+
         String sessionVariable = "";
         boolean loop = true;
         Scanner scanner = new Scanner(System.in);
