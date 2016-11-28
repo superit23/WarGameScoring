@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Dan on 9/20/2016.
  */
@@ -164,11 +162,11 @@ public class DatabaseFunctionsTest {
         configuration.depositWindow = (hour + 1) % 24;
 
         Coin tCoin = new Coin();
-        assertFalse(SupportingLogic.DepositCoin(tCoin));
+        Assert.assertFalse(SupportingLogic.DepositCoin(tCoin));
 
         configuration.depositWindow = (hour);
 
-        assertTrue(SupportingLogic.DepositCoin(tCoin));
+        Assert.assertTrue(SupportingLogic.DepositCoin(tCoin));
 
 
     }
@@ -254,10 +252,10 @@ public class DatabaseFunctionsTest {
             configuration.userAdapter.DeleteUser(users.get(i));
         }
 
-        assertEquals(0, users.get(0).getScore());
-        assertEquals(0, users.get(1).getScore());
-        assertEquals(3, users.get(2).getScore());
-        assertEquals(1, users.get(3).getScore());
+        Assert.assertEquals(0, users.get(0).getScore());
+        Assert.assertEquals(0, users.get(1).getScore());
+        Assert.assertEquals(3, users.get(2).getScore());
+        Assert.assertEquals(1, users.get(3).getScore());
 
 
     }

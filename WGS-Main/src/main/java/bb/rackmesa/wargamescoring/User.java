@@ -1,13 +1,12 @@
 package bb.rackmesa.wargamescoring;
 
-import java.util.Collection;
-
 import org.apache.shiro.authc.SimpleAccount;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.util.ByteSource;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Collection;
 import java.util.HashSet;
 
 /**
@@ -20,21 +19,21 @@ public class User extends SimpleAccount {
 
     public User()
     {
-        super("", "", Configuration.WGS_REALM);
+        super("", "", Constants.WGS_REALM);
     }
 
     public User(String username)
     {
-        super(username, "", Configuration.WGS_REALM, null, null);
+        super(username, "", Constants.WGS_REALM, null, null);
     }
 
     public String getUserName() {
-        return getPrincipals().fromRealm(Configuration.WGS_REALM).iterator().next().toString();
+        return getPrincipals().fromRealm(Constants.WGS_REALM).iterator().next().toString();
     }
 
     public void setUserName(String userName) {
-        getPrincipals().fromRealm(Configuration.WGS_REALM).remove(getUserName());
-        getPrincipals().fromRealm(Configuration.WGS_REALM).add(userName);
+        getPrincipals().fromRealm(Constants.WGS_REALM).remove(getUserName());
+        getPrincipals().fromRealm(Constants.WGS_REALM).add(userName);
     }
 
     public String getTeam() {

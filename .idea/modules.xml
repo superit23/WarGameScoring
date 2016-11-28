@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WGS-Client/WGS-Client.iml" filepath="$PROJECT_DIR$/WGS-Client/WGS-Client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WGS-Main/WGS-Main.iml" filepath="$PROJECT_DIR$/WGS-Main/WGS-Main.iml" />
       <module fileurl="file://$PROJECT_DIR$/WGS-Server/WGS-Server.iml" filepath="$PROJECT_DIR$/WGS-Server/WGS-Server.iml" />
       <module fileurl="file://$PROJECT_DIR$/WarGameScoring.iml" filepath="$PROJECT_DIR$/WarGameScoring.iml" />
     </modules>

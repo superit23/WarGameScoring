@@ -24,6 +24,7 @@
     <modules>
         <module>WGS-Server</module>
         <module>WGS-Client</module>
+        <module>WGSMain</module>
     </modules>
 
 </project>

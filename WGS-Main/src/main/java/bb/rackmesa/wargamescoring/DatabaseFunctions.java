@@ -1,17 +1,9 @@
 package bb.rackmesa.wargamescoring;
 
-import org.apache.shiro.codec.Base64;
-import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
-import java.util.*;
-import java.util.Date;
-import java.util.stream.Collectors;
 
 /**
  * Created by Dan on 9/8/2016.

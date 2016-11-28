@@ -1,6 +1,5 @@
 package bb.rackmesa.wargamescoring;
 
-import java.sql.Driver;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.config.Ini;
 import org.apache.shiro.config.IniSecurityManagerFactory;
@@ -8,6 +7,7 @@ import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.util.Factory;
 
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -17,7 +17,7 @@ import java.sql.SQLException;
  */
 public class Configuration {
 
-    public static final String WGS_REALM = "wgs";
+
     public int depositWindow = 19;
 
     public IPriorityTable priorityTable = new WorstPriorityTable();

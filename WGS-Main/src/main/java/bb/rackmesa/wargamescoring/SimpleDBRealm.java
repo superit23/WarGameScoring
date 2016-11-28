@@ -39,7 +39,7 @@ public class SimpleDBRealm extends JdbcRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String username = principals.fromRealm(Configuration.WGS_REALM).iterator().next().toString();
+        String username = principals.fromRealm(Constants.WGS_REALM).iterator().next().toString();
         return Configuration.getConfig().userAdapter.RetrieveUser(username);
 
     }
