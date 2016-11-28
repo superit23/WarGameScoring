@@ -84,7 +84,7 @@ public class DatabaseFunctions {
                     logger.error(connEx.getMessage());
                 }
 
-                throw new SQLException(ex.getMessage(), ex.getSQLState(), ex.getCause());
+                throw ex;
 
             }
 
