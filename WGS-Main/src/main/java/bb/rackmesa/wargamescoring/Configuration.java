@@ -34,13 +34,13 @@ public class Configuration {
 
     public Configuration()
     {
-        try{
-            jdbcDriver = new com.mysql.cj.jdbc.Driver();
-        }
-        catch (SQLException ex)
-        {
-            jdbcDriver = null;
-        }
+//        try{
+//            jdbcDriver = new com.mysql.cj.jdbc.Driver();
+//        }
+//        catch (SQLException ex)
+//        {
+//            jdbcDriver = null;
+//        }
     }
 
     public static void Init()
