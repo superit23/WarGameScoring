@@ -2,6 +2,7 @@ package bb.rackmesa.wargamescoring;
 
 import org.apache.shiro.authc.SimpleAccount;
 import org.apache.shiro.codec.Base64;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import java.security.NoSuchAlgorithmException;
@@ -32,9 +33,8 @@ public class User extends SimpleAccount {
         return getPrincipals().fromRealm(Constants.WGS_REALM).iterator().next().toString();
     }
 
-    public void setUserName(String userName) {
-        getPrincipals().fromRealm(Constants.WGS_REALM).remove(getUserName());
-        getPrincipals().fromRealm(Constants.WGS_REALM).add(userName);
+    public void setUserName(String username) {
+        setPrincipals(new SimplePrincipalCollection(username, Constants.WGS_REALM));
     }
 
     public String getTeam() {

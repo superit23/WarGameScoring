@@ -19,6 +19,8 @@ public class DatabaseFunctionsTest {
 
         Configuration configuration = Configuration.getConfig();
 
+        configuration.userAdapter.DeleteUser("tUser10");
+
         User tUser1 = configuration.userAdapter.CreateUser("tUser10", "tPass", "tRole", "team1", 0);
         User tUser2 = configuration.userAdapter.RetrieveUser(tUser1.getUserName());
 
@@ -30,12 +32,16 @@ public class DatabaseFunctionsTest {
         Assert.assertEquals(tUser1.getTeam(), tUser2.getTeam());
 
         tUser1.setPassword("NEWPASSBOIS");
+
         configuration.userAdapter.UpdateUser(tUser1);
         tUser2 = configuration.userAdapter.RetrieveUser(tUser1.getUserName());
         Assert.assertEquals(tUser1.getPassword(), tUser2.getPassword());
 
 
         tUser1.setScore(10);
+        tUser1.setUserName("tUser100");
+        Assert.assertTrue(tUser1.getUserName().equals("tUser100"));
+
         configuration.userAdapter.UpdateUser(tUser1);
         tUser2 = configuration.userAdapter.RetrieveUser(tUser1.getUserName());
         Assert.assertEquals(tUser1.getScore(), tUser2.getScore());
