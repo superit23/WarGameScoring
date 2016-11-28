@@ -16,6 +16,7 @@ public class User extends SimpleAccount {
     //private String role;
     private int score;
     private String team;
+    private String password;
 
     public User()
     {
