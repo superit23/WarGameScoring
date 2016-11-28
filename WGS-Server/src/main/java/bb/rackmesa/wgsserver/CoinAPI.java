@@ -1,15 +1,17 @@
 package bb.rackmesa.wgsserver;
 
+import bb.rackmesa.wargamescoring.Coin;
+import bb.rackmesa.wargamescoring.Configuration;
+import bb.rackmesa.wargamescoring.SupportingLogic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.UUID;
-import bb.rackmesa.wargamescoring.*;
-import org.apache.shiro.subject.Subject;
 
 
 @Path("/coin")
@@ -21,7 +23,7 @@ public class CoinAPI {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Coin createCoin(@HeaderParam("username") String username) throws IllegalArgumentException
+	public Coin createCoin(@HeaderParam("username") String username) throws Exception
 	{
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");
@@ -53,7 +55,7 @@ public class CoinAPI {
 	}
 	
 	@DELETE
-	public void deleteCoin(@HeaderParam("uuid") String uuid)
+	public void deleteCoin(@HeaderParam("uuid") String uuid) throws Exception
 	{
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");

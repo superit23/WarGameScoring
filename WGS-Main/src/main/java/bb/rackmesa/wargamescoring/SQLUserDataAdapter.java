@@ -5,8 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.util.ByteSource;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -17,7 +15,7 @@ public class SQLUserDataAdapter implements IUserDataAdapter {
 
     static Logger logger = LogManager.getLogger();
 
-    public User CreateUser(String username, String password, String role, String team, int score) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public User CreateUser(String username, String password, String role, String team, int score) throws SQLException {
 
         User newUser = new User(username);
         newUser.setPassword(password);
@@ -56,25 +54,25 @@ public class SQLUserDataAdapter implements IUserDataAdapter {
 
     }
 
-    public void UpdateUserScore(User user) {
+    public void UpdateUserScore(User user) throws SQLException {
         DatabaseFunctions.Insert("UPDATE users SET score = ? WHERE userName = ?;", new Object[]{user.getScore(), user.getUserName()});
     }
 
-    public void UpdateUserPassword(User user) {
+    public void UpdateUserPassword(User user) throws SQLException {
         DatabaseFunctions.Insert("UPDATE users SET password = ?, salt = ? WHERE userName = ?;", new Object[]{user.getPassword(), user.getCredentialsSalt().toBase64(), user.getUserName()});
     }
 
-    public void UpdateUser(User user)
+    public void UpdateUser(User user) throws Exception
     {
         DatabaseFunctions.Insert("UPDATE users SET password = ?, salt = ?, score = ?, role = ?, team = ? WHERE userName = ?;", new Object[]{user.getPassword(), user.getCredentialsSalt().toBase64(), user.getScore(), user.getRole(), user.getTeam(), user.getUserName()});
     }
 
 
-    public void DeleteUser(User user)  {
+    public void DeleteUser(User user) throws SQLException  {
         DeleteUser(user.getUserName());
     }
 
-    public void DeleteUser(String username)
+    public void DeleteUser(String username) throws SQLException
     {
         DatabaseFunctions.Insert("DELETE FROM users WHERE userName = ?;", new Object[]{username});
     }

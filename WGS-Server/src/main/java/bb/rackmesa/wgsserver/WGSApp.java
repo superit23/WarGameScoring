@@ -1,11 +1,11 @@
 package bb.rackmesa.wgsserver;
 
 import bb.rackmesa.wargamescoring.Configuration;
-import bb.rackmesa.wargamescoring.DatabaseFunctions;
 import bb.rackmesa.wargamescoring.SupportingLogic;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -18,7 +18,10 @@ import java.util.concurrent.TimeUnit;
  * Created by Dan on 10/31/2016.
  */
 public class WGSApp extends ResourceConfig {
-    public WGSApp() throws SQLException
+
+    private static Logger logger = LogManager.getLogger();
+
+    public WGSApp() throws Exception
     {
         register(org.glassfish.jersey.jackson.JacksonFeature.class);
 
@@ -40,7 +43,16 @@ public class WGSApp extends ResourceConfig {
         long initalDelay = duration.getSeconds();
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(() -> SupportingLogic.CommitCoins(), initalDelay, 24*60*60, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(()-> {
+            try {
+                SupportingLogic.CommitCoins();
+            }
+            catch (Exception ex)
+            {
+                logger.error(ex.getMessage());
+            }
+
+        }, initalDelay, 24*60*60, TimeUnit.SECONDS);
     }
 
 

@@ -45,7 +45,7 @@ public class DatabaseFunctions {
         return Retrieve(query, params, -1);
     }
 
-    public static ResultSet Insert(String query, Object[] params)
+    public static ResultSet Insert(String query, Object[] params) throws SQLException
     {
         Connection conn = null;
         try {
@@ -84,6 +84,8 @@ public class DatabaseFunctions {
                     logger.error(connEx.getMessage());
                 }
 
+                throw new SQLException(ex.getMessage(), ex.getSQLState(), ex.getCause());
+
             }
 
             return null;
@@ -91,7 +93,7 @@ public class DatabaseFunctions {
     }
 
 
-    public static void CreateUsersTable()
+    public static void CreateUsersTable() throws SQLException
     {
         Insert("CREATE TABLE `users` (\n" +
                 "  `userName` varchar(20) NOT NULL,\n" +
@@ -103,7 +105,7 @@ public class DatabaseFunctions {
                 "  PRIMARY KEY (`userName`)", null);
     }
 
-    public static void CreateCoinsTable()
+    public static void CreateCoinsTable() throws SQLException
     {
         Insert(" CREATE TABLE `coins` (\n" +
                 "  `uuid` varchar(36) NOT NULL,\n" +

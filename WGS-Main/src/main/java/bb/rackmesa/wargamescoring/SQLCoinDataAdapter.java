@@ -15,7 +15,7 @@ public class SQLCoinDataAdapter implements ICoinDataAdapter {
 
     static Logger logger = LogManager.getLogger();
 
-    public Coin CreateCoin(String initialUser) {
+    public Coin CreateCoin(String initialUser) throws SQLException {
         Coin newCoin = new Coin();
         newCoin.setInitialUser(initialUser);
 
@@ -70,7 +70,7 @@ public class SQLCoinDataAdapter implements ICoinDataAdapter {
         }
     }
 
-    public void DeleteCoin(UUID id) {
+    public void DeleteCoin(UUID id) throws SQLException {
         DatabaseFunctions.Insert("DELETE FROM coins WHERE uuid = ?;", new Object[]{id.toString()});
 
     }

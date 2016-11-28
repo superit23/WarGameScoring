@@ -1,16 +1,14 @@
 package bb.rackmesa.wgsserver;
 
+import bb.rackmesa.wargamescoring.Configuration;
+import bb.rackmesa.wargamescoring.User;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.subject.Subject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import bb.rackmesa.wargamescoring.*;
-
-import java.io.UnsupportedEncodingException;
 
 
 @Path("/user")
@@ -56,7 +54,7 @@ public class UserAPI {
 	
 	@PUT
     @Consumes(MediaType.TEXT_PLAIN)
-	public void updateUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("role") String role, @HeaderParam("team") String team, @HeaderParam("score") int score)
+	public void updateUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("role") String role, @HeaderParam("team") String team, @HeaderParam("score") int score) throws Exception
 	{
         Subject subject = SecurityUtils.getSubject();
         String subUsername = subject.getPrincipal().toString();
@@ -113,7 +111,7 @@ public class UserAPI {
 	
 	@DELETE
     @Consumes(MediaType.TEXT_PLAIN)
-	public void deleteUser(@HeaderParam("username") String username)
+	public void deleteUser(@HeaderParam("username") String username) throws Exception
 	{
         Subject subject = SecurityUtils.getSubject();
         subject.checkRole("admin");

@@ -14,7 +14,7 @@ public class SupportingLogic {
     static Logger logger = LogManager.getLogger();
     static Configuration configuration = Configuration.getConfig();
 
-    public static void TransferScore(User sender, User receiver, int score)
+    public static void TransferScore(User sender, User receiver, int score) throws Exception
     {
         if(score > 0 && sender.getScore() > 0) {
             int modScore = score > sender.getScore() ? sender.getScore() : score;
@@ -42,7 +42,7 @@ public class SupportingLogic {
         return false;
     }
 
-    public static void CommitCoins()
+    public static void CommitCoins() throws Exception
     {
         logger.info("Starting commit.");
         HashMap<String, ArrayList<Coin>> coinsByUUID = new HashMap<>();

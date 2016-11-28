@@ -8,7 +8,7 @@ import java.util.UUID;
  */
 public interface ICoinDataAdapter {
 
-    Coin CreateCoin(String initialUser);
+    Coin CreateCoin(String initialUser) throws Exception;
 
      Coin RetrieveCoin(String uuid);
 
@@ -16,5 +16,5 @@ public interface ICoinDataAdapter {
 
      ArrayList<Coin> RetrieveCoinsForUser(String username);
 
-    void DeleteCoin(UUID id);
+    void DeleteCoin(UUID id) throws Exception;
 }

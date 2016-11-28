@@ -8,11 +8,11 @@ public interface IUserDataAdapter {
 
     User RetrieveUser(String username);
 
-    void UpdateUser(User user);
+    void UpdateUser(User user) throws Exception;
 
-    void DeleteUser(User user);
+    void DeleteUser(User user) throws Exception;
 
-    void DeleteUser(String username);
+    void DeleteUser(String username) throws Exception;
 
 
 
