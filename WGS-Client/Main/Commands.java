@@ -288,7 +288,6 @@ public class Commands {
 
     }
 
-    //TODO have a confrim or failure.
     public static void createUser(){
         User user;
         Scanner scanner = new Scanner(System.in);
@@ -318,7 +317,6 @@ public class Commands {
 
     }
 
-    //TODO
     public static void createUser(String username, String password, String role, String team, int score){
         userDataAdapter.CreateUser(username, password, role, team, score);
     }
@@ -379,7 +377,9 @@ public class Commands {
 
     //TODO
     public static void getBalance(String username){
-        userDataAdapter.RetrieveUser(username);
+        User userAccount = userDataAdapter.RetrieveUser(username);
+
+        System.out.println(userAccount.getScore());
     }
 
     //TODO

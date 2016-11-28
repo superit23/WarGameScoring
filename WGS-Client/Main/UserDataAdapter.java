@@ -73,7 +73,6 @@ public class UserDataAdapter implements IUserDataAdapter {
 
     }
 
-    //TODO search user to see if they exist.
     @Override
     public User CreateUser(String username, String password, String role, String team, int score){
         try {
@@ -98,7 +97,7 @@ public class UserDataAdapter implements IUserDataAdapter {
         return null;
     }
 
-    //TODO
+    //TODO fix method
     @Override
     public User RetrieveUser(String username) {
         User user = null;
@@ -110,7 +109,6 @@ public class UserDataAdapter implements IUserDataAdapter {
 
             if(response.getStatusLine().getStatusCode() == 200){
                 String json = IOUtils.toString(response.getEntity().getContent());
-
                 JSONParser parser = new JSONParser();
                 Object obj = parser.parse(json);
                 JSONObject jsonObject = (JSONObject)obj;
