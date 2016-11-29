@@ -42,8 +42,8 @@ public class UserDataAdapter implements IUserDataAdapter {
         this.sessionCookie = sessionCookie;
     }
 
-    public boolean login(String username, String password){
-        boolean login =false;
+    public String login(String username, String password){
+        String sessionCookie = null;
         try {
             CookieHandler.setDefault(new CookieManager());
             HttpPost httpPost = new HttpPost( serverURL + auth + "login");
@@ -53,18 +53,19 @@ public class UserDataAdapter implements IUserDataAdapter {
 
             if(response.getStatusLine().getStatusCode() == 200){
                 sessionCookie = response.getFirstHeader("Set-Cookie").toString().substring(12);
-                login = true;
+
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return login;
+        return sessionCookie;
     }
 
     public void logout(){
         try {
             HttpPost httpPost = new HttpPost(serverURL + auth + "logout");
+            httpPost.setHeader(Cookie, sessionCookie);
             HttpResponse response = client.execute(httpPost);
             if(response.getStatusLine().getStatusCode() == 204){
                 System.out.println("You have logged out");

@@ -19,6 +19,7 @@ public class Client {
 
         }
 
+        Commands commands = new Commands();
         Scanner scanner = new Scanner(System.in);
         String sessionVariable = "";
         boolean loop = true;
@@ -35,28 +36,28 @@ public class Client {
 
                 case "help":
                     if(commandsList.size() == 2)
-                        Commands.help(commandsList.get(1));
+                        commands.help(commandsList.get(1));
                     else
-                        Commands.help("");
+                        commands.help("");
                     break;
 
                 case "login":
                     if(commandsList.size() == 3)
-                        Commands.login(commandsList.get(1), commandsList.get(2));
+                        commands.login(commandsList.get(1), commandsList.get(2));
                     else
-                        Commands.login();
+                        commands.login();
                     break;
 
                 case "logout":
-                    Commands.logout();
+                    commands.logout();
                     break;
 
                 case "getCoins":
                     if(!sessionVariable.isEmpty()){
                         if(commandsList.size() == 2)
-                            Commands.getCoins(sessionVariable, commandsList.get(1));
+                            commands.getCoins(sessionVariable, commandsList.get(1));
                         else
-                            Commands.getCoins(sessionVariable);
+                            commands.getCoins(sessionVariable);
                     }
                     else{
                         System.out.println("Please Login before getting Coins.");
@@ -65,31 +66,31 @@ public class Client {
 
                 case "sendCoins":
                     if(commandsList.size() == 3)
-                        Commands.sendCoins(commandsList.get(1), commandsList.get(2));
+                        commands.sendCoins(commandsList.get(1), commandsList.get(2));
                     else
-                        Commands.sendCoins();
+                        commands.sendCoins();
                     break;
 
                 case "createUser":
                     if(commandsList.size() == 6)
-                        Commands.createUser(commandsList.get(1), commandsList.get(2), commandsList.get(3), commandsList.get(4), Integer.parseInt(commandsList.get(5)));
+                        commands.createUser(commandsList.get(1), commandsList.get(2), commandsList.get(3), commandsList.get(4), Integer.parseInt(commandsList.get(5)));
                     else
-                        Commands.createUser();
+                        commands.createUser();
                     break;
 
                 case "deleteUser":
                     if(commandsList.size() == 2)
-                        Commands.deleteUser(commandsList.get(1));
+                        commands.deleteUser(commandsList.get(1));
                     else
-                        Commands.deleteUser();
+                        commands.deleteUser();
                     break;
 
                 case "transferScore":
                     if(!sessionVariable.isEmpty()){
                         if(commandsList.size() == 3)
-                            Commands.transferScore(sessionVariable, commandsList.get(1), commandsList.get(2));
+                            commands.transferScore(sessionVariable, commandsList.get(1), commandsList.get(2));
                         else
-                            Commands.transferScore(sessionVariable);
+                            commands.transferScore(sessionVariable);
                     }
                     else
                         System.out.println("Please login before using transferScore.");
@@ -97,29 +98,29 @@ public class Client {
 
                 case "getBalance":
                     if(commandsList.size() == 2){
-                        Commands.getBalance(commandsList.get(1));
+                        commands.getBalance(commandsList.get(1));
                     }
                     else {
-                        Commands.getBalance();
+                        commands.getBalance();
                     }
                     break;
 
                 case "changePassword":
                     if(commandsList.size() == 3)
-                        Commands.changePassword(commandsList.get(1), commandsList.get(2));
+                        commands.changePassword(commandsList.get(1), commandsList.get(2));
                     else
-                        Commands.changePassword();
+                        commands.changePassword();
                     break;
 
                 case "createCoin":
                     if(commandsList.size() == 2)
-                        Commands.createCoin(sessionVariable, commandsList.get(1), commandsList.get(2));
+                        commands.createCoin(sessionVariable, commandsList.get(1), commandsList.get(2));
                     else
-                        Commands.createCoin(sessionVariable);
+                        commands.createCoin(sessionVariable);
                     break;
 
                 case "clear":
-                    Commands.clear();
+                    commands.clear();
                     break;
 
                 case "exit":

@@ -11,11 +11,15 @@ import java.util.Scanner;
  */
 public class Commands {
 
-    private static UserDataAdapter userDataAdapter = new UserDataAdapter();
-    private static String serverURL = "http://localhost:8080/WGS-Server/";
+    private String cookie;
+    private String serverURL = "http://localhost:8080/WGS-Server/";
+
+    public Commands(){
+
+    }
 
     //TODO modify createAccount help to createUser
-    public static void help(String command){
+    public void help(String command){
 
         switch (command){
 
@@ -147,11 +151,14 @@ public class Commands {
 
     }
 
-    public static void login(){
+
+    public void login(){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
         String username;
         String password;
         int attempt = 1;
         boolean loggedIn;
+        cookie = null;
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("You will have 3 attempts to enter in your username and password");
@@ -169,11 +176,11 @@ public class Commands {
             System.out.print("Please enter your password: ");
             password = scanner.nextLine();
 
-            loggedIn = userDataAdapter.login(username, password);
+            cookie = userDataAdapter.login(username, password);
             attempt++;
-        }while((attempt<3)&& !loggedIn);
+        }while((attempt<=3)&& (cookie != null));
 
-        if(loggedIn)
+        if((cookie != null))
             System.out.println("Welcome you are now logged in.");
         else
             System.out.println("You have failed to login 3 times. Please try again.");
@@ -181,22 +188,24 @@ public class Commands {
     }
 
 
-    public static void login(String username, String password){
-        boolean loggedIn;
-        loggedIn = userDataAdapter.login(username, password);
+    public void login(String username, String password){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        cookie = userDataAdapter.login(username, password);
 
-        if(loggedIn)
+        if(cookie != null)
             System.out.println("Welcome you are now logged in.");
         else
             System.out.println("You have failed to login.");
     }
 
-    public static void logout(){
+    public void logout(){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
         userDataAdapter.logout();
     }
 
     //TODO
-    public static void getCoins(String sessionVar){
+    public void getCoins(String sessionVar){
         String fileName = "/";
         String coins = "";
         File file;
@@ -218,7 +227,7 @@ public class Commands {
     }
 
     //TODO
-    public static void getCoins(String sessionVar, String fileName){
+    public void getCoins(String sessionVar, String fileName){
         String coins = "";
         File file;
         //send SessionVariable and place stuff in coins string
@@ -234,7 +243,7 @@ public class Commands {
     }
 
     //TODO
-    public static void sendCoins(){
+    public void sendCoins(){
         int attempts = 1;
         String serverData = "";
         String fileLocation = "";
@@ -273,7 +282,7 @@ public class Commands {
     }
 
     //TODO
-    public static void sendCoins(String user, String fileLocation){
+    public void sendCoins(String user, String fileLocation){
         File coinFile = new File(fileLocation);
         if(coinFile.exists()){
             System.out.println("CoinFile in question has sent.");
@@ -285,7 +294,9 @@ public class Commands {
 
     }
 
-    public static void createUser(){
+    public void createUser(){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
         User user;
         Scanner scanner = new Scanner(System.in);
         String username;
@@ -314,11 +325,15 @@ public class Commands {
 
     }
 
-    public static void createUser(String username, String password, String role, String team, int score){
+    public void createUser(String username, String password, String role, String team, int score){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
         userDataAdapter.CreateUser(username, password, role, team, score);
     }
 
-    public static void deleteUser(){
+    public void deleteUser(){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
         Scanner scanner = new Scanner(System.in);
         String username;
 
@@ -327,12 +342,14 @@ public class Commands {
         userDataAdapter.DeleteUser(username);
     }
 
-    public static void deleteUser(String userName){
+    public void deleteUser(String userName){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
         userDataAdapter.DeleteUser(userName);
     }
 
     //TODO
-    public static void transferScore(String sessionVar){
+    public void transferScore(String sessionVar){
         String account;
         boolean success = true;
         String amount;
@@ -355,7 +372,7 @@ public class Commands {
     }
 
     //TODO
-    public static void transferScore(String sessionVar, String account, String amount){
+    public void transferScore(String sessionVar, String account, String amount){
         boolean success = true;
         //send sessionVar account and amount to server
         if(success){
@@ -368,11 +385,13 @@ public class Commands {
     }
 
     //TODO create interactive method
-    public static void getBalance(){
+    public void getBalance(){
 
     }
 
-    public static void getBalance(String username){
+    public void getBalance(String username){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
         User userAccount = userDataAdapter.RetrieveUser(username);
         if(!(userAccount == null))
             System.out.println(username + " current Score is " + userAccount.getScore());
@@ -381,12 +400,14 @@ public class Commands {
     }
 
     //TODO
-    public static void changePassword(){
+    public void changePassword(){
 
     }
 
     //TODO
-    public static void changePassword(String username, String newPassword){
+    public void changePassword(String username, String newPassword){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
         User user = new User();
         userDataAdapter.RetrieveUser(username);
         user.setUserName(username);
@@ -399,7 +420,7 @@ public class Commands {
     }
 
     //TODO
-    public static void createCoin(String sessionVar){
+    public void createCoin(String sessionVar){
         String initialUser;
         String amount;
         boolean updated = false;
@@ -423,7 +444,7 @@ public class Commands {
     }
 
     //TODO
-    public static void createCoin(String sessionVar, String initialUser, String amount){
+    public void createCoin(String sessionVar, String initialUser, String amount){
         boolean updated = false;
         //send sessionVar, initialUser and amount to server save success in updated
 
@@ -436,7 +457,7 @@ public class Commands {
     }
 
     //TODO
-    public static void clear(){
+    public void clear(){
         String os = System.getProperty("os.name");
 
         try {
@@ -452,7 +473,7 @@ public class Commands {
     }
 
     //TODO
-    public static void passwordConfirm(){
+    public void passwordConfirm(){
         System.out.println("");
     }
 
