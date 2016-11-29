@@ -1,11 +1,9 @@
 
 import bb.rackmesa.wargamescoring.User;
 import org.apache.commons.io.FileUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 
 
 import java.io.*;
-import java.net.CookieHandler;
 import java.util.Scanner;
 
 /**
@@ -195,7 +193,6 @@ public class Commands {
 
     public static void logout(){
         userDataAdapter.logout();
-        System.out.println("You have logged out.");
     }
 
     //TODO
@@ -375,79 +372,30 @@ public class Commands {
 
     }
 
-    //TODO
     public static void getBalance(String username){
         User userAccount = userDataAdapter.RetrieveUser(username);
-
-        System.out.println(userAccount.getScore());
+        if(!(userAccount == null))
+            System.out.println(username + " current Score is " + userAccount.getScore());
+        else
+            System.out.println("Unable to retrieve " + username + " balance.");
     }
 
     //TODO
     public static void changePassword(){
-        String account;
-        String currentPassword;
-        String newPassword;
-        String newPasswordConfirm;
-        String failMessage = "Password change has not been successful. Please try again";
-        int attempts = 1;
-        boolean passwordsMatch = false;
-        boolean updated = false;
-        Scanner scanner = new Scanner(System.in);
-        //Console console = System.console();
-
-        System.out.println("Please enter in the name of the account that you wish to change the password for.");
-        account = scanner.nextLine();
-
-        //String currentPassword = new String(console.readPassword("Please enter in password for the account: "));
-        System.out.println("Please enter in password for the account: ");
-        currentPassword = scanner.nextLine();
-
-        //String newPassword = new String(console.readPassword("Please type in your new password: "));
-        System.out.print("Please type in your new password: ");
-        newPassword = scanner.nextLine();
-
-        //String newPasswordConfirm = new String(Please confirm the new password: "));
-        System.out.print("Please confirm the new password: ");
-        newPasswordConfirm = scanner.nextLine();
-
-        while(!(newPassword.equals(newPasswordConfirm)) && (attempts < 3)){
-            System.out.println("The passwords entered do not match. Please try again.");
-
-            //String newPassword = new String(console.readPassword("Please type in your new password: "));
-            System.out.print("Please type in your new password: ");
-            newPassword = scanner.nextLine();
-
-            //String newPasswordConfirm = new String(Please confirm the new password: "));
-            System.out.print("Please confirm the new password: ");
-            newPasswordConfirm = scanner.nextLine();
-        }
-
-        if(newPassword.equals(newPasswordConfirm)){
-            //send password and username data
-            if(updated){
-                System.out.println("Your password has been updated for " + account);
-            }
-            else{
-                System.out.println(failMessage);
-            }
-
-        }
-        else{
-            System.out.println(failMessage);
-        }
 
     }
 
     //TODO
-    public static void changePassword(String account, String currentPassword, String newPassword){
-        boolean updated = false;
-        //return success in updated send account, currentPassword and newPassword to server
-        if(updated){
-            System.out.println("The password for " + account + " has been updated.");
-        }
-        else{
-            System.out.println("Password change has not been successful. Please try again.");
-        }
+    public static void changePassword(String username, String newPassword){
+        User user = new User();
+        userDataAdapter.RetrieveUser(username);
+        user.setUserName(username);
+        user.setPassword(newPassword);
+        System.out.println(userDataAdapter.RetrieveUser(username).getRole());
+        user.setRole(userDataAdapter.RetrieveUser(username).getRole());
+        user.setTeam(userDataAdapter.RetrieveUser(username).getTeam());
+        user.setScore(userDataAdapter.RetrieveUser(username).getScore());
+        userDataAdapter.UpdateUser(user);
     }
 
     //TODO

@@ -65,8 +65,13 @@ public class UserDataAdapter implements IUserDataAdapter {
     public void logout(){
         try {
             HttpPost httpPost = new HttpPost(serverURL + auth + "logout");
-            client.execute(httpPost);
-            sessionCookie = "";
+            HttpResponse response = client.execute(httpPost);
+            if(response.getStatusLine().getStatusCode() == 204){
+                System.out.println("You have logged out");
+                sessionCookie = "";
+            }
+            else
+                System.out.println("You are not logged in.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,10 +102,9 @@ public class UserDataAdapter implements IUserDataAdapter {
         return null;
     }
 
-    //TODO fix method
     @Override
     public User RetrieveUser(String username) {
-        User user = null;
+        User user = new User();
         try {
             HttpGet get = new HttpGet(serverURL + userPath);
             get.setHeader(Cookie, sessionCookie);
@@ -114,15 +118,19 @@ public class UserDataAdapter implements IUserDataAdapter {
                 JSONObject jsonObject = (JSONObject)obj;
                 user.setUserName(jsonObject.get("userName").toString());
                 user.setScore(Integer.parseInt(jsonObject.get("score").toString()));
-                user.setTeam(jsonObject.get("team").toString());
+                if(jsonObject.get("team") == null)
+                    user.setTeam("null");
+                else
+                    user.setTeam(jsonObject.get("team").toString());
                 user.setRole(jsonObject.get("role").toString());
+                return user;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return user;
+        return null;
     }
 
     //TODO
@@ -137,6 +145,11 @@ public class UserDataAdapter implements IUserDataAdapter {
             put.setHeader("team", user.getTeam());
             put.setHeader("score", Integer.toString(user.getScore()));
             HttpResponse response = client.execute(put);
+            if(response.getStatusLine().getStatusCode() == 204)
+                System.out.println("User data updated.");
+            else
+                System.out.println("User data failed to update");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -149,7 +162,6 @@ public class UserDataAdapter implements IUserDataAdapter {
 
     }
 
-    //TODO always returns sucess.
     @Override
     public void DeleteUser(String username) {
         try {

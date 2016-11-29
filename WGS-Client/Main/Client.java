@@ -19,13 +19,14 @@ public class Client {
 
         }
 
+        Scanner scanner = new Scanner(System.in);
         String sessionVariable = "";
         boolean loop = true;
-        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to the client banking operations. Type help for assistance. ");
 
         while(loop){
+
             System.out.print(">");
             String input = scanner.nextLine();
             ArrayList<String> commandsList = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
@@ -33,7 +34,7 @@ public class Client {
             switch(commandsList.get(0)){
 
                 case "help":
-                    if(commandsList.size() > 1)
+                    if(commandsList.size() == 2)
                         Commands.help(commandsList.get(1));
                     else
                         Commands.help("");
@@ -85,7 +86,7 @@ public class Client {
 
                 case "transferScore":
                     if(!sessionVariable.isEmpty()){
-                        if(commandsList.size() ==3)
+                        if(commandsList.size() == 3)
                             Commands.transferScore(sessionVariable, commandsList.get(1), commandsList.get(2));
                         else
                             Commands.transferScore(sessionVariable);
@@ -104,8 +105,8 @@ public class Client {
                     break;
 
                 case "changePassword":
-                    if(commandsList.size() == 4)
-                        Commands.changePassword(commandsList.get(1), commandsList.get(2), commandsList.get(3));
+                    if(commandsList.size() == 3)
+                        Commands.changePassword(commandsList.get(1), commandsList.get(2));
                     else
                         Commands.changePassword();
                     break;
