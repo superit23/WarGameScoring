@@ -20,12 +20,12 @@ public class User extends SimpleAccount {
 
     public User()
     {
-        super("", "", Constants.WGS_REALM);
+        super("", "", Constants.WGS_REALM, new HashSet<String>(1), null);
     }
 
     public User(String username)
     {
-        super(username, "", Constants.WGS_REALM, null, null);
+        super(username, "", Constants.WGS_REALM, new HashSet<String>(1), null);
     }
 
     public String getUserName() {
@@ -68,7 +68,13 @@ public class User extends SimpleAccount {
 
     public String getRole() {
         //return role;
-        return getRoles().iterator().next();
+        String role = null;
+
+        if(!getRoles().isEmpty()) {
+            role = getRoles().iterator().next();
+        }
+
+        return null;
     }
 
     public void setRole(String role) {
