@@ -5,7 +5,9 @@ import bb.rackmesa.wargamescoring.User;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ByteSource;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -54,7 +56,7 @@ public class UserAPI {
 	
 	@PUT
     @Consumes(MediaType.TEXT_PLAIN)
-	public void updateUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("role") String role, @HeaderParam("team") String team, @HeaderParam("score") int score) throws Exception
+	public void updateUser(@HeaderParam("username") String username, @HeaderParam("password") String password, @HeaderParam("credentials") String credentials, @HeaderParam("salt") String salt, @HeaderParam("role") String role, @HeaderParam("team") String team, @HeaderParam("score") int score) throws Exception
 	{
         Subject subject = SecurityUtils.getSubject();
         String subUsername = subject.getPrincipal().toString();
@@ -68,35 +70,63 @@ public class UserAPI {
             User user = new User(username);
             User userFromDB = configuration.userAdapter.RetrieveUser(username);
 
+            boolean roleNotNull = role != null;
+            boolean teamNotNull = role != null;
+            boolean scoreNotZero = score != 0;
+
             if(!subject.hasRole("admin")) {
-                if (role != null && !RESTHelper.CompareUncleanStrings(userFromDB.getRole(), role)) {
+
+                if (roleNotNull && !RESTHelper.CompareUncleanStrings(userFromDB.getRole(), role)) {
                     logger.info(subUsername + " failed to update user " + username);
                     throw new AuthorizationException(String.format(NOT_AUTHORIZED_TO_UPDATE, "role"));
                 }
-                else if (team != null && !RESTHelper.CompareUncleanStrings(userFromDB.getTeam(), team)) {
+                else if (teamNotNull && !RESTHelper.CompareUncleanStrings(userFromDB.getTeam(), team)) {
                     logger.info(subUsername + " failed to update user " + username);
                     throw new AuthorizationException(String.format(NOT_AUTHORIZED_TO_UPDATE, "team"));
                 }
-                else if (score != 0 && userFromDB.getScore() != score) {
+                else if (scoreNotZero && userFromDB.getScore() != score) {
                     logger.info(subUsername + " failed to update user " + username);
                     throw new AuthorizationException(String.format(NOT_AUTHORIZED_TO_UPDATE, "score"));
                 }
                 else
                 {
-                    user.setTeam(userFromDB.getTeam());
-                    user.setScore(userFromDB.getScore());
-                    user.setRole(userFromDB.getRole());
+                    if(teamNotNull) {
+                        user.setTeam(userFromDB.getTeam());
+                    }
+
+                    if(scoreNotZero) {
+                        user.setScore(userFromDB.getScore());
+                    }
+
+                    if(roleNotNull) {
+                        user.setRole(userFromDB.getRole());
+                    }
                 }
 
             }
             else
             {
-                user.setRole(role);
-                user.setTeam(team);
-                user.setScore(score);
+                if(roleNotNull) {
+                    user.setRole(role);
+                }
+
+                if(teamNotNull) {
+                    user.setTeam(team);
+                }
+
+                if(scoreNotZero) {
+                    user.setScore(score);
+                }
             }
 
-            user.setPassword(password);
+            if(password != null) {
+                user.setPassword(password);
+            }
+            else if(credentials != null && salt != null)
+            {
+                user.setCredentials(credentials);
+                user.setCredentialsSalt(ByteSource.Util.bytes(Base64.decode(salt)));
+            }
 
 
             configuration.userAdapter.UpdateUser(user);

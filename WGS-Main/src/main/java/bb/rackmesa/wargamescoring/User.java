@@ -17,7 +17,6 @@ public class User extends SimpleAccount {
     //private String role;
     private int score;
     private String team;
-    private String password;
 
     public User()
     {
@@ -50,7 +49,6 @@ public class User extends SimpleAccount {
     }
 
     public void setPassword(String password) {
-        //setCredentials(password);
         try{
             byte[] salt = CryptoFunctions.generateSalt(8);
             String derived = Base64.encodeToString(CryptoFunctions.pbkdf2(password.toCharArray(), salt, Configuration.getConfig().pbkdf2Iterations, Configuration.getConfig().pbkdf2NumBytes));
