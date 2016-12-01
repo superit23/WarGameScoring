@@ -27,18 +27,13 @@ public class LoginAPI {
 	public Session login(@HeaderParam("username") String username, @HeaderParam("password") String password) {
 		Subject currSubject = SecurityUtils.getSubject();
 
-        try {
-            currSubject.login(new UsernamePasswordToken(username, password));
-        }
-        catch (UnknownAccountException ex)
-        {
-            logger.error(ex);
-
-			IncorrectCredentialsException cleanedEx = new IncorrectCredentialsException("Invalid username or password.");
-			cleanedEx.setStackTrace(new StackTraceElement[0]);
-
-            throw cleanedEx;
-        }
+		try {
+			try {
+				currSubject.login(new UsernamePasswordToken(username, password));
+			} catch (UnknownAccountException ex) {
+				throw new IncorrectCredentialsException();
+			}
+		}
         catch (IncorrectCredentialsException ex)
 		{
 			logger.error(ex);

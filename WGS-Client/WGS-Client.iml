@@ -18,8 +18,8 @@
     <orderEntry type="library" name="org.apache.shiro:shiro-core:1.3.21" level="project" />
     <orderEntry type="module" module-name="WGS-Main" />
     <orderEntry type="library" name="lib1" level="project" />
-    <orderEntry type="library" name="java" level="project" />
     <orderEntry type="module" module-name="main" />
     <orderEntry type="library" name="org.apache.logging.log4j:log4j-core:2.7" level="project" />
+    <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
   </component>
 </module>
