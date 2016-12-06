@@ -74,7 +74,7 @@ public class User extends SimpleAccount {
             role = getRoles().iterator().next();
         }
 
-        return null;
+        return role;
     }
 
     public void setRole(String role) {
