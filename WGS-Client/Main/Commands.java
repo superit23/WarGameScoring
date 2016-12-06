@@ -11,6 +11,7 @@ import java.util.Scanner;
  */
 public class Commands {
 
+    private String user;
     private String cookie;
     private String serverURL = "http://localhost:8080/WGS-Server/";
 
@@ -18,7 +19,7 @@ public class Commands {
 
     }
 
-    //TODO modify createAccount help to createUser
+    //TODO createUser fix also check information on all commands
     public void help(String command){
 
         switch (command){
@@ -151,40 +152,29 @@ public class Commands {
 
     }
 
-
     public void login(){
-        UserDataAdapter userDataAdapter = new UserDataAdapter();
         String username;
         String password;
-        int attempt = 1;
-        boolean loggedIn;
-        cookie = null;
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
         Scanner scanner = new Scanner(System.in);
+        //Console console = System.console();
+        cookie = null;
 
-        System.out.println("You will have 3 attempts to enter in your username and password");
+        System.out.println("Wlcome to the interactive login.");
+        System.out.print("Please enter in your username: ");
+        username = scanner.nextLine();
 
-        do {
-            if(attempt > 1)
-                System.out.println("Incorrect username or password please try again");
+        //password = new String(console.readPassword("Please enter your password: "));
+        System.out.print("Please enter in your password: ");
+        password = scanner.nextLine();
 
-            System.out.println("Attempt " + attempt);
-            System.out.print("Please enter your username: ");
-            username = scanner.nextLine();
+        cookie = userDataAdapter.login(username, password);
 
-            //Console console = System.console();
-            //password = new String(console.readPassword("Please enter your password: "));
-            System.out.print("Please enter your password: ");
-            password = scanner.nextLine();
-
-            cookie = userDataAdapter.login(username, password);
-            attempt++;
-        }while((attempt<=3)&& (cookie != null));
-
-        if((cookie != null))
+        if(cookie != null)
             System.out.println("Welcome you are now logged in.");
-        else
-            System.out.println("You have failed to login 3 times. Please try again.");
 
+        else
+            System.out.println("You have failed to login.");
     }
 
 
@@ -337,7 +327,7 @@ public class Commands {
         Scanner scanner = new Scanner(System.in);
         String username;
 
-        System.out.println("Enter in a username to delete: ");
+        System.out.print("Enter in a username to delete: ");
         username = scanner.nextLine();
         userDataAdapter.DeleteUser(username);
     }
@@ -384,9 +374,19 @@ public class Commands {
 
     }
 
-    //TODO create interactive method
     public void getBalance(){
+        String username;
+        Scanner scanner = new Scanner(System.in);
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
 
+        System.out.print("Enter in the username of the account who's balance you wish to check: ");
+        username = scanner.nextLine();
+        User userAccount = userDataAdapter.RetrieveUser(username);
+        if(!(userAccount == null))
+            System.out.println(username + " current Score is " + userAccount.getScore());
+        else
+            System.out.println("Unable to retrieve " + username + " balance.");
     }
 
     public void getBalance(String username){
@@ -401,6 +401,22 @@ public class Commands {
 
     //TODO
     public void changePassword(){
+        String username;
+        String password;
+        Scanner scanner = new Scanner(System.in);
+        //Console console = System.console();
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
+
+        System.out.print("Enter in the username who's password you wish to change: ");
+        username = scanner.nextLine();
+
+        System.out.print("Enter in the new password: ");
+        //password = new String(console.readPassword("Please enter your password: "));
+        password = scanner.nextLine();
+        User user = userDataAdapter.RetrieveUser(username);
+        user.setPassword(password);
+        userDataAdapter.UpdateUser(user);
 
     }
 
@@ -408,14 +424,9 @@ public class Commands {
     public void changePassword(String username, String newPassword){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
-        User user = new User();
-        userDataAdapter.RetrieveUser(username);
+        User user = userDataAdapter.RetrieveUser(username);
         user.setUserName(username);
         user.setPassword(newPassword);
-        System.out.println(userDataAdapter.RetrieveUser(username).getRole());
-        user.setRole(userDataAdapter.RetrieveUser(username).getRole());
-        user.setTeam(userDataAdapter.RetrieveUser(username).getTeam());
-        user.setScore(userDataAdapter.RetrieveUser(username).getScore());
         userDataAdapter.UpdateUser(user);
     }
 
@@ -456,7 +467,6 @@ public class Commands {
         }
     }
 
-    //TODO
     public void clear(){
         String os = System.getProperty("os.name");
 

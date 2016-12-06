@@ -43,7 +43,6 @@ public class UserDataAdapter implements IUserDataAdapter {
     public String login(String username, String password){
         String sessionCookie = null;
         try {
-            CookieHandler.setDefault(new CookieManager());
             HttpPost httpPost = new HttpPost( serverURL + auth + "login");
             httpPost.setHeader("username", username);
             httpPost.setHeader("password", password);
