@@ -425,8 +425,9 @@ public class Commands {
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
         User user = userDataAdapter.RetrieveUser(username);
-        user.setUserName(username);
-        user.setPassword(newPassword);
+        //user.setUserName(username);
+        user.setCredentials(newPassword);
+        //user.setPassword("null");
         userDataAdapter.UpdateUser(user);
     }
 
