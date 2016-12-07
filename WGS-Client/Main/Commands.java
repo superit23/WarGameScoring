@@ -399,7 +399,6 @@ public class Commands {
             System.out.println("Unable to retrieve " + username + " balance.");
     }
 
-    //TODO
     public void changePassword(){
         String username;
         String password;
@@ -415,20 +414,26 @@ public class Commands {
         //password = new String(console.readPassword("Please enter your password: "));
         password = scanner.nextLine();
         User user = userDataAdapter.RetrieveUser(username);
-        user.setPassword(password);
-        userDataAdapter.UpdateUser(user);
-
+        if(user != null){
+            user.setCredentials(password);
+            userDataAdapter.UpdateUser(user);
+        }
+        else{
+            System.out.println("You do not have permission to change this users password.");
+        }
     }
 
-    //TODO
     public void changePassword(String username, String newPassword){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
         User user = userDataAdapter.RetrieveUser(username);
-        //user.setUserName(username);
-        user.setCredentials(newPassword);
-        //user.setPassword("null");
-        userDataAdapter.UpdateUser(user);
+        if(user != null){
+            user.setCredentials(newPassword);
+            userDataAdapter.UpdateUser(user);
+        }
+        else{
+            System.out.println("You do not have permission to change this users password.");
+        }
     }
 
     //TODO

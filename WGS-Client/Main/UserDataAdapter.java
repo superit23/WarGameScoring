@@ -108,7 +108,6 @@ public class UserDataAdapter implements IUserDataAdapter {
             get.setHeader(Cookie, sessionCookie);
             get.setHeader("username", username);
             HttpResponse response = client.execute(get);
-            System.out.println(response.toString());
 
             if(response.getStatusLine().getStatusCode() == 200){
                 String json = IOUtils.toString(response.getEntity().getContent());
@@ -132,7 +131,6 @@ public class UserDataAdapter implements IUserDataAdapter {
         return null;
     }
 
-    //TODO
     @Override
     public void UpdateUser(User user) {
         try {
