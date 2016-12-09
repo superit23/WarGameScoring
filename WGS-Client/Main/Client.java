@@ -55,9 +55,9 @@ public class Client {
                 case "getCoins":
                     if(!sessionVariable.isEmpty()){
                         if(commandsList.size() == 2)
-                            commands.getCoins(sessionVariable, commandsList.get(1));
+                            commands.getCoins(commandsList.get(1));
                         else
-                            commands.getCoins(sessionVariable);
+                            commands.getCoins();
                     }
                     else{
                         System.out.println("Please Login before getting Coins.");
@@ -88,9 +88,9 @@ public class Client {
                 case "transferScore":
                     if(!sessionVariable.isEmpty()){
                         if(commandsList.size() == 3)
-                            commands.transferScore(sessionVariable, commandsList.get(1), commandsList.get(2));
+                            commands.transferScore(commandsList.get(1), commandsList.get(2));
                         else
-                            commands.transferScore(sessionVariable);
+                            commands.transferScore();
                     }
                     else
                         System.out.println("Please login before using transferScore.");
@@ -114,9 +114,9 @@ public class Client {
 
                 case "createCoin":
                     if(commandsList.size() == 2)
-                        commands.createCoin(sessionVariable, commandsList.get(1), commandsList.get(2));
+                        commands.createCoin(commandsList.get(1), commandsList.get(2));
                     else
-                        commands.createCoin(sessionVariable);
+                        commands.createCoin();
                     break;
 
                 case "clear":
@@ -125,6 +125,7 @@ public class Client {
 
                 case "exit":
                     System.out.print("Thank you for using the banking system!");
+                    commands.logout();
                     loop = false;
                     break;
 

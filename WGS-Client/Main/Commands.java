@@ -195,7 +195,9 @@ public class Commands {
     }
 
     //TODO
-    public void getCoins(String sessionVar){
+    public void getCoins(){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
         String fileName = "/";
         String coins = "";
         File file;
@@ -217,7 +219,7 @@ public class Commands {
     }
 
     //TODO
-    public void getCoins(String sessionVar, String fileName){
+    public void getCoins(String fileName){
         String coins = "";
         File file;
         //send SessionVariable and place stuff in coins string
@@ -339,7 +341,7 @@ public class Commands {
     }
 
     //TODO
-    public void transferScore(String sessionVar){
+    public void transferScore(){
         String account;
         boolean success = true;
         String amount;
@@ -362,7 +364,7 @@ public class Commands {
     }
 
     //TODO
-    public void transferScore(String sessionVar, String account, String amount){
+    public void transferScore(String account, String amount){
         boolean success = true;
         //send sessionVar account and amount to server
         if(success){
@@ -437,7 +439,7 @@ public class Commands {
     }
 
     //TODO
-    public void createCoin(String sessionVar){
+    public void createCoin(){
         String initialUser;
         String amount;
         boolean updated = false;
@@ -461,7 +463,7 @@ public class Commands {
     }
 
     //TODO
-    public void createCoin(String sessionVar, String initialUser, String amount){
+    public void createCoin(String initialUser, String amount){
         boolean updated = false;
         //send sessionVar, initialUser and amount to server save success in updated
 
@@ -471,6 +473,16 @@ public class Commands {
         else{
             System.out.println("Coin creation has failed please try again.");
         }
+    }
+
+    //TODO
+    public void updateUser(){
+
+    }
+
+    //TODO
+    public void updateUser(String username, String password, String role, String team, int score){
+
     }
 
     public void clear(){
@@ -488,7 +500,7 @@ public class Commands {
         }
     }
 
-    //TODO
+    //TODO maybe
     public void passwordConfirm(){
         System.out.println("");
     }
