@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -200,10 +201,12 @@ public class Commands {
     public void getCoins(){
         CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
         coinDataAdapter.setSessionCookie(cookie);
-        String fileName = "/";
+        String fileName;
         String coins = "";
         File file;
+        ArrayList<Coin> coinList;
         Scanner scanner = new Scanner(System.in);
+
 
         //send sessionVariable to server and save returned string in coins
 

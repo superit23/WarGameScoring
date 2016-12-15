@@ -33,7 +33,6 @@ public class CoinDataAdapter implements ICoinDataAdapter {
         this.sessionCookie = sessionCookie;
     }
 
-    //TODO test with server
     @Override
     public Coin CreateCoin(String initialUser) {
         Coin coin = new Coin();
@@ -90,6 +89,22 @@ public class CoinDataAdapter implements ICoinDataAdapter {
             e.printStackTrace();
         }
         return null;
+    }
+
+    //TODO test with server
+    public void depositeCoin(String uuid, String username){
+        try{
+            HttpPost post = new HttpPost(serverURL + "deposit");
+            post.setHeader(Cookie, sessionCookie);
+            post.setHeader("uuid", uuid);
+            post.setHeader("username", username);
+            HttpResponse response = client.execute(post);
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+
     }
 
     //TODO test with server
