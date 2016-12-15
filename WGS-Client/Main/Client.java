@@ -112,8 +112,15 @@ public class Client {
                         commands.changePassword();
                     break;
 
+                case "updateUser":
+                    if(commandsList.size() == 5)
+                        commands.updateUser(commandsList.get(1), commandsList.get(2), commandsList.get(3), commandsList.get(4));
+                    else
+                        commands.updateUser();
+                    break;
+
                 case "createCoin":
-                    if(commandsList.size() == 2)
+                    if(commandsList.size() == 3)
                         commands.createCoin(commandsList.get(1), commandsList.get(2));
                     else
                         commands.createCoin();

@@ -12,8 +12,6 @@ public class Coin {
     private String initialUser;
     private String submitter;
 
-
-
     public Coin()
     {
 

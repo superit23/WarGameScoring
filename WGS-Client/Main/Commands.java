@@ -1,4 +1,5 @@
 
+import bb.rackmesa.wargamescoring.Coin;
 import bb.rackmesa.wargamescoring.User;
 import org.apache.commons.io.FileUtils;
 
@@ -13,6 +14,7 @@ public class Commands {
 
     private String user;
     private String cookie;
+    private String saveLocation = System.getProperty("user.home");
     private String serverURL = "http://localhost:8080/WGS-Server/";
 
     public Commands(){
@@ -196,8 +198,8 @@ public class Commands {
 
     //TODO
     public void getCoins(){
-        UserDataAdapter userDataAdapter = new UserDataAdapter();
-        userDataAdapter.setSessionCookie(cookie);
+        CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+        coinDataAdapter.setSessionCookie(cookie);
         String fileName = "/";
         String coins = "";
         File file;
@@ -209,7 +211,7 @@ public class Commands {
         fileName = scanner.nextLine();
 
         try {
-            file = new File("C:/Users/Alex/" + fileName + ".txt");
+            file = new File( saveLocation + fileName + ".txt");
             FileUtils.writeStringToFile(file, coins, "UTF-8", true);
 
         } catch (IOException e) {
@@ -220,12 +222,14 @@ public class Commands {
 
     //TODO
     public void getCoins(String fileName){
+        CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+        coinDataAdapter.setSessionCookie(cookie);
         String coins = "";
         File file;
         //send SessionVariable and place stuff in coins string
 
         try {
-            file = new File("C:/Users/Alex/" + fileName + ".txt");
+            file = new File(saveLocation + fileName + ".txt");
             FileUtils.writeStringToFile(file, coins, "UTF-8", true);
 
         } catch (IOException e) {
@@ -242,6 +246,8 @@ public class Commands {
         String fileContent = "";
         String username = "";
         File coinFile;
+        CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+        coinDataAdapter.setSessionCookie(cookie);
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter in the username you wish to send to: ");
@@ -276,6 +282,8 @@ public class Commands {
     //TODO
     public void sendCoins(String user, String fileLocation){
         File coinFile = new File(fileLocation);
+        CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+        coinDataAdapter.setSessionCookie(cookie);
         if(coinFile.exists()){
             System.out.println("CoinFile in question has sent.");
             //send("");
@@ -286,6 +294,7 @@ public class Commands {
 
     }
 
+    //TODO integer issue
     public void createUser(){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -317,6 +326,7 @@ public class Commands {
 
     }
 
+    //TODO integer issue
     public void createUser(String username, String password, String role, String team, int score){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -340,7 +350,7 @@ public class Commands {
         userDataAdapter.DeleteUser(userName);
     }
 
-    //TODO
+    //TODO awaiting Dan
     public void transferScore(){
         String account;
         boolean success = true;
@@ -363,7 +373,7 @@ public class Commands {
 
     }
 
-    //TODO
+    //TODO awaiting Dan
     public void transferScore(String account, String amount){
         boolean success = true;
         //send sessionVar account and amount to server
@@ -438,13 +448,14 @@ public class Commands {
         }
     }
 
-    //TODO
+    //TODO integer issue
     public void createCoin(){
         String initialUser;
         String amount;
-        boolean updated = false;
+        Coin coin = new Coin();
         Scanner scanner = new Scanner(System.in);
-
+        CoinDataAdapter coinDataAdapterTest = new CoinDataAdapter();
+        coinDataAdapterTest.setSessionCookie(cookie);
 
         System.out.print("Please type in an initial username for the coins: ");
         initialUser = scanner.nextLine();
@@ -452,36 +463,102 @@ public class Commands {
         System.out.print("Please enter the number of coins you wish to create: ");
         amount = scanner.nextLine();
 
-        //send sessionVar, initialUser and amount to server save success in updated
-        if(updated){
-            System.out.println(amount + " coins have been created for " + initialUser);
-        }
-        else{
-            System.out.println("Coin creation has failed please try again.");
-        }
+        coin = coinDataAdapterTest.CreateCoin(initialUser);
 
+        if(coin != null){
+            int loop = Integer.parseInt(amount)-1;
+            for(int i =0; i<loop; i++){
+                CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+                coinDataAdapter.setSessionCookie(cookie);
+                coinDataAdapter.CreateCoin(initialUser);
+            }
+            System.out.println("Created " + amount + " coins for " + initialUser);
+        }
+        else {
+            System.out.println("Failed to create coins");
+        }
     }
 
-    //TODO
+    //TODO integer issue
     public void createCoin(String initialUser, String amount){
-        boolean updated = false;
-        //send sessionVar, initialUser and amount to server save success in updated
+        Coin coin = new Coin();
+        CoinDataAdapter coinDataAdapterTest = new CoinDataAdapter();
+        coinDataAdapterTest.setSessionCookie(cookie);
+        coin = coinDataAdapterTest.CreateCoin(initialUser);
 
-        if(updated){
-            System.out.println(amount + " coins have been created for " + initialUser);
+        if(coin != null) {
+            int loop = Integer.parseInt(amount)-1;
+            for (int i = 0; i < loop; i++) {
+                CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+                coinDataAdapter.setSessionCookie(cookie);
+                coinDataAdapter.CreateCoin(initialUser);
+            }
+            System.out.println("Created " + amount + " coins for " + initialUser);
         }
         else{
-            System.out.println("Coin creation has failed please try again.");
+            System.out.println("Failed to create coins");
         }
+
     }
 
-    //TODO
+    //TODO fix password problem(Dan) integer issue
     public void updateUser(){
+        String username;
+        String role;
+        String team;
+        String score;
+        Scanner scanner = new Scanner(System.in);
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
+        User user;
+
+        System.out.print("Enter in the username who's information you wish to change: ");
+        username = scanner.nextLine();
+        user = userDataAdapter.RetrieveUser(username);
+
+        if(user != null){
+            System.out.println("Leave areas that you do not wish to change blank.");
+
+            System.out.print("Enter in a new user role or leave blank: ");
+            role = scanner.nextLine();
+            if(!role.isEmpty())
+                user.setRole(role);
+
+            System.out.print("Enter in a new user team or leave blank: ");
+            team = scanner.nextLine();
+            if(!team.isEmpty())
+                user.setTeam(team);
+
+            System.out.print("Enter in a new user score as an integer or leave blank: ");
+            score = scanner.nextLine();
+            if(!score.isEmpty())
+                user.setScore(Integer.parseInt(score));
+
+            userDataAdapter.UpdateUser(user);
+        }
+        else{
+            System.out.println("You do not have permission to change this users information.");
+        }
 
     }
 
-    //TODO
-    public void updateUser(String username, String password, String role, String team, int score){
+    //TODO Fix password problem(Dan) integer issue
+    public void updateUser(String username, String role, String team, String score){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
+        User user = userDataAdapter.RetrieveUser(username);
+        if(user != null){
+            if(!role.isEmpty())
+                user.setRole(role);
+            if(!team.isEmpty())
+                user.setTeam(team);
+            if(!score.isEmpty())
+                user.setScore(Integer.parseInt(score));
+            userDataAdapter.UpdateUser(user);
+        }
+        else {
+            System.out.print("You do not have permission to change this users information.");
+        }
 
     }
 
@@ -500,9 +577,5 @@ public class Commands {
         }
     }
 
-    //TODO maybe
-    public void passwordConfirm(){
-        System.out.println("");
-    }
 
 }
