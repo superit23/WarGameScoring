@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="org.lucee:httpcomponents-httpcore:4.4.4" type="repository">
+    <properties maven-id="org.lucee:httpcomponents-httpcore:4.4.4" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/lucee/httpcomponents-httpcore/4.4.4/httpcomponents-httpcore-4.4.4.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

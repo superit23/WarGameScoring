@@ -12,8 +12,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import java.io.IOException;
-import java.net.CookieHandler;
-import java.net.CookieManager;
 
 /**
  * Created by Alex on 11/15/2016.
@@ -22,7 +20,7 @@ public class UserDataAdapter implements IUserDataAdapter {
 
 
     private String sessionCookie;
-    private String serverURL = "http://127.0.0.1:8080/WGS-Server/";
+    private String serverURL = "http://127.0.0.1:8080/";
     private String auth = "auth/";
     private String userPath = "user/";
     private String Cookie = "Cookie";
@@ -137,8 +135,13 @@ public class UserDataAdapter implements IUserDataAdapter {
             HttpPut put = new HttpPut(serverURL + userPath);
             put.setHeader(Cookie, sessionCookie);
             put.setHeader("username", user.getUserName());
-            if(!user.getPassword().isEmpty())
-                put.setHeader("password", user.getPassword());
+
+            if(user.getPassword() != null && user.getPassword() != "")
+            {
+                put.setHeader("credentials", user.getPassword());
+                put.setHeader("salt", user.getCredentialsSalt().toBase64());
+            }
+
             put.setHeader("role", user.getRole());
             put.setHeader("team", user.getTeam());
             put.setHeader("score", Integer.toString(user.getScore()));

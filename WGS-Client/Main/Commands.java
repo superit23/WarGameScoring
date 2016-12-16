@@ -1,10 +1,9 @@
-
 import bb.rackmesa.wargamescoring.Coin;
 import bb.rackmesa.wargamescoring.User;
 import org.apache.commons.io.FileUtils;
 
-
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -464,7 +463,7 @@ public class Commands {
         userDataAdapter.setSessionCookie(cookie);
         User user = userDataAdapter.RetrieveUser(username);
         if(user != null){
-            user.setCredentials(newPassword);
+            user.setPassword(newPassword);
             userDataAdapter.UpdateUser(user);
         }
         else{
