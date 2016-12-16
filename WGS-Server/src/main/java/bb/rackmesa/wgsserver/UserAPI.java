@@ -109,13 +109,25 @@ public class UserAPI {
                 if(roleNotNull) {
                     user.setRole(role);
                 }
+                else
+                {
+                    user.setRole(userFromDB.getRole());
+                }
 
                 if(teamNotNull) {
                     user.setTeam(team);
                 }
+                else
+                {
+                    user.setTeam(userFromDB.getTeam());
+                }
 
                 if(scoreNotZero) {
                     user.setScore(score);
+                }
+                else
+                {
+                    user.setScore(userFromDB.getScore());
                 }
             }
 
@@ -126,6 +138,11 @@ public class UserAPI {
             {
                 user.setCredentials(credentials);
                 user.setCredentialsSalt(ByteSource.Util.bytes(Base64.decode(salt)));
+            }
+            else
+            {
+                user.setCredentials(userFromDB.getCredentials());
+                user.setCredentialsSalt(userFromDB.getCredentialsSalt());
             }
 
 

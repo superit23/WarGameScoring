@@ -15,6 +15,4 @@ public interface IUserDataAdapter {
     void DeleteUser(String username) throws Exception;
 
 
-
-
 }

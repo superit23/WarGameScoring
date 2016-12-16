@@ -299,6 +299,8 @@ public class DatabaseFunctionsTest {
 
         Configuration configuration = Configuration.getConfig();
 
+        //configuration.getUserAdapter().DeleteUser("admin");
+
         User user = new User("admin");
         user.setPassword("admin");
         user.setRole("admin");

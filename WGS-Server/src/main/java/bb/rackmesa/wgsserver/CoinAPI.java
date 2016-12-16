@@ -3,6 +3,7 @@ package bb.rackmesa.wgsserver;
 import bb.rackmesa.wargamescoring.Coin;
 import bb.rackmesa.wargamescoring.Configuration;
 import bb.rackmesa.wargamescoring.SupportingLogic;
+import bb.rackmesa.wargamescoring.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
@@ -75,6 +76,16 @@ public class CoinAPI {
 
         logger.info(SecurityUtils.getSubject().getPrincipal().toString() + " has deposited a coin " + uuid + " for user " + username);
     }
-	
-	
+
+
+    @PUT
+    @Path("/transfer")
+    public void transferScore(@HeaderParam("username") String username, @HeaderParam("score") int score) throws Exception
+    {
+        User sendingUser = configuration.userAdapter.RetrieveUser(SecurityUtils.getSubject().getPrincipal().toString());
+        User receivingUser = configuration.userAdapter.RetrieveUser(username);
+        SupportingLogic.TransferScore(sendingUser, receivingUser, score);
+
+        logger.info( sendingUser.getUserName()+ " has transferred " + score + " score to user " + username);
+    }
 }

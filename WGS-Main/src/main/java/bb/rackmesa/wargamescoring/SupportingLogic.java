@@ -25,6 +25,10 @@ public class SupportingLogic {
             configuration.userAdapter.UpdateUser(sender);
             configuration.userAdapter.UpdateUser(receiver);
         }
+        else
+        {
+            throw new IllegalArgumentException("Score cannot be less than one.");
+        }
     }
 
     public static boolean DepositCoin(Coin coin)
