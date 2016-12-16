@@ -126,7 +126,7 @@ public class Client {
                     break;
 
                 case "exit":
-                    System.out.print("Thank you for using the banking system!");
+                    System.out.println("Thank you for using the banking system!");
                     commands.logout();
                     loop = false;
                     break;

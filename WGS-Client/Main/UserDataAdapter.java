@@ -137,7 +137,8 @@ public class UserDataAdapter implements IUserDataAdapter {
             HttpPut put = new HttpPut(serverURL + userPath);
             put.setHeader(Cookie, sessionCookie);
             put.setHeader("username", user.getUserName());
-            put.setHeader("password", user.getPassword());
+            if(!user.getPassword().isEmpty())
+                put.setHeader("password", user.getPassword());
             put.setHeader("role", user.getRole());
             put.setHeader("team", user.getTeam());
             put.setHeader("score", Integer.toString(user.getScore()));

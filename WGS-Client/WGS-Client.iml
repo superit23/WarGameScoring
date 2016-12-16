@@ -19,6 +19,15 @@
     <orderEntry type="module" module-name="WGS-Main" />
     <orderEntry type="library" name="org.apache.logging.log4j:log4j-core:2.7" level="project" />
     <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
-    <orderEntry type="library" name="lib2" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/Downloads/httpcomponents/httpcomponents-client-4.5.2/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$USER_HOME$/Downloads/httpcomponents/httpcomponents-client-4.5.2/lib" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
