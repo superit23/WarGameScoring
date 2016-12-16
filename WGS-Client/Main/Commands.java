@@ -15,7 +15,7 @@ public class Commands {
 
     private String user;
     private String cookie;
-    private String saveLocation = System.getProperty("user.home");
+    private String saveLocation = System.getProperty("user.home") + "\\";
     private String serverURL = "http://localhost:8080/WGS-Server/";
 
     public Commands(){
@@ -210,24 +210,22 @@ public class Commands {
             CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
             coinDataAdapter.setSessionCookie(cookie);
             ArrayList<Coin> coinList = coinDataAdapter.RetrieveCoinsForUser(user);
-            String coins = null;
+            String coins = "";
             System.out.print("What would you like to name the file with your coins?: ");
             fileName = scanner.nextLine();
             System.out.println(coinList.size());
 
             for(int i=0; i<coinList.size();i++){
-                coins += coinList.get(i) + ";";
+                coins += coinList.get(i).getCoin() + ";";
             }
 
-            System.out.println(coins);
-            /*
             try {
                 file = new File( saveLocation + fileName + ".txt");
                 FileUtils.writeStringToFile(file, coins, "UTF-8", true);
 
             } catch (IOException e) {
                 e.printStackTrace();
-            }*/
+            }
 
         }
         else{

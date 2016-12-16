@@ -12,14 +12,21 @@ public class Coin {
     private String initialUser;
     private String submitter;
 
-    public Coin()
-    {
+    public Coin(){}
 
+    public Coin(UUID coin, String initialUser)
+    {
+            this.coin = coin;
+            this.initialUser = initialUser;
     }
 
     public Coin(String uuid)
     {
         coin = UUID.fromString(uuid);
+    }
+
+    public void setCoin(UUID coin){
+        this.coin = coin;
     }
 
     public UUID getCoin() {

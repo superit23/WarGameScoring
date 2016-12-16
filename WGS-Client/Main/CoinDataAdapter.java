@@ -7,6 +7,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.client.HttpClient;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -85,11 +86,24 @@ public class CoinDataAdapter implements ICoinDataAdapter {
             HttpGet get = new HttpGet(serverURL + "coin");
             get.setHeader(Cookie, sessionCookie);
             HttpResponse response = client.execute(get);
-            System.out.println(response.getEntity().getContent());
-        } catch (IOException e) {
+            String json = IOUtils.toString(response.getEntity().getContent());
+            //System.out.println(json);
+            ArrayList<Coin> coins = new ArrayList<Coin>();
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(json);
+            JSONArray jsonArray = (JSONArray)obj;
+
+            for(int i=0; i<jsonArray.size(); i++){
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                //Coin coin = new Coin(UUID.fromString(jsonObject.get("coin").toString()), jsonObject.get("initialUser").toString());
+                coins.add(new Coin(UUID.fromString(jsonObject.get("coin").toString()), jsonObject.get("initialUser").toString()));
+            }
+
+            return coins;
+        } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     //TODO test with server
