@@ -172,19 +172,21 @@ public class Commands {
         password = scanner.nextLine();
 
         cookie = userDataAdapter.login(username, password);
+        user = username;
 
         if(cookie != null)
             System.out.println("Welcome you are now logged in.");
-
         else
             System.out.println("You have failed to login.");
+
+        System.out.println(user);
     }
 
 
     public void login(String username, String password){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         cookie = userDataAdapter.login(username, password);
-
+        user = username;
         if(cookie != null)
             System.out.println("Welcome you are now logged in.");
         else
@@ -195,30 +197,41 @@ public class Commands {
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
         userDataAdapter.logout();
+        user = null;
     }
 
     //TODO
     public void getCoins(){
-        CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
-        coinDataAdapter.setSessionCookie(cookie);
         String fileName;
-        String coins = "";
         File file;
-        ArrayList<Coin> coinList;
         Scanner scanner = new Scanner(System.in);
 
+        if(!(user.isEmpty())){
+            CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+            coinDataAdapter.setSessionCookie(cookie);
+            ArrayList<Coin> coinList = coinDataAdapter.RetrieveCoinsForUser(user);
+            String coins = null;
+            System.out.print("What would you like to name the file with your coins?: ");
+            fileName = scanner.nextLine();
+            System.out.println(coinList.size());
 
-        //send sessionVariable to server and save returned string in coins
+            for(int i=0; i<coinList.size();i++){
+                coins += coinList.get(i) + ";";
+            }
 
-        System.out.print("What would you like to name the file with your coins?: ");
-        fileName = scanner.nextLine();
+            System.out.println(coins);
+            /*
+            try {
+                file = new File( saveLocation + fileName + ".txt");
+                FileUtils.writeStringToFile(file, coins, "UTF-8", true);
 
-        try {
-            file = new File( saveLocation + fileName + ".txt");
-            FileUtils.writeStringToFile(file, coins, "UTF-8", true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+        else{
+            System.out.println("You must be logged in to get your coins");
         }
 
     }
@@ -244,13 +257,10 @@ public class Commands {
     //TODO
     public void sendCoins(){
         int attempts = 1;
-        String serverData = "";
         String fileLocation = "";
         String fileContent = "";
         String username = "";
         File coinFile;
-        CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
-        coinDataAdapter.setSessionCookie(cookie);
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter in the username you wish to send to: ");
@@ -270,8 +280,13 @@ public class Commands {
         if (coinFile.exists()) {
             try {
                 fileContent = FileUtils.readFileToString(coinFile, "UTF-8");
-                //send username and fileContent to server. Return server message to serverData
-                System.out.println(serverData);
+                String[] coins = fileContent.split(";");
+
+                for(int i=0; i<coins.length; i++){
+                    CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+                    coinDataAdapter.setSessionCookie(cookie);
+                    coinDataAdapter.depositeCoin(coins[i], username);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -283,13 +298,21 @@ public class Commands {
     }
 
     //TODO
-    public void sendCoins(String user, String fileLocation){
+    public void sendCoins(String username, String fileLocation){
         File coinFile = new File(fileLocation);
-        CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
-        coinDataAdapter.setSessionCookie(cookie);
         if(coinFile.exists()){
-            System.out.println("CoinFile in question has sent.");
-            //send("");
+            try {
+                String fileContent = FileUtils.readFileToString(coinFile, "UTF-8");
+                String[] coins = fileContent.split(";");
+
+                for(int i=0; i<coins.length; i++){
+                    CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+                    coinDataAdapter.setSessionCookie(cookie);
+                    coinDataAdapter.depositeCoin(coins[i], username);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         else{
             System.out.println("The file in question was not found. Please try again.");

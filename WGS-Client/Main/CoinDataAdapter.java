@@ -85,6 +85,7 @@ public class CoinDataAdapter implements ICoinDataAdapter {
             HttpGet get = new HttpGet(serverURL + "coin");
             get.setHeader(Cookie, sessionCookie);
             HttpResponse response = client.execute(get);
+            System.out.println(response.getEntity().getContent());
         } catch (IOException e) {
             e.printStackTrace();
         }

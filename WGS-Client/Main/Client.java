@@ -53,15 +53,10 @@ public class Client {
                     break;
 
                 case "getCoins":
-                    if(!sessionVariable.isEmpty()){
-                        if(commandsList.size() == 2)
-                            commands.getCoins(commandsList.get(1));
-                        else
-                            commands.getCoins();
-                    }
-                    else{
-                        System.out.println("Please Login before getting Coins.");
-                    }
+                    if(commandsList.size() == 2)
+                        commands.getCoins(commandsList.get(1));
+                    else
+                        commands.getCoins();
                     break;
 
                 case "sendCoins":
