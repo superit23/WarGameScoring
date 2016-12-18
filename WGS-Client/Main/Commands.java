@@ -14,7 +14,7 @@ public class Commands {
 
     private String user;
     private String cookie;
-    private String saveLocation = System.getProperty("user.home") + "\\";
+    private String saveLocation = System.getProperty("user.home") + "/";
 
     public Commands(){
 

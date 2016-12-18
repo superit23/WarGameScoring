@@ -4,6 +4,7 @@
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/lucee/httpcomponents-httpcore/4.4.4/httpcomponents-httpcore-4.4.4.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/lucee/httpcomponents-httpcore/4.4.4/httpcomponents-httpcore-4.4.4.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/lucee/httpcomponents-httpcore/4.4.4/httpcomponents-httpcore-4.4.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

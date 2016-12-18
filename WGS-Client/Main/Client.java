@@ -137,6 +137,7 @@ public class Client {
                     commands.clear();
                     break;
 
+                //TODO force logout command
                 case "exit":
                     System.out.println("Thank you for using the banking system!");
                     commands.logout();

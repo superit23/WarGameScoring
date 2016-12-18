@@ -95,24 +95,23 @@ public class DatabaseFunctions {
 
     public static void CreateUsersTable() throws SQLException
     {
-        Insert("CREATE TABLE `users` (\n" +
-                "  `userName` varchar(20) NOT NULL,\n" +
-                "  `password` varchar(64) DEFAULT NULL,\n" +
-                "  `salt` varchar(12) DEFAULT NULL,\n" +
-                "  `role` varchar(30) DEFAULT NULL,\n" +
-                "  `team` varchar(20) DEFAULT NULL,\n" +
-                "  `score` smallint(5) unsigned DEFAULT NULL,\n" +
-                "  PRIMARY KEY (`userName`)", null);
+        Insert("CREATE TABLE users (\n" +
+                "  userName varchar(20) PRIMARY KEY,\n" +
+                "  password varchar(64) DEFAULT NULL,\n" +
+                "  salt varchar(12) DEFAULT NULL,\n" +
+                "  role varchar(30) DEFAULT NULL,\n" +
+                "  team varchar(20) DEFAULT NULL,\n" +
+                "  score smallint(5) unsigned DEFAULT NULL);", null);
     }
 
     public static void CreateCoinsTable() throws SQLException
     {
-        Insert(" CREATE TABLE `coins` (\n" +
-                "  `uuid` varchar(36) NOT NULL,\n" +
-                "  `initialUser` varchar(20) DEFAULT NULL,\n" +
-                "  PRIMARY KEY (`uuid`),\n" +
-                "  KEY `initialUser` (`initialUser`),\n" +
-                "  CONSTRAINT `coins_ibfk_1` FOREIGN KEY (`initialUser`) REFERENCES `users` (`userName`) ON DELETE CASCADE ON UPDATE CASCADE", null);
+        Insert(" CREATE TABLE coins (\n" +
+                "  uuid varchar(36) NOT NULL,\n" +
+                "  initialUser varchar(20) DEFAULT NULL,\n" +
+                "  PRIMARY KEY (uuid),\n" +
+                "  KEY initialUser (initialUser),\n" +
+                "  CONSTRAINT coins_ibfk_1 FOREIGN KEY (initialUser) REFERENCES users (userName) ON DELETE CASCADE ON UPDATE CASCADE);", null);
     }
 
 

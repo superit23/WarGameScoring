@@ -48,7 +48,8 @@ public class Configuration {
     public static void Init()
     {
         Ini ini = new Ini();
-        ini.loadFromPath("C:\\wgs.ini");
+//        ini.loadFromPath("C:\\wgs.ini");
+        ini.loadFromPath("/home/alex/wgs.ini");
 
         Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
         SecurityManager securityManager = factory.getInstance();

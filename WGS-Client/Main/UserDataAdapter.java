@@ -148,10 +148,14 @@ public class UserDataAdapter implements IUserDataAdapter {
             put.setHeader("team", user.getTeam());
             put.setHeader("score", Integer.toString(user.getScore()));
             HttpResponse response = client.execute(put);
+
+            //System.out.println(IOUtils.toString(response.getEntity().getContent()));
             if(response.getStatusLine().getStatusCode() == 204)
                 System.out.println("User data updated.");
             else
                 System.out.println("User data failed to update");
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
