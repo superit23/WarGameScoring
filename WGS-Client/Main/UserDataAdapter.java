@@ -1,3 +1,4 @@
+import bb.rackmesa.wargamescoring.Configuration;
 import bb.rackmesa.wargamescoring.IUserDataAdapter;
 import bb.rackmesa.wargamescoring.User;
 import org.apache.commons.io.IOUtils;
@@ -20,7 +21,8 @@ public class UserDataAdapter implements IUserDataAdapter {
 
 
     private String sessionCookie;
-    private String serverURL = "http://127.0.0.1:8080/";
+    //private String serverURL = "http://127.0.0.1:8080/";
+    private String serverURL = Configuration.getConfig().getServerURL();
     private String auth = "auth/";
     private String userPath = "user/";
     private String Cookie = "Cookie";

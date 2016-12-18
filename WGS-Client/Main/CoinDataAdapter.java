@@ -1,13 +1,14 @@
 import bb.rackmesa.wargamescoring.Coin;
+import bb.rackmesa.wargamescoring.Configuration;
 import bb.rackmesa.wargamescoring.ICoinDataAdapter;
 import bb.rackmesa.wargamescoring.User;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.client.HttpClient;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,7 +25,8 @@ public class CoinDataAdapter implements ICoinDataAdapter {
     private String username = "username";
     private String Cookie = "Cookie";
     private String sessionCookie;
-    private String serverURL = "http://localhost:8080/WGS-Server/";
+    //private String serverURL = "http://localhost:8080/WGS-Server/";
+    private String serverURL = Configuration.getConfig().getServerURL();
     private HttpClient client = HttpClientBuilder.create().build();
 
     public CoinDataAdapter(){
@@ -35,6 +37,7 @@ public class CoinDataAdapter implements ICoinDataAdapter {
         this.sessionCookie = sessionCookie;
     }
 
+    //TODO Make it throw an exception if there status code isn't 200
     @Override
     public Coin CreateCoin(String initialUser) {
         Coin coin = new Coin();

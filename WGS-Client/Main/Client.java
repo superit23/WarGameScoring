@@ -19,6 +19,8 @@ public class Client {
 
         }
 
+
+
         Commands commands = new Commands();
         Scanner scanner = new Scanner(System.in);
         String sessionVariable = "";

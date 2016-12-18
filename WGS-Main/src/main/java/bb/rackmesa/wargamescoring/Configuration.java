@@ -28,6 +28,8 @@ public class Configuration {
     public int pbkdf2NumBytes = 32;
     public int saltLength = 4;
 
+    public String serverURL = "http://localhost:8080/";
+
     public Driver jdbcDriver;
 
     public static ConfigurableSecurityManager securityManager;
@@ -130,5 +132,13 @@ public class Configuration {
 
     public void setJdbcDriver(Driver jdbcDriver) {
         this.jdbcDriver = jdbcDriver;
+    }
+
+    public String getServerURL() {
+        return serverURL;
+    }
+
+    public void setServerURL(String serverURL) {
+        this.serverURL = serverURL;
     }
 }
