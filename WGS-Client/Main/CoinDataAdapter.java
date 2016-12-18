@@ -112,9 +112,8 @@ public class CoinDataAdapter implements ICoinDataAdapter {
             post.setHeader("username", username);
             HttpResponse response = client.execute(post);
 
-            if(response.getStatusLine().getStatusCode() == 204){
-
-            }
+            if(response.getStatusLine().getStatusCode() != 204)
+                System.out.println("Failed to deposit coin" + uuid);
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -122,7 +121,7 @@ public class CoinDataAdapter implements ICoinDataAdapter {
 
     }
 
-    //TODO finish and test with server
+    //TODO test
     public void TransferScore(String username, int score){
         try{
             HttpPut put = new HttpPut(serverURL + "transfer");
@@ -130,6 +129,12 @@ public class CoinDataAdapter implements ICoinDataAdapter {
             put.setHeader("username", username);
             put.setHeader("score", Integer.toString(score));
             HttpResponse response = client.execute(put);
+            if(response.getStatusLine().getStatusCode() == 204){
+                System.out.println("You have transferred " + score + " to " + username);
+            }
+            else{
+                System.out.println("Your attempted transfer has failed. Please try again.");
+            }
 
         }catch(IOException e){
             e.printStackTrace();

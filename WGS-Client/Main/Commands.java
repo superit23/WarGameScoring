@@ -175,6 +175,7 @@ public class Commands {
 
     }
 
+    //TODO test
     public void login(){
         String username;
         String password;
@@ -202,7 +203,7 @@ public class Commands {
         System.out.println(user);
     }
 
-
+    //TODO test
     public void login(String username, String password){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         cookie = userDataAdapter.login(username, password);
@@ -213,6 +214,7 @@ public class Commands {
             System.out.println("You have failed to login.");
     }
 
+    //TODO test
     public void logout(){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -220,7 +222,7 @@ public class Commands {
         user = null;
     }
 
-    //TODO
+    //TODO test
     public void getCoins(){
         String fileName;
         File file;
@@ -253,7 +255,7 @@ public class Commands {
 
     }
 
-    //TODO
+    //TODO test
     public void getCoins(String fileName){
         File file;
         if(!(user.isEmpty())){
@@ -279,7 +281,7 @@ public class Commands {
 
     }
 
-    //TODO
+    //TODO test
     public void sendCoins(){
         int attempts = 1;
         String fileLocation = "";
@@ -322,7 +324,7 @@ public class Commands {
 
     }
 
-    //TODO
+    //TODO test
     public void sendCoins(String username, String fileLocation){
         File coinFile = new File(fileLocation);
         if(coinFile.exists()){
@@ -345,7 +347,7 @@ public class Commands {
 
     }
 
-    //TODO integer issue
+    //TODO test
     public void createUser(){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -377,13 +379,14 @@ public class Commands {
 
     }
 
-    //TODO integer issue
+    //TODO test
     public void createUser(String username, String password, String role, String team, int score){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
         userDataAdapter.CreateUser(username, password, role, team, score);
     }
 
+    //TODO test
     public void deleteUser(){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -401,42 +404,41 @@ public class Commands {
         userDataAdapter.DeleteUser(userName);
     }
 
-    //TODO
+    //TODO test
     public void transferScore(){
-        String account;
-        boolean success = true;
-        String amount;
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Please Enter the name of the account that you want to transfer the coins to. ");
-        account = scanner.nextLine();
+        if(!(user.isEmpty())){
+            String account;
+            String amount;
+            Scanner scanner = new Scanner(System.in);
+            CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+            coinDataAdapter.setSessionCookie(cookie);
 
-        System.out.println("Please enter in the amount of coins you wish to transfer.");
-        amount = scanner.nextLine();
+            System.out.println("Please Enter the name of the account that you want to transfer the coins to. ");
+            account = scanner.nextLine();
 
-        //send sessionVar
-        if(success){
-            System.out.println("You have transferred " + amount + " to " + account);
+            System.out.println("Please enter in the amount of coins you wish to transfer.");
+            amount = scanner.nextLine();
+
+            coinDataAdapter.TransferScore(account, Integer.parseInt(amount));
         }
-        else{
-            System.out.println("Your attempted transfer has failed. Please try again.");
-        }
+        else
+            System.out.println("You must be logged in to transfer your score.");
 
     }
 
-    //TODO
+    //TODO test
     public void transferScore(String account, String amount){
-        boolean success = true;
-        //send sessionVar account and amount to server
-        if(success){
-            System.out.println("You have transferred " + amount + " to " + account);
+        if(!(user.isEmpty())){
+            CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+            coinDataAdapter.setSessionCookie(cookie);
+            coinDataAdapter.TransferScore(account, Integer.parseInt(amount));
         }
-        else {
-            System.out.println("Your attempted transfer has failed. Please try again.");
-        }
-
+        else
+            System.out.println("You must be logged in to transfer your score.");
     }
 
+    //TODO test
     public void getBalance(){
         String username;
         Scanner scanner = new Scanner(System.in);
@@ -452,6 +454,7 @@ public class Commands {
             System.out.println("Unable to retrieve " + username + " balance.");
     }
 
+    //TODO test
     public void getBalance(String username){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -462,6 +465,7 @@ public class Commands {
             System.out.println("Unable to retrieve " + username + " balance.");
     }
 
+    //TODO test
     public void changePassword(){
         String username;
         String password;
@@ -486,6 +490,7 @@ public class Commands {
         }
     }
 
+    //TODO test
     public void changePassword(String username, String newPassword){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -499,7 +504,7 @@ public class Commands {
         }
     }
 
-    //TODO integer issue
+    //TODO test
     public void updateUser(){
         String username;
         String role;
@@ -540,7 +545,7 @@ public class Commands {
 
     }
 
-    //TODO integer issue
+    //TODO test
     public void updateUser(String username, String role, String team, String score){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -560,7 +565,7 @@ public class Commands {
 
     }
 
-    //TODO integer issue
+    //TODO test
     public void createCoin(){
         String initialUser;
         String amount;
@@ -591,7 +596,7 @@ public class Commands {
         }
     }
 
-    //TODO integer issue
+    //TODO test
     public void createCoin(String initialUser, String amount){
         Coin coin = new Coin();
         CoinDataAdapter coinDataAdapterTest = new CoinDataAdapter();
