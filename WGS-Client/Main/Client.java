@@ -1,5 +1,10 @@
 
 import bb.rackmesa.wargamescoring.Configuration;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.config.Ini;
+import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.util.Factory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +17,13 @@ public class Client {
     public static void main(String[] args){
 
         try{
-            Configuration.Init();
+            Ini ini = new Ini();
+            ini.loadFromPath("/home/alex/wgs.ini");
+
+            Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
+            SecurityManager securityManager = factory.getInstance();
+            SecurityUtils.setSecurityManager(securityManager);
+
             Configuration.RegisterDrivers();
         }
         catch(Exception ex){
