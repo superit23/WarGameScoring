@@ -94,14 +94,12 @@ public class Client {
                     break;
 
                 case "transferScore":
-                    if(!sessionVariable.isEmpty()){
-                        if(commandsList.size() == 3)
-                            commands.transferScore(commandsList.get(1), commandsList.get(2));
-                        else
-                            commands.transferScore();
-                    }
+
+                    if (commandsList.size() == 3)
+                        commands.transferScore(commandsList.get(1), commandsList.get(2));
                     else
-                        System.out.println("Please login before using transferScore.");
+                        commands.transferScore();
+
                     break;
 
                 case "getBalance":

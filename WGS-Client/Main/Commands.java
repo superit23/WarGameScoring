@@ -174,7 +174,6 @@ public class Commands {
 
     }
 
-    //TODO test
     public void login(){
         String username;
         String password;
@@ -199,10 +198,8 @@ public class Commands {
         else
             System.out.println("You have failed to login.");
 
-        System.out.println(user);
     }
 
-    //TODO test
     public void login(String username, String password){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         cookie = userDataAdapter.login(username, password);
@@ -213,7 +210,6 @@ public class Commands {
             System.out.println("You have failed to login.");
     }
 
-    //TODO test
     public void logout(){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -221,7 +217,6 @@ public class Commands {
         user = null;
     }
 
-    //TODO test
     public void getCoins(){
         String fileName;
         File file;
@@ -254,7 +249,6 @@ public class Commands {
 
     }
 
-    //TODO test
     public void getCoins(String fileName){
         File file;
         if(!(user.isEmpty())){
@@ -280,7 +274,7 @@ public class Commands {
 
     }
 
-    //TODO test
+
     public void sendCoins(){
         int attempts = 1;
         String fileLocation = "";
@@ -311,7 +305,7 @@ public class Commands {
                 for(int i=0; i<coins.length; i++){
                     CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
                     coinDataAdapter.setSessionCookie(cookie);
-                    coinDataAdapter.depositeCoin(coins[i], username);
+                    coinDataAdapter.depositCoin(coins[i], username);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -323,7 +317,7 @@ public class Commands {
 
     }
 
-    //TODO test
+
     public void sendCoins(String username, String fileLocation){
         File coinFile = new File(fileLocation);
         if(coinFile.exists()){
@@ -334,7 +328,7 @@ public class Commands {
                 for(int i=0; i<coins.length; i++){
                     CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
                     coinDataAdapter.setSessionCookie(cookie);
-                    coinDataAdapter.depositeCoin(coins[i], username);
+                    coinDataAdapter.depositCoin(coins[i], username);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -346,7 +340,6 @@ public class Commands {
 
     }
 
-    //TODO test
     public void createUser(){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -378,14 +371,13 @@ public class Commands {
 
     }
 
-    //TODO test
+
     public void createUser(String username, String password, String role, String team, int score){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
         userDataAdapter.CreateUser(username, password, role, team, score);
     }
 
-    //TODO test
     public void deleteUser(){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -397,47 +389,54 @@ public class Commands {
         userDataAdapter.DeleteUser(username);
     }
 
+
     public void deleteUser(String userName){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
         userDataAdapter.DeleteUser(userName);
     }
 
-    //TODO test
+
     public void transferScore(){
 
         if(!(user.isEmpty())){
             String account;
             String amount;
             Scanner scanner = new Scanner(System.in);
-            CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
-            coinDataAdapter.setSessionCookie(cookie);
+//            CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+//            coinDataAdapter.setSessionCookie(cookie);
 
-            System.out.println("Please enter the name of the account that you want to transfer the coins to. ");
+            System.out.print("Please enter the name of the account that you want to transfer the coins to: ");
             account = scanner.nextLine();
 
-            System.out.println("Please enter in the amount of coins you wish to transfer.");
+            System.out.print("Please enter in the amount of coins you wish to transfer: ");
             amount = scanner.nextLine();
 
-            coinDataAdapter.TransferScore(account, Integer.parseInt(amount));
+//            coinDataAdapter.TransferScore(account, Integer.parseInt(amount));
+            transferScore(account, amount);
         }
         else
             System.out.println("You must be logged in to transfer your score.");
 
     }
 
-    //TODO test
+
     public void transferScore(String account, String amount){
         if(!(user.isEmpty())){
+            UserDataAdapter userDataAdapter = new UserDataAdapter();
             CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+            userDataAdapter.setSessionCookie(cookie);
             coinDataAdapter.setSessionCookie(cookie);
-            coinDataAdapter.TransferScore(account, Integer.parseInt(amount));
+
+            int reqScore = Integer.parseInt(amount);
+            int realScore = userDataAdapter.RetrieveUser(user).getScore();
+
+            coinDataAdapter.TransferScore(account, reqScore > realScore ? realScore : reqScore);
         }
         else
             System.out.println("You must be logged in to transfer your score.");
     }
 
-    //TODO test
     public void getBalance(){
         String username;
         Scanner scanner = new Scanner(System.in);
@@ -453,7 +452,6 @@ public class Commands {
             System.out.println("Unable to retrieve " + username + " balance.");
     }
 
-    //TODO test
     public void getBalance(String username){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -464,7 +462,7 @@ public class Commands {
             System.out.println("Unable to retrieve " + username + " balance.");
     }
 
-    //TODO test
+
     public void changePassword(){
         String username;
         String password;
@@ -481,7 +479,7 @@ public class Commands {
         password = scanner.nextLine();
         User user = userDataAdapter.RetrieveUser(username);
         if(user != null){
-            user.setCredentials(password);
+            user.setPassword(password);
             userDataAdapter.UpdateUser(user);
         }
         else{
@@ -489,7 +487,7 @@ public class Commands {
         }
     }
 
-    //TODO test
+
     public void changePassword(String username, String newPassword){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -503,7 +501,7 @@ public class Commands {
         }
     }
 
-    //TODO test
+
     public void updateUser(){
         String username;
         String role;
@@ -544,7 +542,7 @@ public class Commands {
 
     }
 
-    //TODO test
+
     public void updateUser(String username, String role, String team, String score){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -564,7 +562,6 @@ public class Commands {
 
     }
 
-    //TODO test
     public void createCoin(){
         String initialUser;
         String amount;
@@ -579,24 +576,8 @@ public class Commands {
         amount = scanner.nextLine();
 
         coinLoop(initialUser, amount);
-
-//        Coin coin = coinDataAdapterTest.CreateCoin(initialUser);
-
-//        if(coin != null){
-//            int loop = Integer.parseInt(amount)-1;
-//            for(int i =0; i<loop; i++){
-//                CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
-//                coinDataAdapter.setSessionCookie(cookie);
-//                coinDataAdapter.CreateCoin(initialUser);
-//            }
-//            System.out.println("Created " + amount + " coins for " + initialUser);
-//        }
-//        else {
-//            System.out.println("Failed to create coins");
-//        }
     }
 
-    //TODO test
     public void createCoin(String initialUser, String amount){
         CoinDataAdapter coinDataAdapterTest = new CoinDataAdapter();
         coinDataAdapterTest.setSessionCookie(cookie);
