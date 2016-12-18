@@ -5,6 +5,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.client.HttpClient;
 import org.json.simple.JSONArray;
@@ -66,7 +67,6 @@ public class CoinDataAdapter implements ICoinDataAdapter {
         return null;
     }
 
-    //TODO test with server "Why is there a User argument"
     @Override
     public ArrayList<Coin> RetrieveCoinsForUser(User user) {
         try {
@@ -79,7 +79,6 @@ public class CoinDataAdapter implements ICoinDataAdapter {
         return null;
     }
 
-    //TODO test with Server
     @Override
     public ArrayList<Coin> RetrieveCoinsForUser(String username) {
         try {
@@ -87,7 +86,6 @@ public class CoinDataAdapter implements ICoinDataAdapter {
             get.setHeader(Cookie, sessionCookie);
             HttpResponse response = client.execute(get);
             String json = IOUtils.toString(response.getEntity().getContent());
-            //System.out.println(json);
             ArrayList<Coin> coins = new ArrayList<Coin>();
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(json);
@@ -95,7 +93,6 @@ public class CoinDataAdapter implements ICoinDataAdapter {
 
             for(int i=0; i<jsonArray.size(); i++){
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                //Coin coin = new Coin(UUID.fromString(jsonObject.get("coin").toString()), jsonObject.get("initialUser").toString());
                 coins.add(new Coin(UUID.fromString(jsonObject.get("coin").toString()), jsonObject.get("initialUser").toString()));
             }
 
@@ -115,11 +112,28 @@ public class CoinDataAdapter implements ICoinDataAdapter {
             post.setHeader("username", username);
             HttpResponse response = client.execute(post);
 
+            if(response.getStatusLine().getStatusCode() == 204){
+
+            }
         }catch(IOException e){
             e.printStackTrace();
         }
 
 
+    }
+
+    //TODO finish and test with server
+    public void TransferScore(String username, int score){
+        try{
+            HttpPut put = new HttpPut(serverURL + "transfer");
+            put.setHeader(Cookie, sessionCookie);
+            put.setHeader("username", username);
+            put.setHeader("score", Integer.toString(score));
+            HttpResponse response = client.execute(put);
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     //TODO test with server

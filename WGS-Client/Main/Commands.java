@@ -21,7 +21,6 @@ public class Commands {
 
     }
 
-    //TODO createUser fix also check information on all commands
     public void help(String command){
 
         switch (command){
@@ -36,20 +35,27 @@ public class Commands {
                 System.out.println(loginHelp);
                 break;
 
+            case "logout":
+                clear();
+                String logoutHelp = "This method is used to log users out of the server.\n" +
+                        "Ex. logout";
+                System.out.println(logoutHelp);
+                break;
+
             case "getCoins":
                 clear();
                 String getCoinsHelp = "This method is used to get your coins from the server. You must be logged in to\n" +
                         "use the getCoins method. getCoins supports both a quick mode and an interactive\n" +
                         "mode. To use the interactive mode simply type in getCoins. To use the quick\n" +
-                        "mode type in getCoins followed by the name of the file you wish to overwrite\n" +
-                        "the coins to.\n" +
+                        "mode type in getCoins followed by the name of the file you wish to write the\n" +
+                        "coins to.\n" +
                         "Ex. getCoins File";
                 System.out.println(getCoinsHelp);
                 break;
 
             case "sendCoins":
                 clear();
-                String sendCoinsHelp = "This method is used to send coins to the bank to increase your score. this \n" +
+                String sendCoinsHelp = "This method is used to send coins to the bank to increase your score. This \n" +
                         "method supports both a quick mode and an interactive mode. To use the\n" +
                         "interactive mode simply type in sendCoins. To use the quick mode type in\n" +
                         "sendCoins followed by the username and the path to the coin file.\n" +
@@ -57,28 +63,28 @@ public class Commands {
                 System.out.println(sendCoinsHelp);
                 break;
 
-            case "createAccount":
+            case "createUser":
                 clear();
-                String createAccountHelp = "This method is used to create a new User account. The create account method\n" +
-                        "should be used by users looking to set up a new account. While there is no\n" +
-                        "limit on the number of accounts you may have, only one account will scored at\n" +
-                        "the end of the semester. createAccount supports both a quick mode and an\n" +
-                        "interactive mode. To use the interactive mode simply type in createAccount. To\n" +
-                        "use the quick mode type in createAccount followed by new username and a\n" +
-                        "password.\n" +
-                        "Ex. createAccount test password";
-                System.out.println(createAccountHelp);
+                String createUserHelp = "This method is used to create a new user account. The createUser method should\n" +
+                        "be used by admins looking to set up a new account. While there is no limit on \n" +
+                        "on the number of accounts you may have, only one account will scored at the end\n" +
+                        "of the semester. createUser supports both a quick mode and an interactive mode.\n" +
+                        "To use the interactive mode simply type in createUser. To use the quick mode\n" +
+                        "type in createUser followed by new username and a password. You must be logged\n" +
+                        "in as an admin to use this command.\n" +
+                        "Ex. createUser test password";
+                System.out.println(createUserHelp);
                 break;
 
-            case "deleteAccount":
+            case "deleteUser":
                 clear();
-                String deleteAccountHelp = "This method is used to delete a User account. To delete an account you will\n" +
+                String deleteAccountHelp = "This method is used to delete a user account. To delete an account you will\n" +
                         "need to be logged in and have permission to delete the account. When an account\n" +
-                        "is deleted the score of the account will be lost. deleteAccount supports both\n" +
-                        "and interactive mode and a quick mode. To use the interactive mode simply type\n" +
-                        "in deleteAccount. To use the quick mode type in deleteAccount followed by the\n" +
-                        "username of the account you wish to delete.\n" +
-                        "Ex. deleteAccount account";
+                        "is deleted the score of the account will be lost. deleteUser supports both an\n" +
+                        "interactive mode and a quick mode. To use the interactive mode simply type in\n" +
+                        "deleteUser. To use the quick mode type in deleteUser followed by the username\n" +
+                        "of the account you wish to delete.\n" +
+                        "Ex. deleteUser user";
                 System.out.println(deleteAccountHelp);
                 break;
 
@@ -97,8 +103,9 @@ public class Commands {
             case "getBalance":
                 clear();
                 String getBalanceHelp = "This method is used to get your current balance. You must be logged in to use\n" +
-                        "getBalance. Get balance only uses a quick mode. Just type in getBalance to use\n" +
-                        "the method.\n" +
+                        "getBalance. getBalance supports both a quick mode and an interactive mode. To \n" +
+                        "use the interactive mode type in getBalance. To use the quick mode type in\n" +
+                        "getBalance followed by the name of the account who's balance you wish to check.\n" +
                         "Ex. getBalance";
                 System.out.println(getBalanceHelp);
                 break;
@@ -113,13 +120,25 @@ public class Commands {
                 System.out.println(changePasswordHelp);
                 break;
 
+            case "updateUser":
+                clear();
+                String updateUserHelp = "This method is used to update a users information. updateUser will not change\n" +
+                        "a users password. To change a users password use the changePassword method.\n" +
+                        "updateUser supports both an interactive mode and a quick mode. To use the\n" +
+                        "interactive mode simply type in the updateUser. To use the quick mode type in\n"+
+                        "updateUser followed by the username of the account you wish to update, the new\n" +
+                        "role of the user, the new team of the user and the users new score.\n" +
+                        "Ex. updateUser user admin team1 0";
+                System.out.println(updateUserHelp);
+                break;
+
             case "createCoin":
                 clear();
                 String createCoinHelp = "This method is used to create coins on the server for users to acquire.\n" +
-                        "createCoin supports both an interactive mod and a quick mode. To use the\n" +
+                        "createCoin supports both an interactive mode and a quick mode. To use the\n" +
                         "interactive mode type in createCoin. To use the quick mode type in createCoin\n" +
                         "followed by and initial user and the amount of coins you wish to create. Please\n" +
-                        "enter the amount in an integer form.\n" +
+                        "enter the amount in the form of an integer.\n" +
                         "Ex. createCoin username 5";
                 System.out.println(createCoinHelp);
                 break;
@@ -137,14 +156,16 @@ public class Commands {
             default:
                 String basicHelp = "The banking Client supports the following commands.\n" +
                         "For more information type help and then the command name\n" +
-                        "login \n" +
-                        "getCoins \n" +
-                        "sendCoins \n" +
-                        "createAccount \n" +
-                        "deleteAccount \n" +
+                        "login\n" +
+                        "logout\n" +
+                        "getCoins\n" +
+                        "sendCoins\n" +
+                        "createUser\n" +
+                        "deleteUser\n" +
                         "transferScore\n" +
-                        "getBalance \n" +
-                        "changePassword \n" +
+                        "getBalance\n" +
+                        "changePassword\n" +
+                        "updateUser\n" +
                         "createCoin \n" +
                         "clear \n" +
                         "exit \n";
@@ -212,7 +233,6 @@ public class Commands {
             String coins = "";
             System.out.print("What would you like to name the file with your coins?: ");
             fileName = scanner.nextLine();
-            System.out.println(coinList.size());
 
             for(int i=0; i<coinList.size();i++){
                 coins += coinList.get(i).getCoin() + ";";
@@ -235,18 +255,26 @@ public class Commands {
 
     //TODO
     public void getCoins(String fileName){
-        CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
-        coinDataAdapter.setSessionCookie(cookie);
-        String coins = "";
         File file;
-        //send SessionVariable and place stuff in coins string
+        if(!(user.isEmpty())){
+            CoinDataAdapter coinDataAdapter = new CoinDataAdapter();
+            coinDataAdapter.setSessionCookie(cookie);
+            ArrayList<Coin> coinList = coinDataAdapter.RetrieveCoinsForUser(user);
+            String coins = "";
 
-        try {
-            file = new File(saveLocation + fileName + ".txt");
-            FileUtils.writeStringToFile(file, coins, "UTF-8", true);
+            for(int i=0; i<coinList.size();i++){
+                coins += coinList.get(i).getCoin() + ";";
+            }
+            try {
+                file = new File( saveLocation + fileName + ".txt");
+                FileUtils.writeStringToFile(file, coins, "UTF-8", true);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            System.out.println("You must be logged in to get your coins");
         }
 
     }
@@ -373,7 +401,7 @@ public class Commands {
         userDataAdapter.DeleteUser(userName);
     }
 
-    //TODO awaiting Dan
+    //TODO
     public void transferScore(){
         String account;
         boolean success = true;
@@ -396,7 +424,7 @@ public class Commands {
 
     }
 
-    //TODO awaiting Dan
+    //TODO
     public void transferScore(String account, String amount){
         boolean success = true;
         //send sessionVar account and amount to server
@@ -472,6 +500,67 @@ public class Commands {
     }
 
     //TODO integer issue
+    public void updateUser(){
+        String username;
+        String role;
+        String team;
+        String score;
+        Scanner scanner = new Scanner(System.in);
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
+        User user;
+
+        System.out.print("Enter in the username who's information you wish to change: ");
+        username = scanner.nextLine();
+        user = userDataAdapter.RetrieveUser(username);
+
+        if(user != null){
+            System.out.println("Leave areas that you do not wish to change blank.");
+
+            System.out.print("Enter in a new user role or leave blank: ");
+            role = scanner.nextLine();
+            if(!role.isEmpty())
+                user.setRole(role);
+
+            System.out.print("Enter in a new user team or leave blank: ");
+            team = scanner.nextLine();
+            if(!team.isEmpty())
+                user.setTeam(team);
+
+            System.out.print("Enter in a new user score as an integer or leave blank: ");
+            score = scanner.nextLine();
+            if(!score.isEmpty())
+                user.setScore(Integer.parseInt(score));
+
+            userDataAdapter.UpdateUser(user);
+        }
+        else{
+            System.out.println("You do not have permission to change this users information.");
+        }
+
+    }
+
+    //TODO integer issue
+    public void updateUser(String username, String role, String team, String score){
+        UserDataAdapter userDataAdapter = new UserDataAdapter();
+        userDataAdapter.setSessionCookie(cookie);
+        User user = userDataAdapter.RetrieveUser(username);
+        if(user != null){
+            if(!role.isEmpty())
+                user.setRole(role);
+            if(!team.isEmpty())
+                user.setTeam(team);
+            if(!score.isEmpty())
+                user.setScore(Integer.parseInt(score));
+            userDataAdapter.UpdateUser(user);
+        }
+        else {
+            System.out.print("You do not have permission to change this users information.");
+        }
+
+    }
+
+    //TODO integer issue
     public void createCoin(){
         String initialUser;
         String amount;
@@ -520,67 +609,6 @@ public class Commands {
         }
         else{
             System.out.println("Failed to create coins");
-        }
-
-    }
-
-    //TODO fix password problem(Dan) integer issue
-    public void updateUser(){
-        String username;
-        String role;
-        String team;
-        String score;
-        Scanner scanner = new Scanner(System.in);
-        UserDataAdapter userDataAdapter = new UserDataAdapter();
-        userDataAdapter.setSessionCookie(cookie);
-        User user;
-
-        System.out.print("Enter in the username who's information you wish to change: ");
-        username = scanner.nextLine();
-        user = userDataAdapter.RetrieveUser(username);
-
-        if(user != null){
-            System.out.println("Leave areas that you do not wish to change blank.");
-
-            System.out.print("Enter in a new user role or leave blank: ");
-            role = scanner.nextLine();
-            if(!role.isEmpty())
-                user.setRole(role);
-
-            System.out.print("Enter in a new user team or leave blank: ");
-            team = scanner.nextLine();
-            if(!team.isEmpty())
-                user.setTeam(team);
-
-            System.out.print("Enter in a new user score as an integer or leave blank: ");
-            score = scanner.nextLine();
-            if(!score.isEmpty())
-                user.setScore(Integer.parseInt(score));
-
-            userDataAdapter.UpdateUser(user);
-        }
-        else{
-            System.out.println("You do not have permission to change this users information.");
-        }
-
-    }
-
-    //TODO Fix password problem(Dan) integer issue
-    public void updateUser(String username, String role, String team, String score){
-        UserDataAdapter userDataAdapter = new UserDataAdapter();
-        userDataAdapter.setSessionCookie(cookie);
-        User user = userDataAdapter.RetrieveUser(username);
-        if(user != null){
-            if(!role.isEmpty())
-                user.setRole(role);
-            if(!team.isEmpty())
-                user.setTeam(team);
-            if(!score.isEmpty())
-                user.setScore(Integer.parseInt(score));
-            userDataAdapter.UpdateUser(user);
-        }
-        else {
-            System.out.print("You do not have permission to change this users information.");
         }
 
     }
