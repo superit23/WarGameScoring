@@ -52,14 +52,14 @@ public class Commands {
                 System.out.println(getCoinsHelp);
                 break;
 
-            case "sendCoins":
+            case "depositCoins":
                 clear();
-                String sendCoinsHelp = "This method is used to send coins to the bank to increase your score. This \n" +
+                String depositCoinsHelp = "This method is used to send coins to the bank to increase your score. This \n" +
                         "method supports both a quick mode and an interactive mode. To use the\n" +
-                        "interactive mode, simply type in 'sendCoins'. To use the quick mode, type in\n" +
-                        "'sendCoins' followed by the username and the path to the coin file.\n" +
-                        "Ex. sendCoins username /home/user/file";
-                System.out.println(sendCoinsHelp);
+                        "interactive mode, simply type in 'depositCoins'. To use the quick mode, type in\n" +
+                        "'depositCoins' followed by the username and the path to the coin file.\n" +
+                        "Ex. depositCoins username /home/user/file";
+                System.out.println(depositCoinsHelp);
                 break;
 
             case "createUser":
@@ -158,7 +158,7 @@ public class Commands {
                         "login\n" +
                         "logout\n" +
                         "getCoins\n" +
-                        "sendCoins\n" +
+                        "depositCoins\n" +
                         "createUser\n" +
                         "deleteUser\n" +
                         "transferScore\n" +
@@ -275,7 +275,7 @@ public class Commands {
     }
 
 
-    public void sendCoins(){
+    public void depositCoins(){
         int attempts = 1;
         String fileLocation = "";
         String fileContent = "";
@@ -318,7 +318,7 @@ public class Commands {
     }
 
 
-    public void sendCoins(String username, String fileLocation){
+    public void depositCoins(String username, String fileLocation){
         File coinFile = new File(fileLocation);
         if(coinFile.exists()){
             try {
@@ -462,7 +462,6 @@ public class Commands {
             System.out.println("Unable to retrieve " + username + " balance.");
     }
 
-
     public void changePassword(){
         String username;
         String password;
@@ -487,7 +486,6 @@ public class Commands {
         }
     }
 
-
     public void changePassword(String username, String newPassword){
         UserDataAdapter userDataAdapter = new UserDataAdapter();
         userDataAdapter.setSessionCookie(cookie);
@@ -500,7 +498,6 @@ public class Commands {
             System.out.println("You do not have permission to change this users password.");
         }
     }
-
 
     public void updateUser(){
         String username;
@@ -541,7 +538,6 @@ public class Commands {
         }
 
     }
-
 
     public void updateUser(String username, String role, String team, String score){
         UserDataAdapter userDataAdapter = new UserDataAdapter();

@@ -18,7 +18,8 @@ public class Client {
 
         try{
             Ini ini = new Ini();
-            ini.loadFromPath("/home/alex/wgs.ini");
+            //ini.loadFromPath("/home/alex/wgs.ini");
+            ini.loadFromPath("C:\\wgs.ini");
 
             Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
             SecurityManager securityManager = factory.getInstance();
@@ -72,11 +73,11 @@ public class Client {
                         commands.getCoins();
                     break;
 
-                case "sendCoins":
+                case "depositCoins":
                     if(commandsList.size() == 3)
-                        commands.sendCoins(commandsList.get(1), commandsList.get(2));
+                        commands.depositCoins(commandsList.get(1), commandsList.get(2));
                     else
-                        commands.sendCoins();
+                        commands.depositCoins();
                     break;
 
                 case "createUser":
