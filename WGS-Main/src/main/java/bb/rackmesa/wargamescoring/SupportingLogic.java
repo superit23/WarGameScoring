@@ -31,7 +31,7 @@ public class SupportingLogic {
         }
     }
 
-    public static boolean DepositCoin(Coin coin)
+    public static void DepositCoin(Coin coin)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -40,10 +40,12 @@ public class SupportingLogic {
         if(hour == configuration.depositWindow)
         {
             Main.coinsToCommit.add(coin);
-            return true;
+        }
+        else
+        {
+            throw new IllegalStateException("The deposit window is not currently open. Window set to " + configuration.getDepositWindow());
         }
 
-        return false;
     }
 
     public static void CommitCoins() throws Exception

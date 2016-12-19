@@ -172,11 +172,22 @@ public class DatabaseFunctionsTest {
         configuration.depositWindow = (hour + 1) % 24;
 
         Coin tCoin = new Coin();
-        Assert.assertFalse(SupportingLogic.DepositCoin(tCoin));
+
+        IllegalStateException temp = null;
+        try {
+            SupportingLogic.DepositCoin(tCoin);
+        }
+        catch (IllegalStateException ex)
+        {
+            temp = ex;
+        }
+
+        Assert.assertNotNull(temp);
+
 
         configuration.depositWindow = (hour);
 
-        Assert.assertTrue(SupportingLogic.DepositCoin(tCoin));
+        SupportingLogic.DepositCoin(tCoin);
 
 
     }
