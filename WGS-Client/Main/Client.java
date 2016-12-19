@@ -17,14 +17,8 @@ public class Client {
     public static void main(String[] args){
 
         try{
-            Ini ini = new Ini();
-            //ini.loadFromPath("/home/alex/wgs.ini");
-            ini.loadFromPath("C:\\wgs.ini");
 
-            Factory<SecurityManager> factory = new IniSecurityManagerFactory(ini);
-            SecurityManager securityManager = factory.getInstance();
-            SecurityUtils.setSecurityManager(securityManager);
-
+            Configuration.Init();
             Configuration.RegisterDrivers();
         }
         catch(Exception ex){
